@@ -1,5 +1,5 @@
 #==============================================================================
-# Copyright (c) 2016-2017 Allan CORNET (Nelson)
+# Copyright (c) 2016-2018 Allan CORNET (Nelson)
 #==============================================================================
 # LICENCE_BLOCK_BEGIN
 # This program is free software: you can redistribute it and/or modify
@@ -24,6 +24,7 @@ include_directories(
 ${Boost_INCLUDE_DIRS}
 ${CMAKE_CURRENT_SOURCE_DIR}/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
+${CMAKE_CURRENT_SOURCE_DIR}/../api_nelson/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../error_manager/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
@@ -47,6 +48,7 @@ nlsCharacters_encoding
 nlsTypes
 nlsError_manager
 nlsI18n
+nlsApi_nelson
 ${BOOST_LIBRARY}
 )
 #==============================================================================	

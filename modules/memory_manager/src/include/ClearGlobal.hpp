@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -18,14 +18,22 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
-#include "nlsMemory_manager_exports.h"
 #include "Evaluator.hpp"
+#include "nlsMemory_manager_exports.h"
+#include <string>
 //=============================================================================
 namespace Nelson {
-    NLSMEMORY_MANAGER_IMPEXP bool ClearGlobalVariable(Evaluator* eval, std::wstring variable);
-    NLSMEMORY_MANAGER_IMPEXP bool ClearGlobalVariable(Evaluator* eval, std::string variable);
-    NLSMEMORY_MANAGER_IMPEXP bool ClearAllGlobalVariables(Evaluator* eval);
-    NLSMEMORY_MANAGER_IMPEXP bool ClearAllPersistentVariables(Evaluator* eval);
-}
+NLSMEMORY_MANAGER_IMPEXP bool
+ClearGlobalVariable(Evaluator* eval, std::wstring variable);
+NLSMEMORY_MANAGER_IMPEXP bool
+ClearGlobalVariable(Evaluator* eval, std::string variable);
+NLSMEMORY_MANAGER_IMPEXP bool
+ClearAllGlobalVariables(Evaluator* eval);
+NLSMEMORY_MANAGER_IMPEXP bool
+ClearAllPersistentVariables(Evaluator* eval);
+NLSMEMORY_MANAGER_IMPEXP bool
+ClearPersistentVariable(Evaluator* eval, std::wstring variable);
+NLSMEMORY_MANAGER_IMPEXP bool
+ClearPersistentVariable(Evaluator* eval, std::string variable);
+} // namespace Nelson
 //=============================================================================

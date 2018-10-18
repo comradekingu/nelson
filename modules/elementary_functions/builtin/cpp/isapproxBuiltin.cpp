@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -24,50 +24,50 @@
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::ElementaryFunctionsGateway::isapproxBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::ElementaryFunctionsGateway::isapproxBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (!(argIn.size() == 2 || argIn.size() == 3))
-    {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    if (!(argIn.size() == 2 || argIn.size() == 3)) {
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    if (nLhs > 1)
-    {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+    if (nLhs > 1) {
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
-    if (!bSuccess)
-    {
+    if (eval->mustOverloadBasicTypes()) {
+        retval = OverloadFunction(eval, nLhs, argIn, "isapprox", bSuccess);
+    }
+    if (!bSuccess) {
+        if (argIn[0].isSparse() || argIn[0].isCell() || argIn[0].isHandle() || argIn[0].isStruct()
+            || argIn[0].isClassStruct()) {
+            retval = OverloadFunction(eval, nLhs, argIn, "isapprox", bSuccess);
+            if (bSuccess) {
+                return retval;
+            }
+        }
         double precision = 0.;
-        if (argIn.size() == 3)
-        {
+        if (argIn.size() == 3) {
             ArrayOf param3 = argIn[2];
             precision = param3.getContentAsDoubleScalar();
         }
         ArrayOf param1 = argIn[0];
         ArrayOf param2 = argIn[1];
-        if (param1.isNumeric() && param2.isNumeric())
-        {
-            if (param1.isSparse() || param2.isSparse())
-            {
-                Error(eval, _W("Sparse type not supported."));
+        if (param1.isNumeric() && param2.isNumeric()) {
+            if (param1.isSparse() || param2.isSparse()) {
+                Error(_W("Sparse type not supported."));
             }
-            if (param1.isComplex() || param2.isComplex())
-            {
+            if (param1.isComplex() || param2.isComplex()) {
                 param1.promoteType(NLS_DCOMPLEX);
                 param2.promoteType(NLS_DCOMPLEX);
-            }
-            else
-            {
+            } else {
                 param1.promoteType(NLS_DOUBLE);
                 param2.promoteType(NLS_DOUBLE);
             }
             retval.push_back(ArrayOf::logicalConstructor(IsApprox(param1, param2, precision)));
-        }
-        else
-        {
-            Error(eval, _W("Numerics types expected."));
+        } else {
+            Error(_W("Numerics types expected."));
         }
     }
     return retval;

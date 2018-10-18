@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -18,43 +18,57 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
-#include <boost/container/vector.hpp>
-#include "nlsHelp_tools_exports.h"
-#include "XmlDocDocument.hpp"
 #include "Types.hpp"
+#include "XmlDocDocument.hpp"
+#include "XmlTarget.hpp"
+#include "nlsHelp_tools_exports.h"
+#include <boost/container/vector.hpp>
+#include <string>
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    class NLSHELP_TOOLS_IMPEXP XmlDocListOfFiles {
+//=============================================================================
+class NLSHELP_TOOLS_IMPEXP XmlDocListOfFiles
+{
 
-    private:
-        std::wstring chapterTitle;
-        std::wstring chapterDescription;
-        std::wstring moduleName;
-        std::wstring lastError;
-        wstringVector srcFiles;
-        std::wstring dstDirectory;
-        bool bOverwriteExistingFiles;
-        boost::container::vector<XmlDocDocument *> xmlItems;
-        void clearItems();
-        std::wstring chapterResultFilename;
-        bool isQtHelp;
-        std::wstring sectionUpName;
-        std::wstring sectionUpUrl;
+private:
+    std::wstring chapterTitle;
+    std::wstring chapterDescription;
+    std::wstring moduleName;
+    std::wstring lastError;
+    wstringVector srcFiles;
+    std::wstring dstDirectory;
+    bool bOverwriteExistingFiles;
+    boost::container::vector<XmlDocDocument*> xmlItems;
+    void
+    clearItems();
+    std::wstring chapterResultFilename;
+    DOCUMENT_OUTPUT outputTarget;
+    std::wstring sectionUpName;
+    std::wstring sectionUpUrl;
 
-    public:
-        std::wstring getGeneratedChapterFilename();
-        std::wstring getChapterTitle();
-        std::wstring getModuleName();
-        XmlDocListOfFiles(wstringVector srcFiles, std::wstring dstDirectory, bool bOverwriteExistingFiles = false, bool isQtHelp = false);
-        ~XmlDocListOfFiles();
-        bool read();
-        bool writeAsHtml();
-        std::wstring getLastError();
-        void getIndex(wstringVector &names, wstringVector &urls, wstringVector &descriptions);
-        void setUpSection(std::wstring sectionName, std::wstring sectionUrl);
-    };
-    //=============================================================================
-}
+public:
+    std::wstring
+    getGeneratedChapterFilename();
+    std::wstring
+    getChapterTitle();
+    std::wstring
+    getModuleName();
+    XmlDocListOfFiles(wstringVector srcFiles, std::wstring dstDirectory,
+        bool bOverwriteExistingFiles = false, DOCUMENT_OUTPUT outputTarget = DOCUMENT_OUTPUT::HMTL);
+    ~XmlDocListOfFiles();
+    bool
+    read();
+    bool
+    writeAsHtml();
+    bool
+    writeAsMarkdown();
+    std::wstring
+    getLastError();
+    void
+    getIndex(wstringVector& names, wstringVector& urls, wstringVector& descriptions);
+    void
+    setUpSection(std::wstring sectionName, std::wstring sectionUrl);
+};
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

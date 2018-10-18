@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -16,36 +16,35 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "NelsonGateway.hpp"
-#include "history_managerBuiltin.hpp"
-#include "historyBuiltin.hpp"
 #include "HistoryManager.hpp"
+#include "NelsonGateway.hpp"
+#include "historyBuiltin.hpp"
+#include "history_managerBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 const std::wstring gatewayName = L"history_manager";
 //=============================================================================
-static const nlsGateway gateway[] =
-{
+static const nlsGateway gateway[] = {
     { "history_manager", Nelson::HistoryManagerGateway::history_managerBuiltin, 1, 1 },
     { "history", Nelson::HistoryManagerGateway::historyBuiltin, 0, 0 },
 };
 //=============================================================================
-static bool initializeHistoryManagerModule(Nelson::Evaluator* eval)
+static bool
+initializeHistoryManagerModule(Nelson::Evaluator* eval)
 {
-    if (eval->HistoryManager == nullptr)
-    {
-        HistoryManager *ptrHistoryManager = new HistoryManager();
+    if (eval->HistoryManager == nullptr) {
+        HistoryManager* ptrHistoryManager = new HistoryManager();
         eval->HistoryManager = (void*)ptrHistoryManager;
     }
     return true;
 }
 //=============================================================================
-static bool finishHistoryManagerModule(Nelson::Evaluator* eval)
+static bool
+finishHistoryManagerModule(Nelson::Evaluator* eval)
 {
-    if (eval->HistoryManager)
-    {
-        HistoryManager *ptrHistoryManager = (HistoryManager *)eval->HistoryManager;
+    if (eval->HistoryManager) {
+        HistoryManager* ptrHistoryManager = (HistoryManager*)eval->HistoryManager;
         delete ptrHistoryManager;
     }
     eval->HistoryManager = nullptr;
@@ -60,4 +59,3 @@ NLSGATEWAYREMOVEEXTENDED(gateway, (void*)finishHistoryManagerModule)
 //=============================================================================
 NLSGATEWAYNAME()
 //=============================================================================
-

@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -22,66 +22,52 @@
 #include "Error.hpp"
 #include "IntegerToString.hpp"
 #include "OverloadFunction.hpp"
-#include "VertCatString.hpp"
+#include "VertCat.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-static ArrayOf StringVectorToString(wstringVector V, Dimensions DimsV)
+static ArrayOf
+StringVectorToString(wstringVector V, Dimensions& DimsV)
 {
     ArrayOf strArr;
-    if (V.size() == 0)
-    {
-        strArr = ArrayOf::emptyConstructor(Dimensions(1, 0));
+    if (V.size() == 0) {
+        Dimensions dims(1, 0);
+        strArr = ArrayOf::emptyConstructor(dims);
         strArr.promoteType(NLS_CHAR);
-    }
-    else
-    {
-        if (V.size() == 1)
-        {
-            strArr = ArrayOf::stringConstructor(V[0]);
-        }
-        else
-        {
+    } else {
+        if (V.size() == 1) {
+            strArr = ArrayOf::characterArrayConstructor(V[0]);
+        } else {
             wstringVector L;
             size_t lenMax = 0;
-            for (size_t k = 0; k < V.size(); k++)
-            {
+            for (size_t k = 0; k < V.size(); k++) {
                 lenMax = std::max(lenMax, V[k].size());
             }
             std::wstring line;
             size_t q = 0;
             size_t R = DimsV[0];
             size_t C = DimsV.getElementCount() / DimsV[0];
-            for (size_t r = 0; r < R; r++)
-            {
-                for (size_t c = 0; c < C; c++)
-                {
+            for (size_t r = 0; r < R; r++) {
+                for (size_t c = 0; c < C; c++) {
                     size_t m = r + c * R;
                     std::wstring spaces = L"  ";
-                    if (lenMax > V[m].size())
-                    {
-                        for (size_t l = 0; l < lenMax - V[m].size(); l++)
-                        {
+                    if (lenMax > V[m].size()) {
+                        for (size_t l = 0; l < lenMax - V[m].size(); l++) {
                             spaces.push_back(L' ');
                         }
                     }
                     line = line + spaces + V[m];
-                    if (q == C - 1)
-                    {
-                        if (r == 0)
-                        {
-                            strArr = ArrayOf::stringConstructor(line);
-                        }
-                        else
-                        {
-                            ArrayOf B = ArrayOf::stringConstructor(line);
-                            strArr = VertCatString(strArr, B);
+                    if (q == C - 1) {
+                        if (r == 0) {
+                            strArr = ArrayOf::characterArrayConstructor(line);
+                        } else {
+                            bool bSuccess;
+                            ArrayOf B = ArrayOf::characterArrayConstructor(line);
+                            strArr = VertCat(strArr, B, true, bSuccess);
                         }
                         line = L"";
                         q = 0;
-                    }
-                    else
-                    {
+                    } else {
                         q++;
                     }
                 }
@@ -91,32 +77,33 @@ static ArrayOf StringVectorToString(wstringVector V, Dimensions DimsV)
     return strArr;
 }
 //=============================================================================
-ArrayOfVector Nelson::StringGateway::int2strBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::StringGateway::int2strBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (nLhs > 1)
-    {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+    if (nLhs > 1) {
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    if (argIn.size() != 1)
-    {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    if (argIn.size() != 1) {
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     // Call overload if it exists
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
-    if (!bSuccess)
-    {
+    if (eval->mustOverloadBasicTypes()) {
+        retval = OverloadFunction(eval, nLhs, argIn, "int2str", bSuccess);
+    }
+    if (!bSuccess) {
         wstringVector result;
         std::wstring error_message;
         bool bRes = IntegerToString(argIn[0], result, error_message);
-        if (bRes)
-        {
-            retval.push_back(StringVectorToString(result, argIn[0].getDimensions()));
-        }
-        else
-        {
-            Error(eval, error_message);
+        if (bRes) {
+            Dimensions dims = argIn[0].getDimensions();
+            retval.push_back(StringVectorToString(result, dims));
+        } else {
+            retval = OverloadFunction(eval, nLhs, argIn, "int2str", bSuccess);
+            if (!bSuccess) {
+                Error(error_message);
+            }
         }
     }
     return retval;

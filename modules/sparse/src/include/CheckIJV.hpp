@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -22,7 +22,8 @@
 #include <stdlib.h>
 //=============================================================================
 namespace Nelson {
-    NLSSPARSE_IMPEXP bool CheckIJV(size_t ilen, size_t jlen, size_t vlen, int &istride, int &jstride, int &vstride, size_t &olen);
+NLSSPARSE_IMPEXP bool
+CheckIJV(
+    size_t ilen, size_t jlen, size_t vlen, int& istride, int& jstride, int& vstride, size_t& olen);
 }
 //=============================================================================
-

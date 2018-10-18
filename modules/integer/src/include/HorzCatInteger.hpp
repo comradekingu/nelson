@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -18,11 +18,13 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsInteger_exports.h"
 #include "ArrayOf.hpp"
+#include "nlsInteger_exports.h"
 //=============================================================================
 namespace Nelson {
-    NLSINTEGER_IMPEXP ArrayOf HorzCatInteger(ArrayOf A, ArrayOf B);
-    NLSINTEGER_IMPEXP ArrayOf HorzCatNdArrayInteger(ArrayOf A, ArrayOf B);
-}
+NLSINTEGER_IMPEXP ArrayOf
+HorzCatInteger(ArrayOf A, ArrayOf B);
+NLSINTEGER_IMPEXP ArrayOf
+HorzCatNdArrayInteger(ArrayOf A, ArrayOf B);
+} // namespace Nelson
 //=============================================================================

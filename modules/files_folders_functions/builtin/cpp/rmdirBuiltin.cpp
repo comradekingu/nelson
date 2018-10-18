@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -22,50 +22,37 @@
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::FilesFoldersGateway::rmdirBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::FilesFoldersGateway::rmdirBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() == 1 || argIn.size() == 2)
-    {
+    if (argIn.size() == 1 || argIn.size() == 2) {
         bool bbSubfolder = false;
         std::wstring arg1 = argIn[0].getContentAsWideString();
-        if (argIn.size() == 2)
-        {
+        if (argIn.size() == 2) {
             std::wstring arg2 = argIn[1].getContentAsWideString();
-            if ((arg2 == L"s") || (arg2 == L"S"))
-            {
+            if ((arg2 == L"s") || (arg2 == L"S")) {
                 bbSubfolder = true;
-            }
-            else
-            {
-                Error(eval, "'s' expected.");
+            } else {
+                Error("'s' expected.");
             }
         }
         std::wstring errorMessage = L"";
         bool res = RemoveDirectory(arg1, bbSubfolder, errorMessage);
-        if (nLhs == 0)
-        {
-            if (res == false)
-            {
-                Error(eval, errorMessage);
+        if (nLhs == 0) {
+            if (res == false) {
+                Error(errorMessage);
             }
-        }
-        else
-        {
+        } else {
             retval.push_back(ArrayOf::logicalConstructor(res));
-            if (nLhs > 1)
-            {
-                retval.push_back(ArrayOf::stringConstructor(errorMessage));
-            }
-            else
-            {
-                Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+            if (nLhs > 1) {
+                retval.push_back(ArrayOf::characterArrayConstructor(errorMessage));
+            } else {
+                Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
             }
         }
-    }
-    else
-    {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    } else {
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     return retval;
 }

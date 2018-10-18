@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -18,11 +18,13 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsLinear_algebra_exports.h"
 #include "ArrayOf.hpp"
+#include "nlsLinear_algebra_exports.h"
 //=============================================================================
 namespace Nelson {
-    NLSLINEAR_ALGEBRA_IMPEXP bool IsSymmetric(ArrayOf A, bool skew);
-    NLSLINEAR_ALGEBRA_IMPEXP bool IsSymmetric(ArrayOf A, double tol);
-}
+NLSLINEAR_ALGEBRA_IMPEXP bool
+IsSymmetric(ArrayOf A, bool skew);
+NLSLINEAR_ALGEBRA_IMPEXP bool
+IsSymmetric(ArrayOf A, double tol);
+} // namespace Nelson
 //=============================================================================

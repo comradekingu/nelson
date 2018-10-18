@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -18,16 +18,20 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
 #include "nlsCharacters_encoding_exports.h"
+#include <string>
 //=============================================================================
 namespace Nelson {
-    // convert UTF-8 string to wstring
-    NLSCHARACTERS_ENCODING_IMPEXP std::wstring utf8_to_wstring(const std::string &str);
-    NLSCHARACTERS_ENCODING_IMPEXP std::wstring utf8_to_wstring(const char* str);
+// convert UTF-8 string to wstring
+NLSCHARACTERS_ENCODING_IMPEXP std::wstring
+utf8_to_wstring(const std::string& str);
+NLSCHARACTERS_ENCODING_IMPEXP std::wstring
+utf8_to_wstring(const char* str);
 
-    // convert wstring to UTF-8 string
-    NLSCHARACTERS_ENCODING_IMPEXP std::string wstring_to_utf8(const std::wstring &str);
-    NLSCHARACTERS_ENCODING_IMPEXP std::string wstring_to_utf8(const wchar_t* str);
-}
+// convert wstring to UTF-8 string
+NLSCHARACTERS_ENCODING_IMPEXP std::string
+wstring_to_utf8(const std::wstring& str);
+NLSCHARACTERS_ENCODING_IMPEXP std::string
+wstring_to_utf8(const wchar_t* str);
+} // namespace Nelson
 //=============================================================================

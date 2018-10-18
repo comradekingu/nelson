@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -17,45 +17,39 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "builtinBuiltin.hpp"
-#include "Error.hpp"
-#include "characters_encoding.hpp"
-#include "PathFuncManager.hpp"
 #include "BuiltInFunctionDefManager.hpp"
+#include "Error.hpp"
+#include "PathFuncManager.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::FunctionsGateway::builtinBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::FunctionsGateway::builtinBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    if (argIn.size() < 1)
-    {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    if (argIn.size() < 1) {
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    Context *context = eval->getContext();
-    FunctionDef *funcDef = nullptr;
+    Context* context = eval->getContext();
+    FunctionDef* funcDef = nullptr;
     ArrayOf param1 = argIn[0];
     std::string fname = "";
-    if (param1.isFunctionHandle())
-    {
+    if (param1.isFunctionHandle()) {
         function_handle fh = param1.getContentAsFunctionHandle();
         std::wstring functionname;
         bool found = PathFuncManager::getInstance()->find(fh, functionname);
-        if (!found)
-        {
+        if (!found) {
             found = BuiltInFunctionDefManager::getInstance()->find(fh, functionname);
-            if (!found)
-            {
-                Error(eval, _W("function handle not defined."));
+            if (!found) {
+                Error(_W("function handle not defined."));
             }
         }
         fname = wstring_to_utf8(functionname);
-    }
-    else
-    {
+    } else {
         fname = argIn[0].getContentAsCString();
     }
-    if (!context->lookupFunction(fname, funcDef, true))
-    {
-        Error(eval, _W("function \'") + utf8_to_wstring(fname) + _W("\' is not a builtin."));
+    if (!context->lookupFunction(fname, funcDef, true)) {
+        Error(_W("function \'") + utf8_to_wstring(fname) + _W("\' is not a builtin."));
     }
     ArrayOfVector newarg(argIn);
     newarg.erase(newarg.begin());

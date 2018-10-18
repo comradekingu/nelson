@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -21,12 +21,16 @@
 #include "nlsHistory_manager_exports.h"
 //=============================================================================
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
-//=============================================================================
-NLSHISTORY_MANAGER_IMPEXP void NelsonHistorySetToken(const char *token);
-NLSHISTORY_MANAGER_IMPEXP const char* NelsonHistoryGetNextLine(void);
-NLSHISTORY_MANAGER_IMPEXP const char* NelsonHistoryGetPreviousLine(void);
+    //=============================================================================
+    NLSHISTORY_MANAGER_IMPEXP void
+    NelsonHistorySetToken(const char* token);
+    NLSHISTORY_MANAGER_IMPEXP const char*
+    NelsonHistoryGetNextLine(void);
+    NLSHISTORY_MANAGER_IMPEXP const char*
+    NelsonHistoryGetPreviousLine(void);
 //=============================================================================
 #ifdef __cplusplus
 }

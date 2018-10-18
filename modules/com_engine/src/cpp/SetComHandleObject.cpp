@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -16,98 +16,68 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <Windows.h>
 #include "SetComHandleObject.hpp"
-#include "Exception.hpp"
-#include "HandleGenericObject.hpp"
 #include "ComHandleObject.hpp"
-#include "characters_encoding.hpp"
+#include "Error.hpp"
+#include "HandleGenericObject.hpp"
 #include "HandleManager.hpp"
 #include "VariantConversionHelpers.hpp"
+#include "characters_encoding.hpp"
 #include "invokeCOM.hpp"
+#include <Windows.h>
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    void SetComHandleObject(ArrayOf A, const std::wstring &propertyName, ArrayOf B)
-    {
-        ArrayOf res;
-        if (!A.isHandle())
-        {
-            throw Exception(ERROR_WRONG_ARGUMENT_1_TYPE_HANDLE_EXPECTED);
-        }
-        if (!A.isScalar())
-        {
-            throw Exception(ERROR_SIZE_SCALAR_EXPECTED);
-        }
-        nelson_handle *qp = (nelson_handle*)A.getDataPointer();
-        if (qp == nullptr)
-        {
-            throw Exception(_W("COM valid handle expected."));
-        }
-        nelson_handle hl = qp[0];
-        HandleGenericObject *hlObj = HandleManager::getInstance()->getPointer(hl);
-        if (hlObj == nullptr)
-        {
-            throw Exception(_W("COM valid handle expected."));
-        }
-        if (hlObj->getCategory() != COM_CATEGORY_STR)
-        {
-            throw Exception(_W("COM handle expected."));
-        }
-        ComHandleObject *comhandleobj = (ComHandleObject *)hlObj;
-        void *ptr = comhandleobj->getPointer();
-        if (ptr == nullptr)
-        {
-            throw Exception(_W("COM valid handle expected."));
-        }
-        VARIANT *pVariant = (VARIANT*)ptr;
-        VARIANT *pVarResult;
-        try
-        {
-            pVarResult = new VARIANT;
-        }
-        catch (std::bad_alloc)
-        {
-            pVarResult = nullptr;
-            throw Exception(ERROR_MEMORY_ALLOCATION);
-        }
-        VariantInit(pVarResult);
-        std::wstring errorMessage;
-        VARIANT *param;
-        try
-        {
-            param = new VARIANT();
-        }
-        catch (std::bad_alloc)
-        {
-            delete pVarResult;
-            throw Exception(ERROR_MEMORY_ALLOCATION);
-        }
-        VariantInit(param);
-        bool bSuccess = NelsonToComVariant(B, param, errorMessage);
-        if (!bSuccess)
-        {
-            throw Exception(errorMessage);
-        }
-        errorMessage = L"";
-        bSuccess = invokeCom(DISPATCH_PROPERTYPUT, pVarResult, errorMessage, pVariant->pdispVal, propertyName, 1, param);
-        if (bSuccess)
-        {
-            bSuccess = ComVariantToNelson(pVarResult, res, errorMessage);
-            delete pVarResult;
-            pVarResult = nullptr;
-            if (!bSuccess)
-            {
-                throw Exception(errorMessage);
-            }
-        }
-        else
-        {
-            delete pVarResult;
-            pVarResult = nullptr;
-            throw Exception(errorMessage);
-        }
+//=============================================================================
+void
+SetComHandleObject(ArrayOf A, const std::wstring& propertyName, ArrayOf B)
+{
+    ArrayOf res;
+    if (A.getHandleCategory() != COM_CATEGORY_STR) {
+        Error(_W("COM handle expected."));
     }
-    //=============================================================================
+    ComHandleObject* comhandleobj = (ComHandleObject*)A.getContentAsHandleScalar();
+    void* ptr = comhandleobj->getPointer();
+    if (ptr == nullptr) {
+        Error(_W("COM valid handle expected."));
+    }
+    VARIANT* pVariant = (VARIANT*)ptr;
+    VARIANT* pVarResult;
+    try {
+        pVarResult = new VARIANT;
+    } catch (const std::bad_alloc&) {
+        pVarResult = nullptr;
+        Error(ERROR_MEMORY_ALLOCATION);
+    }
+    VariantInit(pVarResult);
+    std::wstring errorMessage;
+    VARIANT* param = nullptr;
+    try {
+        param = new VARIANT();
+    } catch (const std::bad_alloc&) {
+        delete pVarResult;
+        Error(ERROR_MEMORY_ALLOCATION);
+    }
+    VariantInit(param);
+    bool bSuccess = NelsonToComVariant(B, param, errorMessage);
+    if (!bSuccess) {
+        Error(errorMessage);
+    }
+    errorMessage = L"";
+    bSuccess = invokeCom(
+        DISPATCH_PROPERTYPUT, pVarResult, errorMessage, pVariant->pdispVal, propertyName, 1, param);
+    if (bSuccess) {
+        bSuccess = ComVariantToNelson(pVarResult, res, errorMessage);
+        delete pVarResult;
+        pVarResult = nullptr;
+        if (!bSuccess) {
+            Error(errorMessage);
+        }
+    } else {
+        delete pVarResult;
+        pVarResult = nullptr;
+        Error(errorMessage);
+    }
+}
+//=============================================================================
 }
 //=============================================================================

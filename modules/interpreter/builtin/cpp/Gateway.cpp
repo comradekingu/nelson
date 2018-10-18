@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -17,21 +17,23 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "NelsonGateway.hpp"
+#include "dbstackBuiltin.hpp"
 #include "iskeywordBuiltin.hpp"
-#include "parsestringBuiltin.hpp"
-#include "parsefileBuiltin.hpp"
 #include "max_recursion_depthBuiltin.hpp"
+#include "parsefileBuiltin.hpp"
+#include "parsestringBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 const std::wstring gatewayName = L"interpreter";
 //=============================================================================
-static const nlsGateway gateway[] =
-{
+static const nlsGateway gateway[] = {
     { "iskeyword", Nelson::InterpreterGateway::iskeywordBuiltin, 1, 1 },
     { "parsefile", Nelson::InterpreterGateway::parsefileBuiltin, 1, 1 },
     { "parsestring", Nelson::InterpreterGateway::parsestringBuiltin, 1, 1 },
-    { "max_recursion_depth", Nelson::InterpreterGateway::max_recursion_depthBuiltin, 1, 1 }
+    { "max_recursion_depth", Nelson::InterpreterGateway::max_recursion_depthBuiltin, 1, 1 },
+    { "dbstack", Nelson::ErrorManagerGateway::dbstackBuiltin, -1, -1 },
+
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

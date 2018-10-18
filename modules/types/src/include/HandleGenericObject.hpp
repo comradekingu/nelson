@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -18,23 +18,40 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
 #include "nlsTypes_exports.h"
+#include <string>
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    class NLSTYPES_IMPEXP HandleGenericObject {
-    private:
-        std::wstring category;
-        void *ptr;
-    public:
-        HandleGenericObject(std::wstring _category, void *_ptr);
-        ~HandleGenericObject();
-        void setCategory(std::wstring _category);
-        std::wstring getCategory();
-        void setPointer(void *_ptr);
-        void *getPointer();
+//=============================================================================
+class NLSTYPES_IMPEXP HandleGenericObject
+{
+private:
+    std::wstring category;
+    void* ptr;
+    bool _isScoped;
+
+public:
+    HandleGenericObject(std::wstring _category, void* _ptr, bool isScoped);
+    virtual ~HandleGenericObject(){};
+    std::wstring
+    getCategory();
+    void
+    setPointer(void* _ptr);
+    void*
+    getPointer();
+    bool
+    isScoped();
+    virtual bool
+    isProperty(std::wstring propertyName)
+    {
+        return false;
     };
-    //=============================================================================
-}
+    virtual bool
+    isMethod(std::wstring methodName)
+    {
+        return false;
+    };
+};
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

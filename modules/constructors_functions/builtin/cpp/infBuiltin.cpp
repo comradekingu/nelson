@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -16,52 +16,41 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "Inf.hpp"
 #include "infBuiltin.hpp"
 #include "Error.hpp"
+#include "Inf.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::ConstructorsGateway::infBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::ConstructorsGateway::infBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     uint32 m = 1;
     uint32 n = 1;
     ArrayOfVector retval;
     ArrayOf p;
-    if (nLhs > 1)
-    {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+    if (nLhs > 1) {
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    if (argIn.size() == 0)
-    {
+    if (argIn.size() == 0) {
         m = 1;
         n = 1;
-    }
-    else
-    {
-        if (argIn.size() > 0)
-        {
-            if (argIn[0].isNumeric())
-            {
+    } else {
+        if (argIn.size() > 0) {
+            if (argIn[0].isNumeric()) {
                 p = argIn[0];
                 m = p.getContentAsInteger32Scalar();
                 n = m;
-            }
-            else
-            {
-                Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_NUMERIC_EXPECTED);
+            } else {
+                Error(ERROR_WRONG_ARGUMENT_1_TYPE_NUMERIC_EXPECTED);
             }
         }
-        if (argIn.size() > 1)
-        {
-            if (argIn[0].isNumeric())
-            {
+        if (argIn.size() > 1) {
+            if (argIn[0].isNumeric()) {
                 p = argIn[1];
                 n = p.getContentAsInteger32Scalar();
-            }
-            else
-            {
-                Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_NUMERIC_EXPECTED);
+            } else {
+                Error(ERROR_WRONG_ARGUMENT_1_TYPE_NUMERIC_EXPECTED);
             }
         }
     }
@@ -70,4 +59,3 @@ ArrayOfVector Nelson::ConstructorsGateway::infBuiltin(Evaluator* eval, int nLhs,
     return retval;
 }
 //=============================================================================
-

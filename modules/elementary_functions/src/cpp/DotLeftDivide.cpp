@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -21,14 +21,15 @@
 #include "MatrixCheck.hpp"
 //=============================================================================
 namespace Nelson {
-    ArrayOf DotLeftDivide(ArrayOf A, ArrayOf B)
-    {
-        // Process the two arguments through the type check and dimension checks...
-        VectorCheck(A, B, ".\\");
-        Class commonClass = FindCommonType(A, B, true);
-        A.promoteType(commonClass);
-        B.promoteType(commonClass);
-        return DotRightDivide(B, A);
-    }
+ArrayOf
+DotLeftDivide(ArrayOf A, ArrayOf B)
+{
+    // Process the two arguments through the type check and dimension checks...
+    VectorCheck(A, B, ".\\");
+    Class commonClass = FindCommonType(A, B, true);
+    A.promoteType(commonClass);
+    B.promoteType(commonClass);
+    return DotRightDivide(B, A);
+}
 }
 //=============================================================================

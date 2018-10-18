@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -18,11 +18,12 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsDynamic_link_exports.h"
 #include "Evaluator.hpp"
+#include "nlsDynamic_link_exports.h"
 //=============================================================================
 #define REMOVEGATEWAY_ENTRY "RemoveGateway"
 namespace Nelson {
-    NLSDYNAMIC_LINK_IMPEXP void RemoveGateway(Evaluator* eval, std::wstring dynlibname);
+NLSDYNAMIC_LINK_IMPEXP void
+RemoveGateway(Evaluator* eval, std::wstring dynlibname);
 }
 //=============================================================================

@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -18,11 +18,18 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
-#include "nlsFunctions_manager_exports.h"
 #include "Evaluator.hpp"
+#include "nlsFunctions_manager_exports.h"
+#include <string>
 //=============================================================================
 namespace Nelson {
-    NLSFUNCTIONS_MANAGER_IMPEXP wstringVector WhatW(Evaluator *eval, bool bWithPrivateFunction = false, bool bSorted = true);
-}
+NLSFUNCTIONS_MANAGER_IMPEXP wstringVector
+WhatListOfBuiltin(Evaluator* eval, bool bWithPrivateFunction = false, bool bSorted = true);
+NLSFUNCTIONS_MANAGER_IMPEXP wstringVector
+WhatListOfBuiltin(bool bSorted = true);
+NLSFUNCTIONS_MANAGER_IMPEXP wstringVector
+WhatListOfMacro(Evaluator* eval);
+NLSFUNCTIONS_MANAGER_IMPEXP wstringVector
+WhatListOfMacro();
+} // namespace Nelson
 //=============================================================================

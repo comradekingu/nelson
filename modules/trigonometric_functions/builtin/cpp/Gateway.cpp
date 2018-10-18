@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -17,33 +17,39 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "NelsonGateway.hpp"
-#include "cosBuiltin.hpp"
-#include "sinBuiltin.hpp"
-#include "tanBuiltin.hpp"
-#include "coshBuiltin.hpp"
-#include "sinhBuiltin.hpp"
-#include "tanhBuiltin.hpp"
 #include "acosBuiltin.hpp"
 #include "asinBuiltin.hpp"
 #include "atanBuiltin.hpp"
+#include "cosBuiltin.hpp"
+#include "coshBuiltin.hpp"
+#include "sinBuiltin.hpp"
+#include "sinhBuiltin.hpp"
+#include "tanBuiltin.hpp"
+#include "tanhBuiltin.hpp"
 #include "cosmBuiltin.hpp"
+#include "cosmBuiltin.hpp"
+#include "sinmBuiltin.hpp"
+#include "tanmBuiltin.hpp"
+#include "atan2Builtin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 const std::wstring gatewayName = L"trigonometric_functions";
 //=============================================================================
-static const nlsGateway gateway[] =
-{
-    { "cos", Nelson::TrigonometricGateway::cosBuiltin, 1, 1 },
-    { "sin", Nelson::TrigonometricGateway::sinBuiltin, 1, 1 },
-    { "tan", Nelson::TrigonometricGateway::tanBuiltin, 1, 1 },
-    { "cosh", Nelson::TrigonometricGateway::coshBuiltin, 1, 1 },
-    { "sinh", Nelson::TrigonometricGateway::sinhBuiltin, 1, 1 },
-    { "tanh", Nelson::TrigonometricGateway::tanhBuiltin, 1, 1 },
-    { "acos", Nelson::TrigonometricGateway::acosBuiltin, 1, 1 },
-    { "asin", Nelson::TrigonometricGateway::asinBuiltin, 1, 1 },
-    { "atan", Nelson::TrigonometricGateway::atanBuiltin, 1, 1 },
-    { "cosm", Nelson::TrigonometricGateway::cosmBuiltin, 1, 1 },
+static const nlsGateway gateway[] = {
+    { "cos", Nelson::TrigonometricGateway::cosBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
+    { "sin", Nelson::TrigonometricGateway::sinBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
+    { "tan", Nelson::TrigonometricGateway::tanBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
+    { "cosh", Nelson::TrigonometricGateway::coshBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
+    { "sinh", Nelson::TrigonometricGateway::sinhBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
+    { "tanh", Nelson::TrigonometricGateway::tanhBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
+    { "acos", Nelson::TrigonometricGateway::acosBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
+    { "asin", Nelson::TrigonometricGateway::asinBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
+    { "atan", Nelson::TrigonometricGateway::atanBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
+    { "cosm", Nelson::TrigonometricGateway::cosmBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
+    { "sinm", Nelson::TrigonometricGateway::sinmBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
+    { "tanm", Nelson::TrigonometricGateway::tanmBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
+    { "atan2", Nelson::TrigonometricGateway::atan2Builtin, 1, 2, CPP_BUILTIN_WITH_EVALUATOR },
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

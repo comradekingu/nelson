@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -17,24 +17,24 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "NelsonGateway.hpp"
+#include "acquirevarBuiltin.hpp"
+#include "assigninBuiltin.hpp"
 #include "clearBuiltin.hpp"
-#include "whoBuiltin.hpp"
 #include "globalBuiltin.hpp"
 #include "isglobalBuiltin.hpp"
-#include "persistentBuiltin.hpp"
-#include "assigninBuiltin.hpp"
-#include "acquirevarBuiltin.hpp"
-#include "varlockBuiltin.hpp"
-#include "varislockBuiltin.hpp"
-#include "varunlockBuiltin.hpp"
+#include "isvarBuiltin.hpp"
 #include "memoryBuiltin.hpp"
+#include "persistentBuiltin.hpp"
+#include "varislockBuiltin.hpp"
+#include "varlockBuiltin.hpp"
+#include "varunlockBuiltin.hpp"
+#include "whoBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 const std::wstring gatewayName = L"memory_manager";
 //=============================================================================
-static const nlsGateway gateway[] =
-{
+static const nlsGateway gateway[] = {
     { "clear", Nelson::MemoryGateway::clearBuiltin, 0, 1 },
     { "who", Nelson::MemoryGateway::whoBuiltin, 1, 1 },
     { "global", Nelson::MemoryGateway::globalBuiltin, 0, -1 },
@@ -46,7 +46,7 @@ static const nlsGateway gateway[] =
     { "varunlock", Nelson::MemoryGateway::varunlockBuiltin, 0, 2 },
     { "varislock", Nelson::MemoryGateway::varislockBuiltin, 1, 2 },
     { "memory", Nelson::MemoryGateway::memoryBuiltin, 2, 0 },
-
+    { "isvar", Nelson::MemoryGateway::isvarBuiltin, 1, -1 },
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

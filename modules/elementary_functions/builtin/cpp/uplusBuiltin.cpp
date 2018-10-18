@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -18,18 +18,40 @@
 //=============================================================================
 #include "uplusBuiltin.hpp"
 #include "Error.hpp"
+#include "UnaryPlus.hpp"
 #include "OverloadUnaryOperator.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::ElementaryFunctionsGateway::uplusBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::ElementaryFunctionsGateway::uplusBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() != 1)
-    {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    if (argIn.size() != 1) {
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    retval.push_back(OverloadUnaryOperator(eval, argIn[0], "uplus"));
+    ArrayOf arg1 = argIn[0];
+    bool bSuccess = false;
+    ArrayOf a = argIn[0];
+    ArrayOf res;
+    if (eval->mustOverloadBasicTypes()) {
+        res = OverloadUnaryOperator(eval, a, "uplus", bSuccess);
+    }
+    if (!bSuccess) {
+        bool needToOverload = false;
+        res = UnaryPlus(a, needToOverload);
+        if (needToOverload) {
+            res = OverloadUnaryOperator(eval, a, "uplus");
+            if (bSuccess) {
+                retval.push_back(res);
+            }
+        } else {
+            retval.push_back(res);
+        }
+    } else {
+        retval.push_back(res);
+    }
     return retval;
 }
 //=============================================================================

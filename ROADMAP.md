@@ -9,15 +9,23 @@ Please feel free to file issues on this repository if you have questions, concer
 
 *Features*:
 
-- linear algebra module,
-- Computer Aided Control Systems Design module,
+- String array type (DONE v0.2.10),
+- Foreign Function Interface (DONE v0.2.4),
+- Audio module (read, play DONE v0.2.1),
+- JSON File I/O module (DONE v0.2.1),
+- MPI interface module (DONE v0.1.11),
+- editor (DONE v0.1.11),
+- SLICOT module: low level function about Controls (DONE v0.1.10),
 - fftw module (DONE v0.1.8),
 - COM objects (DONE v0.1.7),
-- editor,
+- linear algebra module,
+- Computer Aided Control Systems Design module,
+- MAT File I/O module,
+- Mex module,
 - completion,
 - graphics output,
 - some basic openCV functions,
-- dynamic link functions
+- dynamic link functions (Nelson external modules) (DONE v0.2.6)
 
 ### How can I help?
 
@@ -28,7 +36,7 @@ the best way to go.
 
 ### How can I add something to the roadmap?
 
-The roadmap process is new to Nelson: we are only beginning to structure and document the
-project objectives. Our immediate goal is to be more transparent, and work with our community to
+The roadmap process is new to Nelson: we are only beginning to structure and document the project objectives.
+Our immediate goal is to be more transparent, and work with our community to
 focus our efforts on fewer prioritized topics.
 

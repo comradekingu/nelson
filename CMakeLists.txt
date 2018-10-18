@@ -1,5 +1,5 @@
 #==============================================================================
-# Copyright (c) 2016-2017 Allan CORNET (Nelson)
+# Copyright (c) 2016-2018 Allan CORNET (Nelson)
 #==============================================================================
 # LICENCE_BLOCK_BEGIN
 # This program is free software: you can redistribute it and/or modify
@@ -21,7 +21,7 @@ CMAKE_MINIMUM_REQUIRED(VERSION 3.1)
 set(CMAKE_INSTALL_PREFIX "$ENV{HOME}")
 #============================================================================== 
 set (Nelson_VERSION_MAJOR_DEFAULT 0)
-set (Nelson_VERSION_MINOR_DEFAULT 1)
+set (Nelson_VERSION_MINOR_DEFAULT 2)
 set (Nelson_VERSION_MAINTENANCE_DEFAULT 9)
 set (Nelson_VERSION_BUILD_DEFAULT 0)
 #============================================================================== 
@@ -65,7 +65,10 @@ configure_file (
   )
 ENDIF()
 #============================================================================== 
+include(Clang-cxx-dev-tools)
+#============================================================================== 
 include(CheckCXXCompilerFlag)
+#============================================================================== 
 CHECK_CXX_COMPILER_FLAG("-std=c++11" COMPILER_SUPPORTS_CXX11)
 if(COMPILER_SUPPORTS_CXX11)
   set(CMAKE_CXX_STANDARD 11)
@@ -127,6 +130,9 @@ ELSE()
   IF (EXISTS $ENV{HOME}/Qt/5.9.1/clang_64)
     SET(QTDIR $ENV{HOME}/Qt/5.9.1/clang_64)
   ENDIF()
+  IF (EXISTS $ENV{HOME}/Qt/5.10/clang_64)
+    SET(QTDIR $ENV{HOME}/Qt/5.10/clang_64)
+  ENDIF()
 ENDIF()
 SET(CMAKE_PREFIX_PATH ${QTDIR})
 IF(DEFINED ENV{QTDIR_BINARIES})
@@ -138,6 +144,15 @@ ELSE()
     message(WARNING "Please define QTDIR_BINARIES environment variable." )
   ENDIF()
 ENDIF()
+#==============================================================================
+find_package(MPI REQUIRED)
+IF(MPI_INCLUDE_PATH AND MPI_LIBRARIES)
+  MESSAGE(STATUS "MPI_COMPILE_FLAGS=${MPI_COMPILE_FLAGS}")
+  MESSAGE(STATUS "MPI_LINK_FLAGS=${MPI_LINK_FLAGS}")
+  MESSAGE(STATUS "MPI_INCLUDE_PATH=${MPI_INCLUDE_PATH}")
+  MESSAGE(STATUS "MPI_LIBRARIES=${MPI_LIBRARIES}")
+ENDIF(MPI_INCLUDE_PATH AND MPI_LIBRARIES)
+check_symbol_exists("MPI_Get_library_version" "mpi.h" HAVE_MPI_GET_LIBRARY_VERSION)
 #==============================================================================
 IF(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   execute_process(COMMAND brew --prefix icu4c
@@ -159,20 +174,48 @@ FIND_PACKAGE(LAPACK REQUIRED)
 IF(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 FIND_PACKAGE(LAPACKE REQUIRED)
 ENDIF()
+#==============================================================================
 FIND_PACKAGE(PkgConfig REQUIRED)
-FIND_PACKAGE(libffi REQUIRED)
-FIND_PACKAGE(Boost 1.60.0 COMPONENTS system filesystem locale thread chrono regex date_time REQUIRED)
+FIND_PACKAGE(Boost 1.60.0 COMPONENTS system filesystem locale thread chrono regex date_time iostreams REQUIRED)
 FIND_PACKAGE(Qt5Widgets REQUIRED)
 FIND_PACKAGE(Qt5Gui REQUIRED)
 FIND_PACKAGE(Qt5Qml REQUIRED)
+FIND_PACKAGE(Qt5Sql REQUIRED)
 FIND_PACKAGE(Qt5Quick REQUIRED)
 FIND_PACKAGE(Qt5PrintSupport REQUIRED)
 FIND_PACKAGE(LibXml2 REQUIRED)
 FIND_PACKAGE(icu REQUIRED)
 FIND_PACKAGE(FFTW REQUIRED)
+FIND_PACKAGE(Portaudio REQUIRED)
+FIND_PACKAGE(LibSndFile REQUIRED)
+FIND_PACKAGE(Taglib REQUIRED)
 #============================================================================== 
+find_package(LIBFFI REQUIRED)
+#==============================================================================
+IF(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+  execute_process(COMMAND brew --prefix libffi
+                OUTPUT_VARIABLE BREW_LIBFFI_PREFIX
+                RESULT_VARIABLE NONZERO_BREW_EXIT_CODE
+                ERROR_VARIABLE BREW_ERROR
+                OUTPUT_STRIP_TRAILING_WHITESPACE
+                ERROR_STRIP_TRAILING_WHITESPACE)
+  IF(NOT(NONZERO_BREW_EXIT_CODE))
+    SET(CMAKE_LIBFFI_PATH ${BREW_LIBFFI_PREFIX})
+  ELSE()
+    MESSAGE(FATAL_ERROR "Brew reported an error:\n${BREW_ERROR}.\nPlease resolve this error.")
+  ENDIF()
+  set(LIBFFI_INCLUDE_DIRS ${CMAKE_LIBFFI_PATH}/lib/libffi-3.2.1/include)
+  set(LIBFFI_LIBRARIES={CMAKE_LIBFFI_PATH}/lib/libffi.dylib)
+ENDIF()
+#==============================================================================
+IF(LIBFFI_INCLUDE_DIRS AND LIBFFI_LIBRARIES)
+  MESSAGE(STATUS "LIBFFI_INCLUDE_DIRS=${LIBFFI_INCLUDE_DIRS}")
+  MESSAGE(STATUS "LIBFFI_LIBRARIES=${LIBFFI_LIBRARIES}")
+ENDIF(LIBFFI_INCLUDE_DIRS AND LIBFFI_LIBRARIES)
+#==============================================================================
 add_definitions(-DBOOST_ALL_NO_LIB)
 add_definitions(-DBOOST_ALL_DYN_LINK)
+add_definitions(-DOMPI_SKIP_MPICXX)
 #============================================================================== 
 IF(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
   set(BIN_DIRECTORY ${PROJECT_BINARY_DIR}/bin/linux${BITNESS})
@@ -183,6 +226,7 @@ IF(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   set(CMAKE_OSX_ARCHITECTURES "x86_64")
   set(Boost_NO_SYSTEM_PATHS "TRUE")
   set(MAC_FRAMEWORK_FOUNDATION_LIBRARY "-framework Foundation")
+  set(MAC_FRAMEWORK_APPKIT_LIBRARY "-framework AppKit")
   IF(EXISTS "/usr/local/lib/liblapacke.a")
     LINK_DIRECTORIES(/usr/local/lib)
     set(MAC_LAPACKE_LIBRARY -lblas -llapack -llapacke)
@@ -236,6 +280,7 @@ add_subdirectory(resources)
 #==============================================================================
 install(FILES ${CMAKE_SOURCE_DIR}/COPYING.md DESTINATION ${ROOT_OUTPUT})
 install(FILES ${CMAKE_SOURCE_DIR}/CHANGELOG.md DESTINATION ${ROOT_OUTPUT})
+install(FILES ${CMAKE_SOURCE_DIR}/CHANGELOG-0.1.x.md DESTINATION ${ROOT_OUTPUT})
 install(FILES ${CMAKE_SOURCE_DIR}/CONTRIBUTORS.md DESTINATION ${ROOT_OUTPUT})
 install(FILES ${CMAKE_SOURCE_DIR}/README.md DESTINATION ${ROOT_OUTPUT})
 install(FILES ${CMAKE_SOURCE_DIR}/THIRDPARTY.md DESTINATION ${ROOT_OUTPUT})

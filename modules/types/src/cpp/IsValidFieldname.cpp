@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -17,31 +17,16 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "IsValidFieldname.hpp"
-#include "Types.hpp"
+#include "MakeValidFieldname.hpp"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    bool IsValidFieldname(std::string fieldname)
-    {
-        if (!fieldname.size())
-        {
-            return false;
-        }
-        int c = fieldname[0];
-        if ((c >= 48 && c <= 57) || (c == '_'))
-        {
-            return false;
-        }
-        for (sizeType k = 0; k < (sizeType)fieldname.size(); k++)
-        {
-            int c = fieldname[k];
-            bool bSupportedChar = (c >= 65 && c <= 90) || (c >= 97 && c <= 122) || (c == '_') || (c >= 48 && c <= 57);
-            if (!bSupportedChar)
-            {
-                return false;
-            }
-        }
-        return true;
-    }
+//=============================================================================
+bool
+IsValidFieldname(std::string fieldname)
+{
+    std::string validFieldname = MakeValidFieldname(fieldname);
+    return (validFieldname == fieldname);
+}
+//=============================================================================
 }
 //=============================================================================

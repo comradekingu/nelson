@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -16,19 +16,22 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <string>
+#pragma once
+//=============================================================================
 #include "nlsString_exports.h"
+#include <string>
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
+//=============================================================================
 #define NanString L"NaN"
 #define InfString L"Inf"
 #define NegInfString L"-Inf"
 #define PosInfString L"+Inf"
 #define NegNanString L"-NaN" /* no sense but it can be used */
 #define PosNanString L"+NaN" /* no sense but it can be used */
-    //=============================================================================
-    NLSSTRING_IMPEXP double stringToDouble(const std::wstring &str, bool &wasConverted);
-    //=============================================================================
-}
+//=============================================================================
+NLSSTRING_IMPEXP double
+stringToDouble(const std::wstring& str, bool& wasConverted);
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

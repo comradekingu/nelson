@@ -1,5 +1,5 @@
 ;==============================================================================
-; Copyright (c) 2016-2017 Allan CORNET (Nelson)
+; Copyright (c) 2016-2018 Allan CORNET (Nelson)
 ;==============================================================================
 ; LICENCE_BLOCK_BEGIN
 ; This program is free software: you can redistribute it and/or modify
@@ -17,6 +17,10 @@
 ; LICENCE_BLOCK_END
 ;==============================================================================
 #define MODULE_NAME "interpreter"
+;==============================================================================
+Source: {#RootPath}bin\{#BinPath}\libnlsInterpreter.lib; DestDir: {app}\bin\{#BinPath}\;
+Source: {#RootPath}modules\{#MODULE_NAME}\src\include\*.h; DestDir: {app}\modules\{#MODULE_NAME}\src\include\;
+Source: {#RootPath}modules\{#MODULE_NAME}\src\include\*.hpp; DestDir: {app}\modules\{#MODULE_NAME}\src\include\;
 ;==============================================================================
 Source: {#RootPath}bin\{#BinPath}\libnlsInterpreter.dll; DestDir: {app}\bin\{#BinPath}\;
 Source: {#RootPath}bin\{#BinPath}\libnlsInterpreter_builtin.dll; DestDir: {app}\bin\{#BinPath}\;

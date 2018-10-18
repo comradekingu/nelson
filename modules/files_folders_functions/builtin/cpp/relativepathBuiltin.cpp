@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -17,35 +17,33 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "relativepathBuiltin.hpp"
-#include "RelativePath.hpp"
 #include "Error.hpp"
+#include "RelativePath.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::FilesFoldersGateway::relativepathBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::FilesFoldersGateway::relativepathBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (nLhs > 1)
-    {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+    if (nLhs > 1) {
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    if (argIn.size() != 2)
-    {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    if (argIn.size() != 2) {
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     std::wstring param1 = argIn[0].getContentAsWideString();
     std::wstring param2 = argIn[1].getContentAsWideString();
     bool bSuccess = false;
     std::wstring result = RelativePath(param1, param2, bSuccess);
-    if (bSuccess)
-    {
+    if (bSuccess) {
         bool needToAddDot = !(result[0] == L'/' || result[0] == L'\\' || result[0] == L'.');
-        if (needToAddDot)
-        {
+        if (needToAddDot) {
             result = L"./" + result;
         }
     }
-    retval.push_back(ArrayOf::stringConstructor(result));
+    retval.push_back(ArrayOf::characterArrayConstructor(result));
     return retval;
 }
 //=============================================================================

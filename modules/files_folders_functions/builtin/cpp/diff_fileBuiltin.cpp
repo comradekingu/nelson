@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -18,35 +18,33 @@
 //=============================================================================
 #include "diff_fileBuiltin.hpp"
 #include "Error.hpp"
-#include "IsFile.hpp"
 #include "FileDiff.hpp"
+#include "IsFile.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::FilesFoldersGateway::diff_fileBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::FilesFoldersGateway::diff_fileBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() < 2 || argIn.size() > 3)
-    {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    if (argIn.size() < 2 || argIn.size() > 3) {
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    if (nLhs > 1)
-    {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+    if (nLhs > 1) {
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOf param1 = argIn[0];
     ArrayOf param2 = argIn[1];
     logical eolCompare = true;
     std::wstring filename1 = param1.getContentAsWideString();
     std::wstring filename2 = param2.getContentAsWideString();
-    if (argIn.size() == 3)
-    {
+    if (argIn.size() == 3) {
         ArrayOf param3 = argIn[2];
         eolCompare = param3.getContentAsLogicalScalar();
     }
     std::wstring res;
     FileDiff(filename1, filename2, eolCompare, res);
-    retval.push_back(ArrayOf::stringConstructor(res));
+    retval.push_back(ArrayOf::characterArrayConstructor(res));
     return retval;
 }
 //=============================================================================

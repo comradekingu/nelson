@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -24,11 +24,8 @@ using namespace Nelson;
 //=============================================================================
 const std::wstring gatewayName = L"console";
 //=============================================================================
-static const nlsGateway gateway[] =
-{
-    { "clc", Nelson::ConsoleGateway::clcBuiltin, 0, 0},
-    { "input", Nelson::ConsoleGateway::inputBuiltin, 1, 1 }
-};
+static const nlsGateway gateway[] = { { "clc", Nelson::ConsoleGateway::clcBuiltin, 0, 0 },
+    { "input", Nelson::ConsoleGateway::inputBuiltin, 1, 1 } };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)
 //=============================================================================

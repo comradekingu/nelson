@@ -22,7 +22,7 @@
     <ProjectGuid>{6980295E-7B0B-48FF-9D4A-317455813471}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>nlsLinear_algebra_builtin</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -175,6 +175,7 @@
     <ClCompile Include="..\cpp\logmBuiltin.cpp" />
     <ClCompile Include="..\cpp\rcondBuiltin.cpp" />
     <ClCompile Include="..\cpp\schurBuiltin.cpp" />
+    <ClCompile Include="..\cpp\sqrtmBuiltin.cpp" />
     <ClCompile Include="..\cpp\svdBuiltin.cpp" />
     <ClCompile Include="..\cpp\traceBuiltin.cpp" />
     <ClCompile Include="dllMain.c" />
@@ -222,6 +223,7 @@
     <ClInclude Include="..\include\nlsLinear_algebra_builtin_exports.h" />
     <ClInclude Include="..\include\rcondBuiltin.hpp" />
     <ClInclude Include="..\include\schurBuiltin.hpp" />
+    <ClInclude Include="..\include\sqrtmBuiltin.hpp" />
     <ClInclude Include="..\include\svdBuiltin.hpp" />
     <ClInclude Include="..\include\traceBuiltin.hpp" />
   </ItemGroup>

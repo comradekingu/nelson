@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -18,14 +18,18 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsCom_engine_exports.h"
-#include "ComHandleObject.hpp"
 #include "ArrayOf.hpp"
+#include "ComHandleObject.hpp"
+#include "nlsCom_engine_exports.h"
 //=============================================================================
 namespace Nelson {
-    NLSCOM_ENGINE_IMPEXP ComHandleObject *ActiveXServer(std::wstring progId, std::wstring machine);
-    NLSCOM_ENGINE_IMPEXP ComHandleObject *GetRunningActiveXServer(std::wstring progId);
-    NLSCOM_ENGINE_IMPEXP ArrayOf ActiveXContolList();
-    NLSCOM_ENGINE_IMPEXP ArrayOf ActiveXServerList();
-}
+NLSCOM_ENGINE_IMPEXP ComHandleObject*
+ActiveXServer(std::wstring progId, std::wstring machine);
+NLSCOM_ENGINE_IMPEXP ComHandleObject*
+GetRunningActiveXServer(std::wstring progId);
+NLSCOM_ENGINE_IMPEXP ArrayOf
+ActiveXContolList();
+NLSCOM_ENGINE_IMPEXP ArrayOf
+ActiveXServerList();
+} // namespace Nelson
 //=============================================================================

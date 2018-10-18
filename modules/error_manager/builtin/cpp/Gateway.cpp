@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -18,18 +18,19 @@
 //=============================================================================
 #include "NelsonGateway.hpp"
 #include "errorBuiltin.hpp"
-#include "warningBuiltin.hpp"
 #include "lasterrorBuiltin.hpp"
+#include "lastwarnBuiltin.hpp"
+#include "warningBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 const std::wstring gatewayName = L"error_manager";
 //=============================================================================
-static const nlsGateway gateway[] =
-{
+static const nlsGateway gateway[] = {
     { "error", Nelson::ErrorManagerGateway::errorBuiltin, 0, 1 },
-    { "warning", Nelson::ErrorManagerGateway::warningBuiltin, 0, 1 },
-    { "lasterror", Nelson::ErrorManagerGateway::lasterrorBuiltin, 1, 1 }
+    { "warning", Nelson::ErrorManagerGateway::warningBuiltin, 1, -1 },
+    { "lasterror", Nelson::ErrorManagerGateway::lasterrorBuiltin, 1, 1 },
+    { "lastwarn", Nelson::ErrorManagerGateway::lastwarnBuiltin, 2, 2 },
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

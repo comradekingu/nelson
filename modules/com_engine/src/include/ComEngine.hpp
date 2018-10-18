@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -16,22 +16,27 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "nlsCom_engine_exports.h"
 #include "ArrayOf.hpp"
 #include "ComHandleObject.hpp"
+#include "nlsCom_engine_exports.h"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    class NLSCOM_ENGINE_IMPEXP ComEngine {
-    public:
-        static ComEngine *getInstance();
-        void create();
-        void finish();
-    private:
-        bool isInitialized;
-        ComEngine();
-        static ComEngine *m_pInstance;
-    };
-    //=============================================================================
-}
+//=============================================================================
+class NLSCOM_ENGINE_IMPEXP ComEngine
+{
+public:
+    static ComEngine*
+    getInstance();
+    void
+    create();
+    void
+    finish();
+
+private:
+    bool isInitialized;
+    ComEngine();
+    static ComEngine* m_pInstance;
+};
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

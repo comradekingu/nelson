@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -26,4 +26,21 @@
 
 #if (defined(_LP64) || defined(_WIN64))
 #define NLS_INDEX_TYPE_64
+#endif
+
+#define CAT_3_STRINGS(a, b, c) a##b##c
+#ifdef _MSC_VER
+#ifdef _DEBUG
+#ifdef _WIN64
+#define BOOST_TARGET "vc141-mt-gd-x64-1_67"
+#else
+#define BOOST_TARGET "vc141-mt-gd-x32-1_67"
+#endif
+#else
+#ifdef _WIN64
+#define BOOST_TARGET "vc141-mt-x64-1_67"
+#else
+#define BOOST_TARGET "vc141-mt-x32-1_67"
+#endif
+#endif
 #endif

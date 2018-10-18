@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -17,15 +17,13 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 minimal_tests = {
- { 'assert_functions' };
- { 'tests_manager', {'test_adv_cli_mode', 'test_cli_mode', 'test_interactive_mode', 'test_mac_only', 'test_not_fixed'} };
- { 'random' }; 
- { 'sparse' };
- { 'integer' };
- { 'elementary_functions' };
- { 'string' };
- { 'types' };
- { 'stream_manager' }; 
-
-
+{ 'assert_functions' };
+{ 'tests_manager', {'test_adv_cli_mode', 'test_cli_mode', 'test_interactive_mode', 'test_mac_only', 'test_not_fixed'} };
+{ 'random' }; 
+{ 'sparse' };
+{ 'integer' };
+{ 'elementary_functions' };
+{ 'string' };
+{ 'types' };
+{ 'stream_manager' }; 
 };

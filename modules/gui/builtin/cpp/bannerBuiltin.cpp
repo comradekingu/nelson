@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -17,43 +17,35 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "bannerBuiltin.hpp"
-#include "Error.hpp"
-#include "Interface.hpp"
-#include "GuiTerminal.hpp"
 #include "Banner.hpp"
+#include "Error.hpp"
+#include "GuiTerminal.hpp"
+#include "Interface.hpp"
 #include "NelSon_engine_mode.h"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::GuiGateway::bannerBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::GuiGateway::bannerBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    if (argIn.size() != 0)
-    {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    if (argIn.size() != 0) {
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    if (nLhs != 0)
-    {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+    if (nLhs != 0) {
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    if (eval)
-    {
-        Interface *io = eval->getInterface();
-        if (io)
-        {
+    if (eval) {
+        Interface* io = eval->getInterface();
+        if (io) {
             NELSON_ENGINE_MODE _mode = (NELSON_ENGINE_MODE)eval->getNelsonEngineMode();
-            switch (_mode)
-            {
-                case GUI:
-                {
-                    GuiTerminal *gtio = (GuiTerminal *)io;
-                    gtio->banner();
-                }
-                break;
-                default:
-                {
-                    Banner(eval);
-                }
-                break;
+            switch (_mode) {
+            case GUI: {
+                GuiTerminal* gtio = (GuiTerminal*)io;
+                gtio->banner();
+            } break;
+            default: {
+                Banner(eval);
+            } break;
             }
         }
     }

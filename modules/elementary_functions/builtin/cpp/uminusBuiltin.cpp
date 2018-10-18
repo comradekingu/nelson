@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -18,18 +18,40 @@
 //=============================================================================
 #include "uminusBuiltin.hpp"
 #include "Error.hpp"
+#include "UnaryMinus.hpp"
 #include "OverloadUnaryOperator.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::ElementaryFunctionsGateway::uminusBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::ElementaryFunctionsGateway::uminusBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() != 1)
-    {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    if (argIn.size() != 1) {
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    retval.push_back(OverloadUnaryOperator(eval, argIn[0], "uminus"));
+    ArrayOf arg1 = argIn[0];
+    bool bSuccess = false;
+    ArrayOf a = argIn[0];
+    ArrayOf res;
+    if (eval->mustOverloadBasicTypes()) {
+        res = OverloadUnaryOperator(eval, a, "uminus", bSuccess);
+    }
+    if (!bSuccess) {
+        bool needToOverload = false;
+        res = UnaryMinus(a, needToOverload);
+        if (needToOverload) {
+            res = OverloadUnaryOperator(eval, a, "uminus");
+            if (bSuccess) {
+                retval.push_back(res);
+            }
+        } else {
+            retval.push_back(res);
+        }
+    } else {
+        retval.push_back(res);
+    }
     return retval;
 }
 //=============================================================================

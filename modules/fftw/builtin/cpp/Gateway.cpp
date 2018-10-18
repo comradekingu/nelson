@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -18,15 +18,14 @@
 //=============================================================================
 #include "NelsonGateway.hpp"
 #include "fftBuiltin.hpp"
-#include "ifftBuiltin.hpp"
 #include "fftwBuiltin.hpp"
+#include "ifftBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 const std::wstring gatewayName = L"fftw";
 //=============================================================================
-static const nlsGateway gateway[] =
-{
+static const nlsGateway gateway[] = {
     { "fft", Nelson::FftwGateway::fftBuiltin, 1, 3 },
     { "ifft", Nelson::FftwGateway::ifftBuiltin, 1, 3 },
     { "fftw", Nelson::FftwGateway::fftwBuiltin, 1, 2 },

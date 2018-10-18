@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -18,12 +18,14 @@
 //=============================================================================
 #pragma once
 //=============================================================================
+#include "nlsGui_exports.h"
 #include <QtCore/QString>
 #include <string>
-#include "nlsGui_exports.h"
 //=============================================================================
 namespace Nelson {
-    NLSGUI_IMPEXP std::wstring QStringTowstring(QString qstr);
-    NLSGUI_IMPEXP QString wstringToQString(std::wstring wstr);
-}
+NLSGUI_IMPEXP std::wstring
+QStringTowstring(QString qstr);
+NLSGUI_IMPEXP QString
+wstringToQString(std::wstring wstr);
+} // namespace Nelson
 //=============================================================================

@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -18,11 +18,20 @@
 //=============================================================================
 #pragma once
 //=============================================================================
+#include <string>
 #include "Evaluator.hpp"
 #include "nlsOverload_exports.h"
 #include "ArrayOf.hpp"
 //=============================================================================
 namespace Nelson {
-    NLSOVERLOAD_IMPEXP ArrayOfVector OverloadFunction(Evaluator *eval, int nLhs, const ArrayOfVector& argIn, bool &bSuccess);
+//=============================================================================
+NLSOVERLOAD_IMPEXP ArrayOfVector
+OverloadFunction(Evaluator* eval, int nLhs, const ArrayOfVector& argIn,
+    const std::string& functionName, bool& bSuccess);
+//=============================================================================
+NLSOVERLOAD_IMPEXP ArrayOfVector
+OverloadFunction(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn, const std::string& functionName);
+//=============================================================================
 }
 //=============================================================================

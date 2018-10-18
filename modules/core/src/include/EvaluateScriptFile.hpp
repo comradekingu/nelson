@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -19,9 +19,10 @@
 #pragma once
 //=============================================================================
 #include "Evaluator.hpp"
-#include"nlsCore_exports.h"
+#include "nlsCore_exports.h"
 //=============================================================================
 namespace Nelson {
-    NLSCORE_IMPEXP bool EvaluateScriptFile(Evaluator* eval, const wchar_t *filename, bool bChangeDirectory = false);
+NLSCORE_IMPEXP bool
+EvaluateScriptFile(Evaluator* eval, const wchar_t* filename, bool bChangeDirectory = false);
 }
 //=============================================================================

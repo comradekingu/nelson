@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -18,23 +18,29 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
-#include "nlsHelp_tools_exports.h"
 #include "XmlDocGenericItem.hpp"
+#include "nlsHelp_tools_exports.h"
+#include <string>
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    class NLSHELP_TOOLS_IMPEXP XmlDocChapterRefItem : public XmlDocGenericItem {
-    private:
-        std::wstring _description;
-        std::wstring _linkname;
-        std::wstring _linkurl;
-    public:
-        XmlDocChapterRefItem(std::wstring linkname, std::wstring linkurl, std::wstring description);
-        ~XmlDocChapterRefItem();
-        std::wstring getItemType();
-        bool writeAsHtml(std::string &utf8stream);
-    };
-    //=============================================================================
-}
+//=============================================================================
+class NLSHELP_TOOLS_IMPEXP XmlDocChapterRefItem : public XmlDocGenericItem
+{
+private:
+    std::wstring _description;
+    std::wstring _linkname;
+    std::wstring _linkurl;
+
+public:
+    XmlDocChapterRefItem(std::wstring linkname, std::wstring linkurl, std::wstring description);
+    ~XmlDocChapterRefItem();
+    std::wstring
+    getItemType();
+    bool
+    writeAsHtml(std::string& utf8stream);
+    bool
+    writeAsMarkdown(std::string& utf8stream);
+};
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

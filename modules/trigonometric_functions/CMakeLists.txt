@@ -1,5 +1,5 @@
 #==============================================================================
-# Copyright (c) 2016-2017 Allan CORNET (Nelson)
+# Copyright (c) 2016-2018 Allan CORNET (Nelson)
 #==============================================================================
 # LICENCE_BLOCK_BEGIN
 # This program is free software: you can redistribute it and/or modify
@@ -27,6 +27,8 @@ ${CMAKE_CURRENT_SOURCE_DIR}/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../error_manager/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
+${CMAKE_CURRENT_SOURCE_DIR}/../linear_algebra/src/include
+${CMAKE_CURRENT_SOURCE_DIR}/../api_nelson/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
 )
 #==============================================================================	
@@ -46,6 +48,11 @@ target_link_libraries(${module_library_name}
 nlsError_manager
 nlsTypes
 nlsI18n
+nlsApi_nelson
+${BLAS_LIBRARIES}
+${LAPACK_LIBRARIES}
+${LAPACKE_LIBRARIES}
+${MAC_LAPACKE_LIBRARY}
 )
 #==============================================================================	
 set_target_properties(${module_library_name}

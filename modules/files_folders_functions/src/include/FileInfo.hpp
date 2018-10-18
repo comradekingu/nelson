@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -18,29 +18,36 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
 #include "nlsFiles_folders_functions_exports.h"
+#include <string>
 //=============================================================================
 namespace Nelson {
-    class NLSFILES_FOLDERS_FUNCTIONS_IMPEXP FileInfo {
-    private:
+class NLSFILES_FOLDERS_FUNCTIONS_IMPEXP FileInfo
+{
+private:
 #ifdef _MSC_VER
 #pragma warning(disable : 4251)
 #endif
-        std::wstring filename;
-        std::wstring name;
-        std::wstring date;
-        bool isdir;
-        double bytes;
-        double datenum;
-    public:
-        FileInfo(std::wstring _filename, bool fullpath = false);
-        ~FileInfo();
-        std::wstring getName();
-        std::wstring getDate();
-        bool isDir();
-        double getBytes();
-        double getDatenum();
-    };
-}
+    std::wstring filename;
+    std::wstring name;
+    std::wstring date;
+    bool isdir;
+    double bytes;
+    double datenum;
+
+public:
+    FileInfo(const std::wstring& _filename, bool fullpath = false);
+    ~FileInfo();
+    std::wstring
+    getName();
+    std::wstring
+    getDate();
+    bool
+    isDir();
+    double
+    getBytes();
+    double
+    getDatenum();
+};
+} // namespace Nelson
 //=============================================================================

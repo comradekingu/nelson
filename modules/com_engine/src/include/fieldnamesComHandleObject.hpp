@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -18,14 +18,16 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsCom_engine_exports.h"
 #include "ArrayOf.hpp"
 #include "ComHandleObject.hpp"
+#include "nlsCom_engine_exports.h"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    NLSCOM_ENGINE_IMPEXP void fieldnamesComHandleObject(ArrayOf A, bool fullList, wstringVector &fieldnames);
-    NLSCOM_ENGINE_IMPEXP void fieldnamesComHandleObject(ComHandleObject *comHandle, bool fullList, wstringVector &fieldnames);
-    //=============================================================================
-}
+//=============================================================================
+NLSCOM_ENGINE_IMPEXP void
+fieldnamesComHandleObject(ArrayOf A, bool fullList, wstringVector& fieldnames);
+NLSCOM_ENGINE_IMPEXP void
+fieldnamesComHandleObject(ComHandleObject* comHandle, bool fullList, wstringVector& fieldnames);
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

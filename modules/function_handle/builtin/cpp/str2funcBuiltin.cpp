@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -17,35 +17,31 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "str2funcBuiltin.hpp"
-#include "StringToFunctionHandle.hpp"
 #include "Error.hpp"
+#include "StringToFunctionHandle.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::FunctionHandleGateway::str2funcBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::FunctionHandleGateway::str2funcBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (nLhs > 1)
-    {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+    if (nLhs > 1) {
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    if (argIn.size() != 1)
-    {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    if (argIn.size() != 1) {
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     std::wstring wfunctionname;
-    if (argIn[0].isSingleString())
-    {
+    if (argIn[0].isRowVectorCharacterArray()) {
         wfunctionname = argIn[0].getContentAsWideString();
-    }
-    else
-    {
-        Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
+    } else {
+        Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
     }
     function_handle fptr = StringToFunctionHandle(eval, wfunctionname);
-    if (fptr == 0)
-    {
-        Error(eval, _W("A valid function name expected."));
+    if (fptr == 0) {
+        Error(_W("A valid function name expected."));
     }
     retval.push_back(ArrayOf::functionHandleConstructor(wfunctionname, fptr));
     return retval;

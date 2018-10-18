@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -22,76 +22,53 @@
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::HistoryManagerGateway::history_managerBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::HistoryManagerGateway::history_managerBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    if (nLhs > 1)
-    {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+    if (nLhs > 1) {
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOfVector retval;
-    if (argIn.size() == 0)
-    {
-        if (eval->HistoryManager)
-        {
-            retval.push_back(ArrayOf::stringConstructor(L"on"));
+    if (argIn.size() == 0) {
+        if (eval->HistoryManager) {
+            retval.push_back(ArrayOf::characterArrayConstructor(L"on"));
+        } else {
+            retval.push_back(ArrayOf::characterArrayConstructor(L"off"));
         }
-        else
-        {
-            retval.push_back(ArrayOf::stringConstructor(L"off"));
-        }
-    }
-    else if (argIn.size() == 1)
-    {
-        if (argIn[0].isString())
-        {
+    } else if (argIn.size() == 1) {
+        if (argIn[0].isCharacterArray()) {
             bool bOldMode = false;
             std::wstring arg = argIn[0].getContentAsWideString();
-            if (eval->HistoryManager)
-            {
+            if (eval->HistoryManager) {
                 bOldMode = true;
-            }
-            else
-            {
+            } else {
                 bOldMode = false;
             }
-            if (arg.compare(L"on") == 0)
-            {
-                if (eval->HistoryManager == nullptr)
-                {
-                    HistoryManager *ptrHistoryManager = new HistoryManager();
+            if (arg.compare(L"on") == 0) {
+                if (eval->HistoryManager == nullptr) {
+                    HistoryManager* ptrHistoryManager = new HistoryManager();
                     eval->HistoryManager = (void*)ptrHistoryManager;
                 }
-            }
-            else if (arg.compare(L"off") == 0)
-            {
-                if (eval->HistoryManager)
-                {
-                    HistoryManager *ptrHistoryManager = (HistoryManager *)eval->HistoryManager;
+            } else if (arg.compare(L"off") == 0) {
+                if (eval->HistoryManager) {
+                    HistoryManager* ptrHistoryManager = (HistoryManager*)eval->HistoryManager;
                     delete ptrHistoryManager;
                 }
                 eval->HistoryManager = nullptr;
+            } else {
+                Error(ERROR_WRONG_ARGUMENT_1_VALUE);
             }
-            else
-            {
-                Error(eval, ERROR_WRONG_ARGUMENT_1_VALUE);
+            if (bOldMode) {
+                retval.push_back(ArrayOf::characterArrayConstructor(L"on"));
+            } else {
+                retval.push_back(ArrayOf::characterArrayConstructor(L"off"));
             }
-            if (bOldMode)
-            {
-                retval.push_back(ArrayOf::stringConstructor(L"on"));
-            }
-            else
-            {
-                retval.push_back(ArrayOf::stringConstructor(L"off"));
-            }
+        } else {
+            Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
         }
-        else
-        {
-            Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
-        }
-    }
-    else
-    {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    } else {
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     return retval;
 }

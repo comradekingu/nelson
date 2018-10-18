@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -22,28 +22,25 @@
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::ComEngineGateway::COM_invokeBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::ComEngineGateway::COM_invokeBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    if (argIn.size() < 2)
-    {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    if (argIn.size() < 2) {
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    if (nLhs > 1)
-    {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+    if (nLhs > 1) {
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOf param2 = argIn[1];
     std::wstring methodname = param2.getContentAsWideString();
     ArrayOfVector params;
-    for (size_t k = 2; k < argIn.size(); k++)
-    {
+    for (size_t k = 2; k < argIn.size(); k++) {
         params.push_back(argIn[k]);
     }
     ArrayOfVector retval;
     bool haveFunctionReturn = false;
     ArrayOf res = invokeComHandleObject(argIn[0], methodname, params, haveFunctionReturn);
-    if (haveFunctionReturn)
-    {
+    if (haveFunctionReturn) {
         retval.push_back(res);
     }
     return retval;

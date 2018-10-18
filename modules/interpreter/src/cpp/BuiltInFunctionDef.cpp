@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -20,41 +20,42 @@
 #include "EvaluateBuiltinCatchRuntimeException.hpp"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    BuiltInFunctionDef::BuiltInFunctionDef()
-    {
-        fileName.clear();
-        retCount = 0;
-        argCount = 0;
-        fptr = nullptr;
-    }
-    //=============================================================================
-    BuiltInFunctionDef::~BuiltInFunctionDef()
-    {
-    }
-    //=============================================================================
-    ArrayOfVector BuiltInFunctionDef::evaluateFunction(Evaluator *eval,
-            ArrayOfVector& inputs, int nargout)
-    {
-        ArrayOfVector outputs;
-        eval->pushDebug(name, std::string("built-in ") + this->name);
-        try
-        {
-            outputs = EvaluateBuiltinCatchRuntimeException(eval, fptr, inputs, nargout);
-            eval->popDebug();
-            return outputs;
+//=============================================================================
+BuiltInFunctionDef::BuiltInFunctionDef()
+{
+    fileName.clear();
+    retCount = 0;
+    argCount = 0;
+    fptr = nullptr;
+}
+//=============================================================================
+BuiltInFunctionDef::~BuiltInFunctionDef() {}
+//=============================================================================
+ArrayOfVector
+BuiltInFunctionDef::evaluateFunction(Evaluator* eval, ArrayOfVector& inputs, int nargout)
+{
+    ArrayOfVector outputs;
+    eval->pushDebug(name, std::string("built-in ") + this->name);
+    size_t stackDepth = eval->cstack.size();
+    try {
+        outputs = EvaluateBuiltinCatchRuntimeException(eval, fptr, inputs, nargout);
+        while (eval->cstack.size() > stackDepth) {
+            eval->cstack.pop_back();
         }
-        catch (Exception& e)
-        {
-            e.what();
-            eval->popDebug();
-            throw;
+        eval->popDebug();
+        return outputs;
+    } catch (const Exception&) {
+        while (eval->cstack.size() > stackDepth) {
+            eval->cstack.pop_back();
         }
+        eval->popDebug();
+        throw;
     }
-    //=============================================================================
-    void BuiltInFunctionDef::printMe(Interface *io)
-    {
-    }
-    //=============================================================================
+}
+//=============================================================================
+void
+BuiltInFunctionDef::printMe(Interface* io)
+{}
+//=============================================================================
 }
 //=============================================================================

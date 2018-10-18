@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -23,19 +23,20 @@ using namespace Nelson;
 //=============================================================================
 const std::wstring gatewayName = L"i18n";
 //=============================================================================
-static const nlsGateway gateway[] =
-{
+static const nlsGateway gateway[] = {
     { "gettext", Nelson::I18nGateway::gettextBuiltin, 1, 1 },
     { "_", Nelson::I18nGateway::gettextBuiltin, 1, 1 },
 
 };
 //=============================================================================
-static bool initializeI18nModule(Nelson::Evaluator* eval)
+static bool
+initializeI18nModule(Nelson::Evaluator* eval)
 {
     return true;
 }
 //=============================================================================
-static bool finishI18nModule(Nelson::Evaluator* eval)
+static bool
+finishI18nModule(Nelson::Evaluator* eval)
 {
     return true;
 }
@@ -48,4 +49,3 @@ NLSGATEWAYREMOVEEXTENDED(gateway, (void*)finishI18nModule)
 //=============================================================================
 NLSGATEWAYNAME()
 //=============================================================================
-

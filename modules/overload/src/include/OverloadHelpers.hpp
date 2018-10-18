@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -18,10 +18,43 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsOverload_exports.h"
 #include "ArrayOf.hpp"
+#include "Evaluator.hpp"
+#include "Error.hpp"
 //=============================================================================
 namespace Nelson {
-    NLSOVERLOAD_IMPEXP
+//=============================================================================
+static bool
+OverloadFindFunction(Evaluator* eval, const std::string& forcedFunctionName, FunctionDef** funcDef)
+{
+    Context* context = eval->getContext();
+    return context->lookupFunction(forcedFunctionName, *funcDef);
+}
+//=============================================================================
+static ArrayOf
+callOverloadedFunction(Evaluator* eval, ArrayOfVector argsIn,
+    const std::string& OverloadNameDesired, bool wasFound, FunctionDef* funcDef, bool bRaiseError)
+{
+    ArrayOf res;
+    if (!wasFound) {
+        if (bRaiseError) {
+            Error(std::string("function ") + OverloadNameDesired + " undefined.");
+        } else {
+            res = ArrayOf::emptyConstructor();
+        }
+    } else {
+        int nargout = 1;
+        ArrayOfVector val = funcDef->evaluateFunction(eval, argsIn, nargout);
+        if (val.size() != 1) {
+            if (bRaiseError) {
+                Error(std::string("function ") + funcDef->name
+                    + " only one output argument expected.");
+            }
+            return ArrayOf::emptyConstructor();
+        }
+        res = val[0];
+    }
+    return res;
+}
 }
 //=============================================================================

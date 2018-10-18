@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -19,46 +19,54 @@
 #include <Eigen/Dense>
 #include <Eigen/Sparse>
 #include "HorzCatSparseLogical.hpp"
+#include "Error.hpp"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    ArrayOf HorzCatSparseLogical(ArrayOf A, ArrayOf B)
-    {
-        ArrayOf C;
-        if (A.isEmpty(true))
-        {
-            ArrayOf C(B);
-            return C;
-        }
-        if (B.isEmpty(true))
-        {
-            ArrayOf C(A);
-            return C;
-        }
-        Eigen::SparseMatrix<logical, 0, signedIndexType> *spMatA = (Eigen::SparseMatrix<logical, 0, signedIndexType> *)A.getSparseDataPointer();
-        Eigen::SparseMatrix<logical, 0, signedIndexType> *spMatB = (Eigen::SparseMatrix<logical, 0, signedIndexType> *)B.getSparseDataPointer();
-        Eigen::SparseMatrix<logical, 0, signedIndexType> *spMatC;
-        Dimensions dimsA = A.getDimensions();
-        Dimensions dimsB = B.getDimensions();
-        indexType newColumnsSize = dimsA.getColumns() + dimsB.getColumns();
-        indexType newRowsSize = dimsA.getRows();
-        indexType newSize = newColumnsSize * newRowsSize;
-        Dimensions dimsC = Dimensions(newRowsSize, newColumnsSize);
-        try
-        {
-            spMatC = new Eigen::SparseMatrix<logical, 0, signedIndexType>(newRowsSize, newColumnsSize);
-        }
-        catch (std::bad_alloc &e)
-        {
-            e.what();
-            spMatC = nullptr;
-            throw Exception(ERROR_MEMORY_ALLOCATION);
-        }
-        spMatC->middleCols(0, spMatA->cols()) = *spMatA;
-        spMatC->middleCols(spMatA->cols(), spMatB->cols()) = *spMatB;
-        C = ArrayOf(NLS_LOGICAL, dimsC, (void*)spMatC, true);
+//=============================================================================
+ArrayOf
+HorzCatSparseLogical(ArrayOf A, ArrayOf B)
+{
+    ArrayOf C;
+    if (!A.isSparseLogicalType()) {
+        Error(ERROR_WRONG_ARGUMENT_1_TYPE_SPARSE_LOGICAL_EXPECTED);
+    }
+    if (!B.isSparseLogicalType()) {
+        Error(ERROR_WRONG_ARGUMENT_2_TYPE_SPARSE_LOGICAL_EXPECTED);
+    }
+    if (A.isEmpty(false)) {
+        ArrayOf C(B);
         return C;
     }
-    //=============================================================================
+    if (B.isEmpty(false)) {
+        ArrayOf C(A);
+        return C;
+    }
+    Dimensions dimsA = A.getDimensions();
+    Dimensions dimsB = B.getDimensions();
+    if (dimsA.getRows() != dimsB.getRows()) {
+        Error(ERROR_DIMENSIONS_NOT_CONSISTENT);
+    }
+    Eigen::SparseMatrix<logical, 0, signedIndexType>* spMatA
+        = (Eigen::SparseMatrix<logical, 0, signedIndexType>*)A.getSparseDataPointer();
+    Eigen::SparseMatrix<logical, 0, signedIndexType>* spMatB
+        = (Eigen::SparseMatrix<logical, 0, signedIndexType>*)B.getSparseDataPointer();
+    Eigen::SparseMatrix<logical, 0, signedIndexType>* spMatC;
+    indexType newColumnsSize = dimsA.getColumns() + dimsB.getColumns();
+    indexType newRowsSize = dimsA.getRows();
+    indexType newSize = newColumnsSize * newRowsSize;
+    Dimensions dimsC = Dimensions(newRowsSize, newColumnsSize);
+    try {
+        spMatC = new Eigen::SparseMatrix<logical, 0, signedIndexType>(newRowsSize, newColumnsSize);
+    } catch (const std::bad_alloc& e) {
+        e.what();
+        spMatC = nullptr;
+        Error(ERROR_MEMORY_ALLOCATION);
+    }
+    spMatC->middleCols(0, spMatA->cols()) = *spMatA;
+    spMatC->middleCols(spMatA->cols(), spMatB->cols()) = *spMatB;
+    C = ArrayOf(NLS_LOGICAL, dimsC, (void*)spMatC, true);
+    return C;
+}
+//=============================================================================
 }
 //=============================================================================

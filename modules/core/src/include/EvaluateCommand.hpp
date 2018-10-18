@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -16,14 +16,25 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#pragma once
+//=============================================================================
 #define _CRT_SECURE_NO_WARNINGS
 //=============================================================================
-#include "nlsCore_exports.h"
+#include "Context.hpp"
 #include "Evaluator.hpp"
+#include "nlsCore_exports.h"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    NLSCORE_IMPEXP bool EvaluateCommand(Evaluator *eval, std::wstring command, bool bCatch);
-    NLSCORE_IMPEXP bool EvaluateCommand(Evaluator *eval, std::string command, bool bCatch);
-}
+//=============================================================================
+NLSCORE_IMPEXP bool
+EvaluateCommand(Evaluator* eval, std::wstring command, bool bCatch);
+NLSCORE_IMPEXP bool
+EvaluateCommand(Evaluator* eval, std::string command, bool bCatch);
+NLSCORE_IMPEXP ArrayOfVector
+EvaluateCommand(Evaluator* eval, int nLhs, std::wstring command, std::wstring catchCommand);
+NLSCORE_IMPEXP ArrayOfVector
+EvaluateInCommand(Evaluator* eval, int nLhs, SCOPE_LEVEL scope, std::wstring command);
+NLSCORE_IMPEXP ArrayOfVector
+EvaluateConsoleCommand(Evaluator* eval, int nLhs, std::wstring command, std::wstring catchCommand);
+} // namespace Nelson
 //=============================================================================

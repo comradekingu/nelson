@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -19,20 +19,20 @@
 #pragma once
 //=============================================================================
 namespace Nelson {
-    /**
-     * These are the different parser states that
-     * the parser can be in after a successful parse:
-     *    - ScriptBlock corresponds to a parse of a sequence
-     *      of statements
-     *    - FuncDef corresponds to a parse of a function def
-     *    - ParseError corresponds to a syntax error when
-     *      parsing.
-     */
-    typedef enum
-    {
-        ScriptBlock,
-        FuncDef,
-        ParseError
-    } ParserState;
-}
+/**
+ * These are the different parser states that
+ * the parser can be in after a successful parse:
+ *    - ScriptBlock corresponds to a parse of a sequence
+ *      of statements
+ *    - FuncDef corresponds to a parse of a function def
+ *    - ParseError corresponds to a syntax error when
+ *      parsing.
+ */
+typedef enum
+{
+    ScriptBlock,
+    FuncDef,
+    ParseError
+} ParserState;
+} // namespace Nelson
 //=============================================================================

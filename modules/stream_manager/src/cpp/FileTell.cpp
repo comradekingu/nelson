@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -19,24 +19,22 @@
 #include "FileTell.hpp"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    int64 FileTell(File *fp)
-    {
-        int64 pos = -1L;
-        if (fp)
-        {
-            if (fp->isInterfaceMethod())
-            {
-                return pos;
-            }
-            FILE *fileptr = (FILE*)fp->getFilePointer();
-            if (fileptr)
-            {
-                pos = static_cast<int64>(NLSFTELL(fileptr));
-            }
+//=============================================================================
+int64
+FileTell(File* fp)
+{
+    int64 pos = -1L;
+    if (fp) {
+        if (fp->isInterfaceMethod()) {
+            return pos;
         }
-        return pos;
+        FILE* fileptr = (FILE*)fp->getFilePointer();
+        if (fileptr) {
+            pos = static_cast<int64>(NLSFTELL(fileptr));
+        }
     }
-    //=============================================================================
+    return pos;
+}
+//=============================================================================
 }
 //=============================================================================

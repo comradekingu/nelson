@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -18,15 +18,16 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsInterpreter_exports.h"
 #include "FunctionDef.hpp"
+#include "nlsInterpreter_exports.h"
 //=============================================================================
 
 namespace Nelson {
 
-    class NLSINTERPRETER_IMPEXP ByteCodeFunctionDef : public FunctionDef {
-    public:
-    private:
-        std::string name;
-        std::wstring fullfilename;
-    }
+class NLSINTERPRETER_IMPEXP ByteCodeFunctionDef : public FunctionDef
+{
+public:
+private:
+    std::string name;
+    std::wstring fullfilename;
+}

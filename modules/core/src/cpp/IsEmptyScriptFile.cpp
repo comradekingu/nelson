@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -22,36 +22,30 @@
 #include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
-    bool IsEmptyScriptFile(std::wstring filename)
-    {
-        FILE *fr;
+bool
+IsEmptyScriptFile(std::wstring filename)
+{
+    FILE* fr;
 #ifdef _MSC_VER
-        fr = _wfopen(filename.c_str(), L"rt");
+    fr = _wfopen(filename.c_str(), L"rt");
 #else
-        fr = fopen(wstring_to_utf8(filename).c_str(), "rt");
+    fr = fopen(wstring_to_utf8(filename).c_str(), "rt");
 #endif
-        if (fr)
-        {
-            int ch;
-            while (EOF != (ch = getc(fr)))
-            {
-                if ((ch == ' ') || (ch == '\r') || (ch == '\n'))
-                {
-                }
-                else
-                {
-                    fclose(fr);
-                    return false;
-                }
+    if (fr) {
+        int ch;
+        while (EOF != (ch = getc(fr))) {
+            bool isCharManaged = (ch == ' ') || (ch == '\r') || (ch == '\n');
+            if (!isCharManaged) {
+                fclose(fr);
+                return false;
             }
-            fclose(fr);
-            return  true;
         }
-        else
-        {
-            return true;
-        }
-        return false;
+        fclose(fr);
+        return true;
+    } else {
+        return true;
     }
+    return false;
+}
 }
 //=============================================================================

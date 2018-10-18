@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -20,73 +20,52 @@
 #include "execstrBuiltin.hpp"
 #include "Error.hpp"
 #include "EvaluateCommand.hpp"
-#include "Exception.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::CoreGateway::execstrBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::CoreGateway::execstrBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     bool bErrorCatch = false;
-    if (argIn.size() == 0 || argIn.size() > 2)
-    {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    if (argIn.size() == 0 || argIn.size() > 2) {
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    if (nLhs > 1)
-    {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+    if (nLhs > 1) {
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     std::wstring line;
-    if (argIn[0].isSingleString())
-    {
+    if (argIn[0].isRowVectorCharacterArray()) {
         line = argIn[0].getContentAsWideString();
+    } else {
+        Error(_W("#1 string expected."));
     }
-    else
-    {
-        Error(eval, _W("#1 string expected."));
-    }
-    if (argIn.size() > 1)
-    {
-        if (argIn[1].isSingleString())
-        {
+    if (argIn.size() > 1) {
+        if (argIn[1].isRowVectorCharacterArray()) {
             std::wstring catchstr;
             catchstr = argIn[1].getContentAsWideString();
-            if ((catchstr.compare(L"errcatch") == 0) || (catchstr.compare(L"nocatch") == 0))
-            {
-                if (catchstr.compare(L"errcatch") == 0)
-                {
+            if ((catchstr.compare(L"errcatch") == 0) || (catchstr.compare(L"nocatch") == 0)) {
+                if (catchstr.compare(L"errcatch") == 0) {
                     bErrorCatch = true;
-                }
-                else
-                {
+                } else {
                     bErrorCatch = false;
                 }
+            } else {
+                Error(_W("#2 'errcatch' or 'nocatch' expected."));
             }
-            else
-            {
-                Error(eval, _W("#2 'errcatch' or 'nocatch' expected."));
-            }
-        }
-        else
-        {
-            Error(eval, _W("#2 string expected."));
+        } else {
+            Error(_W("#2 string expected."));
         }
     }
-    if (bErrorCatch)
-    {
+    if (bErrorCatch) {
         bool bRes = true;
-        try
-        {
+        try {
             EvaluateCommand(eval, line, true);
-        }
-        catch (const Exception &)
-        {
+        } catch (const Exception&) {
             bRes = false;
         }
         retval.push_back(ArrayOf::logicalConstructor(bRes));
-    }
-    else
-    {
+    } else {
         EvaluateCommand(eval, line, false);
     }
     return retval;

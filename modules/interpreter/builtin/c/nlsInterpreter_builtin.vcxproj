@@ -22,7 +22,7 @@
     <ProjectGuid>{ADF7A34A-5D81-4F48-B972-B583210352B3}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>nlsInterpreter_builtin</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -181,6 +181,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\cpp\dbstackBuiltin.cpp" />
     <ClCompile Include="..\cpp\iskeywordBuiltin.cpp" />
     <ClCompile Include="..\cpp\Gateway.cpp" />
     <ClCompile Include="..\cpp\max_recursion_depthBuiltin.cpp" />
@@ -192,6 +193,7 @@
     <Text Include="..\..\CMakeLists.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\include\dbstackBuiltin.hpp" />
     <ClInclude Include="..\include\iskeywordBuiltin.hpp" />
     <ClInclude Include="..\include\max_recursion_depthBuiltin.hpp" />
     <ClInclude Include="..\include\nlsInterpreter_builtin_exports.h" />

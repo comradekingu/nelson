@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -16,72 +16,59 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <QtQml/QQmlComponent>
-#include <QtQml/QQmlEngine>
-#include <QtGui/QWindow>
 #include "DeleteQmlHandleObject.hpp"
 #include "HandleManager.hpp"
-#include "QmlHandleObject.hpp"
 #include "MainGuiObject.hpp"
+#include "QmlHandleObject.hpp"
+#include <QtGui/QWindow>
+#include <QtQml/QQmlComponent>
+#include <QtQml/QQmlEngine>
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    bool DeleteQmlHandleObject(ArrayOf A)
-    {
-        bool res = false;
-        if (A.isHandle())
-        {
-            if (!A.isEmpty())
-            {
-                Dimensions dims = A.getDimensions();
-                nelson_handle *qp = (nelson_handle*)A.getDataPointer();
-                for (size_t k = 0; k < dims.getElementCount(); k++)
-                {
-                    nelson_handle hl = qp[k];
-                    HandleGenericObject *hlObj = HandleManager::getInstance()->getPointer(hl);
-                    if (hlObj)
-                    {
-                        if (hlObj->getCategory() != QOBJECT_CATEGORY_STR)
-                        {
-                            throw Exception(_W("QObject handle expected."));
-                        }
-                        QmlHandleObject *qmlhandleobj = (QmlHandleObject *)hlObj;
-                        void *ptr = qmlhandleobj->getPointer();
-                        if (ptr)
-                        {
-                            QObject *qobj = (QObject *)ptr;
-                            QObject * qobjMainWindow = (QObject *)GetMainGuiObject();
-                            if (qobj == qobjMainWindow)
-                            {
-                                qmlhandleobj->setPointer(nullptr);
-                            }
-                            else
-                            {
-                                if (qobj->isWindowType())
-                                {
-                                    QWindow *w = static_cast<QWindow*>(qobj);
-                                    w->destroy();
-                                }
-                                else
-                                {
-                                    delete qobj;
-                                }
-                            }
-                            qmlhandleobj->setPointer(nullptr);
-                        }
-                        delete qmlhandleobj;
-                        HandleManager::getInstance()->removeHandle(hl);
-                        res = true;
+//=============================================================================
+bool
+DeleteQmlHandleObject(ArrayOf A)
+{
+    bool res = false;
+    if (A.isHandle()) {
+        if (!A.isEmpty()) {
+            Dimensions dims = A.getDimensions();
+            nelson_handle* qp = (nelson_handle*)A.getDataPointer();
+            for (indexType k = 0; k < dims.getElementCount(); k++) {
+                nelson_handle hl = qp[k];
+                HandleGenericObject* hlObj = HandleManager::getInstance()->getPointer(hl);
+                if (hlObj) {
+                    if (hlObj->getCategory() != QOBJECT_CATEGORY_STR) {
+                        Error(_W("QObject handle expected."));
                     }
+                    QmlHandleObject* qmlhandleobj = (QmlHandleObject*)hlObj;
+                    void* ptr = qmlhandleobj->getPointer();
+                    if (ptr) {
+                        QObject* qobj = (QObject*)ptr;
+                        QObject* qobjMainWindow = (QObject*)GetMainGuiObject();
+                        if (qobj == qobjMainWindow) {
+                            qmlhandleobj->setPointer(nullptr);
+                        } else {
+                            if (qobj->isWindowType()) {
+                                QWindow* w = static_cast<QWindow*>(qobj);
+                                w->destroy();
+                            } else {
+                                delete qobj;
+                            }
+                        }
+                        qmlhandleobj->setPointer(nullptr);
+                    }
+                    delete qmlhandleobj;
+                    HandleManager::getInstance()->removeHandle(hl);
+                    res = true;
                 }
             }
-            else
-            {
-                throw Exception(_W("QObject scalar handle expected."));
-            }
+        } else {
+            Error(_W("QObject scalar handle expected."));
         }
-        return res;
     }
-    //=============================================================================
+    return res;
+}
+//=============================================================================
 }
 //=============================================================================

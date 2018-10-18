@@ -1,0 +1,62 @@
+//=============================================================================
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
+//=============================================================================
+// LICENCE_BLOCK_BEGIN
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
+// (at your option) any later version.
+// 
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// LICENCE_BLOCK_END
+//=============================================================================
+function txt = nig_call_function(NIG_FUNCTION)
+  txt = {'    // CALL EXTERN FUNCTION';
+         ''};
+  txt{end + 1} = '    try';
+  txt{end + 1} = '    {';
+  
+  t = '';
+  if strcmp(NIG_FUNCTION.LANGUAGE, 'fortran') == true
+    t = ['        ', NIG_FUNCTION.SYMBOL, '_'];
+  else
+    t = ['        ', NIG_FUNCTION.SYMBOL];
+  end
+  t = [t, ' ('];
+  for k = NIG_FUNCTION.VARIABLES(:)'
+      if strcmp(k.MODE, 'input')
+        t = [t, ' ', k.NAME, '_ptr'];
+      end
+      if strcmp(k.MODE, 'output')
+        t = [t, ' ', k.NAME, '_output_ptr'];
+      end
+      if strcmp(k.MODE, 'in_out')
+        t = [t, ' ', k.NAME, '_output_ptr'];
+      end
+      if strcmp(k.MODE, 'local')
+        t = [t, ' ', k.NAME, '_ptr'];
+      end
+
+      t = [t, ','];
+  end
+  if t(end) == ','
+    t= t(1:end - 1);
+  end
+  t = [t, ');'];
+  txt{end + 1} = t;
+  
+  txt{end + 1} = '    }';
+  txt{end + 1} = '    catch (const std::runtime_error &e)';
+  txt{end + 1} = '    {';
+  txt{end + 1} = '        e.what();';
+  txt{end + 1} = ['        Error(', '"', NIG_FUNCTION.SYMBOL, ' function fails.");'];
+  txt{end + 1} = '    }';
+
+endfunction
+//=============================================================================

@@ -22,7 +22,7 @@
     <ProjectGuid>{648046B3-D59F-4D4E-B0F2-C1292393A9DF}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>nlsDynamic_link_builtin</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -95,7 +95,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSDYNAMIC_LINK_BUILTIN_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/dynamic_link/builtin/include;$(SolutionDir)modules/dynamic_link/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/api_nelson/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/dynamic_link/builtin/include;$(SolutionDir)modules/dynamic_link/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/handle/src/include;$(SolutionDir)modules/api_nelson/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/libffi/include</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4190</DisableSpecificWarnings>
     </ClCompile>
     <Link>
@@ -112,7 +112,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSDYNAMIC_LINK_BUILTIN_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/dynamic_link/builtin/include;$(SolutionDir)modules/dynamic_link/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/api_nelson/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/dynamic_link/builtin/include;$(SolutionDir)modules/dynamic_link/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/handle/src/include;$(SolutionDir)modules/api_nelson/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/libffi/include</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4190</DisableSpecificWarnings>
     </ClCompile>
     <Link>
@@ -131,7 +131,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSDYNAMIC_LINK_BUILTIN_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/dynamic_link/builtin/include;$(SolutionDir)modules/dynamic_link/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/api_nelson/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/dynamic_link/builtin/include;$(SolutionDir)modules/dynamic_link/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/handle/src/include;$(SolutionDir)modules/api_nelson/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/libffi/include</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4190</DisableSpecificWarnings>
     </ClCompile>
     <Link>
@@ -152,7 +152,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSDYNAMIC_LINK_BUILTIN_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/dynamic_link/builtin/include;$(SolutionDir)modules/dynamic_link/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/api_nelson/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/dynamic_link/builtin/include;$(SolutionDir)modules/dynamic_link/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/handle/src/include;$(SolutionDir)modules/api_nelson/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/libffi/include</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4190</DisableSpecificWarnings>
     </ClCompile>
     <Link>
@@ -165,8 +165,44 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\addgatewayBuiltin.cpp" />
+    <ClCompile Include="..\cpp\dlcallBuiltin.cpp" />
+    <ClCompile Include="..\cpp\dlcloseBuiltin.cpp" />
+    <ClCompile Include="..\cpp\dllibinfoBuiltin.cpp" />
+    <ClCompile Include="..\cpp\dllib_deleteBuiltin.cpp" />
+    <ClCompile Include="..\cpp\dllib_dispBuiltin.cpp" />
+    <ClCompile Include="..\cpp\dllib_fieldnamesBuiltin.cpp" />
+    <ClCompile Include="..\cpp\dllib_getBuiltin.cpp" />
+    <ClCompile Include="..\cpp\dllib_ismethodBuiltin.cpp" />
+    <ClCompile Include="..\cpp\dllib_ispropBuiltin.cpp" />
+    <ClCompile Include="..\cpp\dllib_isvalidBuiltin.cpp" />
+    <ClCompile Include="..\cpp\dllib_usedBuiltin.cpp" />
+    <ClCompile Include="..\cpp\dlopenBuiltin.cpp" />
+    <ClCompile Include="..\cpp\dlsymBuiltin.cpp" />
+    <ClCompile Include="..\cpp\dlsym_deleteBuiltin.cpp" />
+    <ClCompile Include="..\cpp\dlsym_dispBuiltin.cpp" />
+    <ClCompile Include="..\cpp\dlsym_fieldnamesBuiltin.cpp" />
+    <ClCompile Include="..\cpp\dlsym_getBuiltin.cpp" />
+    <ClCompile Include="..\cpp\dlsym_ismethodBuiltin.cpp" />
+    <ClCompile Include="..\cpp\dlsym_ispropBuiltin.cpp" />
+    <ClCompile Include="..\cpp\dlsym_isvalidBuiltin.cpp" />
+    <ClCompile Include="..\cpp\dlsym_usedBuiltin.cpp" />
     <ClCompile Include="..\cpp\Gateway.cpp" />
     <ClCompile Include="..\cpp\gatewayinfoBuiltin.cpp" />
+    <ClCompile Include="..\cpp\getdynlibextBuiltin.cpp" />
+    <ClCompile Include="..\cpp\isNullBuiltin.cpp" />
+    <ClCompile Include="..\cpp\libpointerBuiltin.cpp" />
+    <ClCompile Include="..\cpp\libpointer_deleteBuiltin.cpp" />
+    <ClCompile Include="..\cpp\libpointer_dispBuiltin.cpp" />
+    <ClCompile Include="..\cpp\libpointer_fieldnamesBuiltin.cpp" />
+    <ClCompile Include="..\cpp\libpointer_getBuiltin.cpp" />
+    <ClCompile Include="..\cpp\libpointer_ismethodBuiltin.cpp" />
+    <ClCompile Include="..\cpp\libpointer_isNullBuiltin.cpp" />
+    <ClCompile Include="..\cpp\libpointer_ispropBuiltin.cpp" />
+    <ClCompile Include="..\cpp\libpointer_isvalidBuiltin.cpp" />
+    <ClCompile Include="..\cpp\libpointer_plusBuiltin.cpp" />
+    <ClCompile Include="..\cpp\libpointer_reshapeBuiltin.cpp" />
+    <ClCompile Include="..\cpp\libpointer_setdatatypeBuiltin.cpp" />
+    <ClCompile Include="..\cpp\libpointer_usedBuiltin.cpp" />
     <ClCompile Include="..\cpp\removegatewayBuiltin.cpp" />
     <ClCompile Include="dllMain.c" />
   </ItemGroup>
@@ -177,11 +213,17 @@
     <ProjectReference Include="..\..\..\error_manager\src\c\nlsError_manager.vcxproj">
       <Project>{d0ef0ceb-a3bd-44ab-91b3-f33db1870f8d}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\handle\src\c\nlsHandle.vcxproj">
+      <Project>{841d21ca-740b-420a-b519-887bbd8643a3}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\i18n\src\c\nlsI18n.vcxproj">
       <Project>{eca1e952-8391-4e71-9a91-0e7fd2854320}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\..\interpreter\src\c\nlsInterpreter.vcxproj">
       <Project>{17135b09-bc25-448e-9750-c09a87fde6f8}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\overload\src\c\nlsOverload.vcxproj">
+      <Project>{937bee8b-e934-45f1-98ef-33aaf951e5e9}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\..\types\src\c\nlsTypes.vcxproj">
       <Project>{ab85e897-56b7-4792-8a8e-f3797be2b7cc}</Project>
@@ -195,7 +237,43 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\addgatewayBuiltin.hpp" />
+    <ClInclude Include="..\include\dlcallBuiltin.hpp" />
+    <ClInclude Include="..\include\dlcloseBuiltin.hpp" />
+    <ClInclude Include="..\include\dllibinfoBuiltin.hpp" />
+    <ClInclude Include="..\include\dllib_deleteBuiltin.hpp" />
+    <ClInclude Include="..\include\dllib_dispBuiltin.hpp" />
+    <ClInclude Include="..\include\dllib_fieldnamesBuiltin.hpp" />
+    <ClInclude Include="..\include\dllib_getBuiltin.hpp" />
+    <ClInclude Include="..\include\dllib_ismethodBuiltin.hpp" />
+    <ClInclude Include="..\include\dllib_ispropBuiltin.hpp" />
+    <ClInclude Include="..\include\dllib_isvalidBuiltin.hpp" />
+    <ClInclude Include="..\include\dllib_usedBuiltin.hpp" />
+    <ClInclude Include="..\include\dlopenBuiltin.hpp" />
+    <ClInclude Include="..\include\dlsymBuiltin.hpp" />
+    <ClInclude Include="..\include\dlsym_deleteBuiltin.hpp" />
+    <ClInclude Include="..\include\dlsym_dispBuiltin.hpp" />
+    <ClInclude Include="..\include\dlsym_fieldnamesBuiltin.hpp" />
+    <ClInclude Include="..\include\dlsym_getBuiltin.hpp" />
+    <ClInclude Include="..\include\dlsym_ismethodBuiltin.hpp" />
+    <ClInclude Include="..\include\dlsym_ispropBuiltin.hpp" />
+    <ClInclude Include="..\include\dlsym_isvalidBuiltin.hpp" />
+    <ClInclude Include="..\include\dlsym_usedBuiltin.hpp" />
     <ClInclude Include="..\include\gatewayinfoBuiltin.hpp" />
+    <ClInclude Include="..\include\getdynlibextBuiltin.hpp" />
+    <ClInclude Include="..\include\isNullBuiltin.hpp" />
+    <ClInclude Include="..\include\libpointerBuiltin.hpp" />
+    <ClInclude Include="..\include\libpointer_deleteBuiltin.hpp" />
+    <ClInclude Include="..\include\libpointer_dispBuiltin.hpp" />
+    <ClInclude Include="..\include\libpointer_fieldnamesBuiltin.hpp" />
+    <ClInclude Include="..\include\libpointer_getBuiltin.hpp" />
+    <ClInclude Include="..\include\libpointer_ismethodBuiltin.hpp" />
+    <ClInclude Include="..\include\libpointer_isNullBuiltin.hpp" />
+    <ClInclude Include="..\include\libpointer_ispropBuiltin.hpp" />
+    <ClInclude Include="..\include\libpointer_isvalidBuiltin.hpp" />
+    <ClInclude Include="..\include\libpointer_plusBuiltin.hpp" />
+    <ClInclude Include="..\include\libpointer_reshapeBuiltin.hpp" />
+    <ClInclude Include="..\include\libpointer_setdatatypeBuiltin.hpp" />
+    <ClInclude Include="..\include\libpointer_usedBuiltin.hpp" />
     <ClInclude Include="..\include\nlsDynamic_link_builtin_exports.h" />
     <ClInclude Include="..\include\removegatewayBuiltin.hpp" />
   </ItemGroup>

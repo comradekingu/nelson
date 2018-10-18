@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -18,11 +18,13 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsConstructors_functions_exports.h"
 #include "ArrayOf.hpp"
+#include "nlsConstructors_functions_exports.h"
 //=============================================================================
 namespace Nelson {
-    NLSCONSTRUCTORS_FUNCTIONS_IMPEXP ArrayOf Inf(void);
-    NLSCONSTRUCTORS_FUNCTIONS_IMPEXP ArrayOf Inf(uint32 m, uint32 n = 1);
-}
+NLSCONSTRUCTORS_FUNCTIONS_IMPEXP ArrayOf
+Inf(void);
+NLSCONSTRUCTORS_FUNCTIONS_IMPEXP ArrayOf
+Inf(uint32 m, uint32 n = 1);
+} // namespace Nelson
 //=============================================================================

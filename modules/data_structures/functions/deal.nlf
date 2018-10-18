@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -21,7 +21,7 @@ function varargout = deal(varargin)
 	if (nargin == 0)
 		error(_('Wrong numbers of input arguments.'));
 	else
-		if ((nargin ~= 1) & (nargin ~= nargout))
+		if ((nargin ~= 1) && (nargin ~= nargout))
 			error(_('Wrong numbers of output arguments.'));
 		end
 		if (nargin ~= 1)

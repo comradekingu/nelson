@@ -22,7 +22,7 @@
     <ProjectGuid>{314A5EFA-58E2-4D7E-B4CD-282F7A785168}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>nlsOs_functions_builtin</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -179,6 +179,7 @@
     <ClCompile Include="..\cpp\setenvBuiltin.cpp" />
     <ClCompile Include="..\cpp\systemBuiltin.cpp" />
     <ClCompile Include="..\cpp\winopenBuiltin.cpp" />
+    <ClCompile Include="..\cpp\winqueryregBuiltin.cpp" />
     <ClCompile Include="dllMain.c" />
   </ItemGroup>
   <ItemGroup>
@@ -216,6 +217,7 @@
     <ClInclude Include="..\include\setenvBuiltin.hpp" />
     <ClInclude Include="..\include\systemBuiltin.hpp" />
     <ClInclude Include="..\include\winopenBuiltin.hpp" />
+    <ClInclude Include="..\include\winqueryregBuiltin.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\etc\finish.nls" />

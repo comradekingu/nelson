@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -16,33 +16,32 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "ticBuiltin.hpp"
-#include "tocBuiltin.hpp"
-#include "sleepBuiltin.hpp"
+#include "Evaluator.hpp"
+#include "NelsonGateway.hpp"
 #include "calendarBuiltin.hpp"
-#include "nowBuiltin.hpp"
 #include "clockBuiltin.hpp"
 #include "cputimeBuiltin.hpp"
 #include "datenumBuiltin.hpp"
 #include "datevecBuiltin.hpp"
-#include "NelsonGateway.hpp"
-#include "Evaluator.hpp"
+#include "nowBuiltin.hpp"
+#include "sleepBuiltin.hpp"
+#include "ticBuiltin.hpp"
+#include "tocBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 const std::wstring gatewayName = L"time";
 //=============================================================================
-static const nlsGateway gateway[] =
-{
-    { "tic", Nelson::TimeGateway::ticBuiltin, 0, 0 },
-    { "toc", Nelson::TimeGateway::tocBuiltin, 1, 0 },
-    { "calendar", Nelson::TimeGateway::calendarBuiltin, 1, 2 },
-    { "sleep", Nelson::TimeGateway::sleepBuiltin, 1, 1 },
-    { "now", Nelson::TimeGateway::nowBuiltin, 1, 0 },
-    { "clock", Nelson::TimeGateway::clockBuiltin, 1, 0 },
-    { "cputime", Nelson::TimeGateway::cputimeBuiltin, 1, 0 },
-    { "datenum", Nelson::TimeGateway::datenumBuiltin, 1, 6 },
-    { "datevec", Nelson::TimeGateway::datevecBuiltin, 6, 1 },
+static const nlsGateway gateway[] = {
+    { "tic", Nelson::TimeGateway::ticBuiltin, 0, 0, CPP_BUILTIN },
+    { "toc", Nelson::TimeGateway::tocBuiltin, 1, 0, CPP_BUILTIN },
+    { "calendar", Nelson::TimeGateway::calendarBuiltin, 1, 2, CPP_BUILTIN },
+    { "sleep", Nelson::TimeGateway::sleepBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
+    { "now", Nelson::TimeGateway::nowBuiltin, 1, 0, CPP_BUILTIN },
+    { "clock", Nelson::TimeGateway::clockBuiltin, 1, 0, CPP_BUILTIN },
+    { "cputime", Nelson::TimeGateway::cputimeBuiltin, 1, 0, CPP_BUILTIN },
+    { "datenum", Nelson::TimeGateway::datenumBuiltin, 1, 6, CPP_BUILTIN },
+    { "datevec", Nelson::TimeGateway::datevecBuiltin, 6, 1, CPP_BUILTIN_WITH_EVALUATOR },
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

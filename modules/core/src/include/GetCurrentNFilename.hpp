@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -18,12 +18,14 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
-#include "nlsCore_exports.h"
 #include "Evaluator.hpp"
+#include "nlsCore_exports.h"
+#include <string>
 //=============================================================================
 namespace Nelson {
-    NLSCORE_IMPEXP std::wstring GetCurrentNFilenameW(Evaluator* eval);
-    NLSCORE_IMPEXP std::string GetCurrentNFilenameU(Evaluator* eval);
-}
+NLSCORE_IMPEXP std::wstring
+GetCurrentNFilenameW(Evaluator* eval);
+NLSCORE_IMPEXP std::string
+GetCurrentNFilenameU(Evaluator* eval);
+} // namespace Nelson
 //=============================================================================

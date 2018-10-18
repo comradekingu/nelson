@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -18,13 +18,14 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
-#include "nlsTests_manager_exports.h"
-#include "Types.hpp"
-#include "TestTags.hpp"
 #include "Evaluator.hpp"
+#include "TestTags.hpp"
+#include "Types.hpp"
+#include "nlsTests_manager_exports.h"
+#include <string>
 //=============================================================================
 namespace Nelson {
-    NLSTESTS_MANAGER_IMPEXP bool ParseTags(Evaluator *eval, std::wstring filename, TestTags &options, std::wstring &msg);
+NLSTESTS_MANAGER_IMPEXP bool
+ParseTags(Evaluator* eval, std::wstring filename, TestTags& options, std::wstring& msg);
 }
 //=============================================================================

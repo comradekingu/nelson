@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -17,34 +17,31 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "IsEqualHandle.hpp"
-#include "Exception.hpp"
-#include "HandleManager.hpp"
+#include "Error.hpp"
 #include "HandleGenericObject.hpp"
+#include "HandleManager.hpp"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    bool IsEqualHandle(ArrayOf A, ArrayOf B)
-    {
-        if (A.getDataClass() == B.getDataClass())
-        {
-            Dimensions dimsA = A.getDimensions();
-            Dimensions dimsB = B.getDimensions();
-            if (dimsA.equals(dimsB))
-            {
-                nelson_handle *ptrA = (nelson_handle*)A.getDataPointer();
-                nelson_handle *ptrB = (nelson_handle*)B.getDataPointer();
-                for (indexType k = 0; k < A.getDimensions().getElementCount(); k++)
-                {
-                    if (ptrA[k] != ptrB[k])
-                    {
-                        return false;
-                    }
+//=============================================================================
+bool
+IsEqualHandle(ArrayOf A, ArrayOf B)
+{
+    if (A.getDataClass() == B.getDataClass()) {
+        Dimensions dimsA = A.getDimensions();
+        Dimensions dimsB = B.getDimensions();
+        if (dimsA.equals(dimsB)) {
+            nelson_handle* ptrA = (nelson_handle*)A.getDataPointer();
+            nelson_handle* ptrB = (nelson_handle*)B.getDataPointer();
+            for (indexType k = 0; k < A.getDimensions().getElementCount(); k++) {
+                if (ptrA[k] != ptrB[k]) {
+                    return false;
                 }
-                return true;
             }
+            return true;
         }
-        return false;
     }
-    //=============================================================================
+    return false;
+}
+//=============================================================================
 }
 //=============================================================================

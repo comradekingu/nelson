@@ -1,5 +1,5 @@
 #==============================================================================
-# Copyright (c) 2016-2017 Allan CORNET (Nelson)
+# Copyright (c) 2016-2018 Allan CORNET (Nelson)
 #==============================================================================
 # LICENCE_BLOCK_BEGIN
 # This program is free software: you can redistribute it and/or modify
@@ -17,17 +17,22 @@
 # LICENCE_BLOCK_END
 #==============================================================================
 # This .gitignore for Nelson
-tests_all.xml
-tests_minimal.xml
+tests_*.xml
+tests_*.json
 /$tf
-/bin/win32/qml
-/bin/win32/plugins
-/bin/x64/qml
-/bin/x64/plugins
-/bin/win32/LICENSE_1_0.txt
-/bin/x64/LICENSE_1_0.txt
-/bin/win32/nelson-cli.exe
-/bin/x64/nelson-cli.exe
+/bin/*/mkl
+/bin/*/openblas
+/bin/*/qml
+/bin/*/plugins
+/bin/*/LICENSE_1_0.txt
+/bin/*/license_sdk.rtf
+/bin/*/mkl_license.txt
+/bin/*/nelson-cli.exe
+/bin/*/nelson_f2c
+/modules/main/help/*/html/CHANGELOG.html
+/modules/main/help/*/html/CHANGELOG-0.1.x.html
+/modules/main/help/*/html/license.html
+/modules/main/help/*/html/GPL2.html
 /modules/*/nls*_autogen
 *.settings
 *.qmlc
@@ -48,6 +53,7 @@ tests_minimal.xml
 *.suo
 *.tlog
 *.orig
+*.tmp
 *.cppcheck
 /modules/*/builtin/c/x64
 /modules/*/builtin/c/Debug
@@ -128,6 +134,9 @@ bin/macosx64/nelson-gui
 *.iobj
 /tools/gettext/generatepo/Debug
 /tools/gettext/generatemo/Release
+/tools/gettext/generatepo/x64/
+/tools/gettext/generatemo/x64/
+/tools/tests_minimal/x64/
 *.opendb
 /tools/gettext/generatemo/Debug
 /tools/gettext/generatemo/Debug/generatemo.log
@@ -142,6 +151,9 @@ bin/macosx64/nelson-gui
 /tools/buildhelp/x64/Debug
 /tools/buildhelp/win32/Release
 /tools/buildhelp/win32/Debug
+/tools/buildhelp/Release
+/tools/buildhelp/Debug
+/tools/clang_format/clang-format.exe
 *.plog
 *.i-*
 .vs/
@@ -154,3 +166,19 @@ bin/macosx64/nelson-gui
 /modules/*/src/c/*/x64
 /modules/*/src/c/*/Debug
 /modules/*/src/c/*/Release
+enc_temp_folder
+/tools/CMake/
+/*/*/.vscode
+.vscode
+################################################################################
+# module_skeleton
+module_skeleton/builtin/CMakeLists.txt
+module_skeleton/builtin/cleaner.nls
+module_skeleton/builtin/loader.nls
+module_skeleton/builtin/unloader.nls
+module_skeleton/builtin/cpp/Gateway.cpp
+module_skeleton/src/CMakeLists.txt
+module_skeleton/src/cleaner.nls
+module_skeleton/src/loader.nls
+module_skeleton/src/unloader.nls
+module_skeleton/*/*.manifest

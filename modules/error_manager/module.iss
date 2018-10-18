@@ -1,5 +1,5 @@
 ;==============================================================================
-; Copyright (c) 2016-2017 Allan CORNET (Nelson)
+; Copyright (c) 2016-2018 Allan CORNET (Nelson)
 ;==============================================================================
 ; LICENCE_BLOCK_BEGIN
 ; This program is free software: you can redistribute it and/or modify
@@ -18,6 +18,10 @@
 ;==============================================================================
 #define MODULE_NAME "error_manager"
 ;==============================================================================
+Source: {#RootPath}bin\{#BinPath}\libnlsError_manager.lib; DestDir: {app}\bin\{#BinPath}\;
+Source: {#RootPath}modules\{#MODULE_NAME}\src\include\*.h; DestDir: {app}\modules\{#MODULE_NAME}\src\include\;
+Source: {#RootPath}modules\{#MODULE_NAME}\src\include\*.hpp; DestDir: {app}\modules\{#MODULE_NAME}\src\include\;
+;==============================================================================
 Source: {#RootPath}bin\{#BinPath}\libnlsError_manager.dll; DestDir: {app}\bin\{#BinPath}\;
 Source: {#RootPath}bin\{#BinPath}\libnlsError_manager_builtin.dll; DestDir: {app}\bin\{#BinPath}\;
 ;==============================================================================
@@ -28,4 +32,6 @@ Source: {#RootPath}modules\{#MODULE_NAME}\etc\finish.nls; DestDir: {app}\modules
 ;Source: {#RootPath}modules\{#MODULE_NAME}\functions\*.nlf; DestDir: {app}\modules\{#MODULE_NAME}\functions\;
 ;==============================================================================
 Source: {#RootPath}modules\{#MODULE_NAME}\help\*.qch; DestDir: {app}\modules\{#MODULE_NAME}\help\; Flags: recursesubdirs
+;==============================================================================
+Source: {#RootPath}modules\{#MODULE_NAME}\tests\*.nls; DestDir: {app}\modules\{#MODULE_NAME}\tests\; Flags: recursesubdirs
 ;==============================================================================

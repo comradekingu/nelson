@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -21,10 +21,12 @@
 #include "nlsInterpreter_exports.h"
 //=============================================================================
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
-//=============================================================================
-NLSINTERPRETER_IMPEXP	void *GetNelsonMainEvaluatorDynamicFunction();
+    //=============================================================================
+    NLSINTERPRETER_IMPEXP void*
+    GetNelsonMainEvaluatorDynamicFunction();
 //=============================================================================
 #ifdef __cplusplus
 }

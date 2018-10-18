@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -17,38 +17,40 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "NelsonGateway.hpp"
-#include "whichBuiltin.hpp"
-#include "builtinBuiltin.hpp"
-#include "fevalBuiltin.hpp"
-#include "macroargsBuiltin.hpp"
-#include "clearfunBuiltin.hpp"
-#include "whatBuiltin.hpp"
 #include "addpathBuiltin.hpp"
-#include "rmpathBuiltin.hpp"
+#include "builtinBuiltin.hpp"
+#include "clearfunBuiltin.hpp"
+#include "fevalBuiltin.hpp"
+#include "isbuiltinBuiltin.hpp"
+#include "ismacroBuiltin.hpp"
+#include "macroargsBuiltin.hpp"
 #include "pathBuiltin.hpp"
-#include "restoredefaultpathBuiltin.hpp"
 #include "rehashBuiltin.hpp"
+#include "restoredefaultpathBuiltin.hpp"
+#include "rmpathBuiltin.hpp"
 #include "userpathBuiltin.hpp"
+#include "whatBuiltin.hpp"
+#include "whichBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 const std::wstring gatewayName = L"functions_manager";
 //=============================================================================
-static const nlsGateway gateway[] =
-{
+static const nlsGateway gateway[] = {
     { "which", Nelson::FunctionsGateway::whichBuiltin, 1, 1 },
     { "macroargs", Nelson::FunctionsGateway::macroargsBuiltin, 2, 1 },
     { "builtin", Nelson::FunctionsGateway::builtinBuiltin, -1, -1 },
     { "feval", Nelson::FunctionsGateway::fevalBuiltin, -1, -1 },
     { "clearfun", Nelson::FunctionsGateway::clearfunBuiltin, 1, 1 },
-    { "what", Nelson::FunctionsGateway::whatBuiltin, 1, 0 },
+    { "what", Nelson::FunctionsGateway::whatBuiltin, -1, 0 },
     { "addpath", Nelson::FunctionsGateway::addpathBuiltin, 1, -1 },
     { "rmpath", Nelson::FunctionsGateway::rmpathBuiltin, 1, -1 },
     { "path", Nelson::FunctionsGateway::pathBuiltin, 1, 2 },
     { "restoredefaultpath", Nelson::FunctionsGateway::restoredefaultpathBuiltin, 0, 0 },
     { "rehash", Nelson::FunctionsGateway::rehashBuiltin, 0, 0 },
     { "userpath", Nelson::FunctionsGateway::userpathBuiltin, 1, 1 },
-
+    { "ismacro", Nelson::FunctionsGateway::ismacroBuiltin, 1, 1 },
+    { "isbuiltin", Nelson::FunctionsGateway::isbuiltinBuiltin, 1, 1 },
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

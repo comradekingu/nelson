@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -20,11 +20,11 @@
 //=============================================================================
 #ifdef _MSC_VER
 #ifdef NLSELEMENTARY_FUNCTIONS_BUILTIN_EXPORTS
-#define  NLSELEMENTARY_FUNCTIONS_BUILTIN_IMPEXP __declspec(dllexport)
+#define NLSELEMENTARY_FUNCTIONS_BUILTIN_IMPEXP __declspec(dllexport)
 #else
 #define NLSELEMENTARY_FUNCTIONS_BUILTIN_IMPEXP __declspec(dllimport)
 #endif
 #else
-#define NLSELEMENTARY_FUNCTIONS_BUILTIN_IMPEXP __attribute__ ((visibility ("default")))
+#define NLSELEMENTARY_FUNCTIONS_BUILTIN_IMPEXP __attribute__((visibility("default")))
 #endif
 //=============================================================================

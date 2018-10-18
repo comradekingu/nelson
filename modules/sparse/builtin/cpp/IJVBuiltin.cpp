@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -21,87 +21,57 @@
 #include "OverloadFunction.hpp"
 #include "SparseType.hpp"
 #include "SparseNonZeros.hpp"
+#include "SparseToIJV.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::SparseGateway::IJVBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::SparseGateway::IJVBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (nLhs > 6)
-    {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+    if (nLhs > 6) {
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    if (argIn.size() != 1)
-    {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    if (argIn.size() != 1) {
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     // Call overload if it exists
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
-    if (!bSuccess)
-    {
+    if (eval->mustOverloadBasicTypes()) {
+        retval = OverloadFunction(eval, nLhs, argIn, "IJV", bSuccess);
+    }
+    if (!bSuccess) {
         ArrayOf A(argIn[0]);
-        if (A.isSparse())
-        {
-            Dimensions dims = A.getDimensions();
-            indexType nnz = SparseNonZeros(A);
-            indexType *ptrI;
-            indexType *ptrJ;
-            try
-            {
-                ptrI = new indexType[nnz];
-                ptrJ = new indexType[nnz];
+        ArrayOf I;
+        ArrayOf J;
+        ArrayOf V;
+        ArrayOf M;
+        ArrayOf N;
+        ArrayOf NNZ;
+        bool needToOverload;
+        SparseToIJV(A, I, J, V, M, N, NNZ, needToOverload);
+        if (needToOverload) {
+            retval = OverloadFunction(eval, nLhs, argIn, "IJV", bSuccess);
+            if (!bSuccess) {
+                Error(ERROR_WRONG_ARGUMENT_1_TYPE_SPARSE_EXPECTED);
             }
-            catch (std::bad_alloc &e)
-            {
-                e.what();
-                throw Exception(ERROR_MEMORY_ALLOCATION);
-            }
-            int nz = 0;
-            void *ptrV = Eigen_SparseToIJV(A.getDataClass(), dims.getRows(), dims.getColumns(), A.getSparseDataPointer(), ptrI, ptrJ, nz);
-            double *pdI = (double *)ArrayOf::allocateArrayOf(NLS_DOUBLE, nnz);
-            for (indexType k = 0; k < nnz; k++)
-            {
-                pdI[k] = (double)ptrI[k];
-            }
-            ArrayOf I = ArrayOf(NLS_DOUBLE, Dimensions(nnz, 1), (void*)pdI);
+        } else {
             retval.push_back(I);
-            delete[] ptrI;
-            if (nLhs > 1)
-            {
-                double *pdJ = (double *)ArrayOf::allocateArrayOf(NLS_DOUBLE, nnz);
-                for (indexType k = 0; k < nnz; k++)
-                {
-                    pdJ[k] = (double)ptrJ[k];
-                }
-                ArrayOf J = ArrayOf(NLS_DOUBLE, Dimensions(nnz, 1), (void*)pdJ);
+            if (nLhs > 1) {
                 retval.push_back(J);
             }
-            delete[] ptrJ;
-            if (nLhs > 2)
-            {
-                ArrayOf V = ArrayOf(A.getDataClass(), Dimensions(nnz, 1), ptrV);
+            if (nLhs > 2) {
                 retval.push_back(V);
             }
-            if (nLhs > 3)
-            {
-                ArrayOf M = ArrayOf::doubleConstructor((double)dims.getRows());
+            if (nLhs > 3) {
                 retval.push_back(M);
             }
-            if (nLhs > 4)
-            {
-                ArrayOf N = ArrayOf::doubleConstructor((double)dims.getColumns());
+            if (nLhs > 4) {
                 retval.push_back(N);
             }
-            if (nLhs > 5)
-            {
-                ArrayOf NNZ = ArrayOf::doubleConstructor((double)A.nzmax());
+            if (nLhs > 5) {
                 retval.push_back(NNZ);
             }
-        }
-        else
-        {
-            Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_SPARSE_EXPECTED);
         }
     }
     return retval;

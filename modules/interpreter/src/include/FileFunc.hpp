@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -21,20 +21,24 @@
 #include <string>
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    class FileFunc {
-    private:
-        std::wstring _nlf_fullfilename;
-        std::wstring _name;
-        size_t _hashid;
+//=============================================================================
+class FileFunc
+{
+private:
+    std::wstring _nlf_fullfilename;
+    std::wstring _name;
+    size_t _hashid;
 
-    public:
-        FileFunc(const std::wstring directory, const std::wstring name);
-        ~FileFunc();
-        std::wstring getFilename();
-        std::wstring getName();
-        size_t getHashID();
-    };
-    //=============================================================================
-}
+public:
+    FileFunc(const std::wstring& directory, const std::wstring& name);
+    ~FileFunc();
+    std::wstring
+    getFilename();
+    std::wstring
+    getName();
+    size_t
+    getHashID();
+};
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

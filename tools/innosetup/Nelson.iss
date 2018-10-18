@@ -1,5 +1,5 @@
 ;==============================================================================
-; Copyright (c) 2016-2017 Allan CORNET (Nelson)
+; Copyright (c) 2016-2018 Allan CORNET (Nelson)
 ;==============================================================================
 ; LICENCE_BLOCK_BEGIN
 ; This program is free software: you can redistribute it and/or modify
@@ -21,8 +21,8 @@
 #ifndef GENERATED_INFO
 #define NELSON_X64
 #define NELSON_DEBUG
-#define CURRENT_YEAR "2017"
-#define APPLICATION_VERSION "0.0.1.0"
+#define CURRENT_YEAR "2018"
+#define APPLICATION_VERSION "0.1.11.0"
 #endif
 #define APPLICATION_NAME "Nelson"
 #define APPLICATION_EXE_GUI_NAME "Nelson-gui.exe"
@@ -33,6 +33,19 @@
 #define FULL_APPLICATION_NAME APPLICATION_NAME + "-" + APPLICATION_VERSION + " (64 bits)"
 #else
 #define FULL_APPLICATION_NAME APPLICATION_NAME + "-" + APPLICATION_VERSION + " (32 bits)"
+#endif
+#ifdef NELSON_X64
+#ifdef NELSON_DEBUG
+#define BOOST_TARGET  "vc141-mt-gd-x64-1_67"
+#else
+#define BOOST_TARGET  "vc141-mt-x64-1_67"
+#endif
+#else
+#ifdef NELSON_DEBUG
+#define BOOST_TARGET  "vc141-mt-gd-x32-1_67"
+#else
+#define BOOST_TARGET  "vc141-mt-x32-1_67"
+#endif
 #endif
 ;==============================================================================
 #define RootPath "../../"
@@ -48,6 +61,12 @@
 [Languages]
 #include "languages.iss"
 ;==============================================================================
+[CustomMessages]
+#include "custommessages.iss"
+;==============================================================================
+[Components]
+#include "components.iss"
+;==============================================================================
 [Tasks]
 #include "tasks.iss"
 ;==============================================================================
@@ -57,8 +76,14 @@
 [Icons]
 #include "icons.iss"
 ;==============================================================================
+[Registry]
+#include "registry.iss"
+;==============================================================================
 [Run]
 #include "run.iss"
+;==============================================================================
+[UninstallDelete]
+#include "uninstalldelete.iss"
 ;==============================================================================
 [Code]
 #include "code.iss"

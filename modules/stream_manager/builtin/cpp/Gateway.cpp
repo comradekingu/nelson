@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -16,72 +16,71 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "NelsonGateway.hpp"
 #include "FilesManager.hpp"
+#include "Interface.hpp"
+#include "NelsonGateway.hpp"
 #include "diaryBuiltin.hpp"
-#include "fopenBuiltin.hpp"
+#include "dlmwriteBuiltin.hpp"
 #include "fcloseBuiltin.hpp"
-#include "fwriteBuiltin.hpp"
-#include "freadBuiltin.hpp"
-#include "fprintfBuiltin.hpp"
 #include "fgetlBuiltin.hpp"
 #include "fgetsBuiltin.hpp"
-#include "ftellBuiltin.hpp"
+#include "filereadBuiltin.hpp"
+#include "filewriteBuiltin.hpp"
+#include "fopenBuiltin.hpp"
+#include "fprintfBuiltin.hpp"
+#include "freadBuiltin.hpp"
 #include "frewindBuiltin.hpp"
 #include "fseekBuiltin.hpp"
 #include "fsizeBuiltin.hpp"
-#include "dlmwriteBuiltin.hpp"
-#include "Interface.hpp"
+#include "ftellBuiltin.hpp"
+#include "fwriteBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 const std::wstring gatewayName = L"stream_manager";
 //=============================================================================
-static const nlsGateway gateway[] =
-{
-    { "diary", Nelson::StreamGateway::diaryBuiltin, 1, 1 },
-    { "fopen", Nelson::StreamGateway::fopenBuiltin, 2, 2 },
-    { "fclose", Nelson::StreamGateway::fcloseBuiltin, 1, 1 },
-    { "fwrite", Nelson::StreamGateway::fwriteBuiltin, 1, 3 },
-    { "fread", Nelson::StreamGateway::freadBuiltin, 1, 3 },
-    { "fprintf", Nelson::StreamGateway::fprintfBuiltin, 1, 3 },
-    { "fgetl", Nelson::StreamGateway::fgetlBuiltin, 1, 1 },
-    { "fgets", Nelson::StreamGateway::fgetsBuiltin, 1, 2 },
-    { "ftell", Nelson::StreamGateway::ftellBuiltin, 1, 1 },
-    { "frewind", Nelson::StreamGateway::frewindBuiltin, 0, 1 },
-    { "fseek", Nelson::StreamGateway::fseekBuiltin, 1, 3 },
-    { "fsize", Nelson::StreamGateway::fsizeBuiltin, 1, 1 },
-    { "dlmwrite", Nelson::StreamGateway::dlmwriteBuiltin, 0, -3 },
+static const nlsGateway gateway[] = {
+    { "diary", Nelson::StreamGateway::diaryBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
+    { "fopen", Nelson::StreamGateway::fopenBuiltin, 2, 2, CPP_BUILTIN_WITH_EVALUATOR },
+    { "fclose", Nelson::StreamGateway::fcloseBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
+    { "fwrite", Nelson::StreamGateway::fwriteBuiltin, 1, 3, CPP_BUILTIN_WITH_EVALUATOR },
+    { "fread", Nelson::StreamGateway::freadBuiltin, 1, 3, CPP_BUILTIN_WITH_EVALUATOR },
+    { "fprintf", Nelson::StreamGateway::fprintfBuiltin, 1, 3, CPP_BUILTIN_WITH_EVALUATOR },
+    { "fgetl", Nelson::StreamGateway::fgetlBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
+    { "fgets", Nelson::StreamGateway::fgetsBuiltin, 1, 2, CPP_BUILTIN_WITH_EVALUATOR },
+    { "ftell", Nelson::StreamGateway::ftellBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
+    { "frewind", Nelson::StreamGateway::frewindBuiltin, 0, 1, CPP_BUILTIN_WITH_EVALUATOR },
+    { "fseek", Nelson::StreamGateway::fseekBuiltin, 1, 3, CPP_BUILTIN_WITH_EVALUATOR },
+    { "fsize", Nelson::StreamGateway::fsizeBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
+    { "dlmwrite", Nelson::StreamGateway::dlmwriteBuiltin, 0, -3, CPP_BUILTIN_WITH_EVALUATOR },
+    { "fileread", Nelson::StreamGateway::filereadBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
+    { "filewrite", Nelson::StreamGateway::filewriteBuiltin, 0, 2, CPP_BUILTIN_WITH_EVALUATOR },
 };
 //=============================================================================
-static bool initializeModule(Nelson::Evaluator* eval)
+static bool
+initializeModule(Nelson::Evaluator* eval)
 {
-    if (eval->FileManager == nullptr)
-    {
-        Interface *io = eval->getInterface();
-        Nelson::FilesManager *fm;
-        try
-        {
+    if (eval->FileManager == nullptr) {
+        Interface* io = eval->getInterface();
+        Nelson::FilesManager* fm;
+        try {
             fm = new Nelson::FilesManager(io);
-        }
-        catch (std::bad_alloc)
-        {
+        } catch (const std::bad_alloc&) {
             fm = nullptr;
         }
-        if (fm)
-        {
-            eval->FileManager = (void *)fm;
+        if (fm) {
+            eval->FileManager = (void*)fm;
             return true;
         }
     }
     return false;
 }
 //=============================================================================
-static bool finishModule(Nelson::Evaluator* eval)
+static bool
+finishModule(Nelson::Evaluator* eval)
 {
-    if (eval->FileManager != nullptr)
-    {
-        Nelson::FilesManager *fm = (Nelson::FilesManager*)eval->FileManager;
+    if (eval->FileManager != nullptr) {
+        Nelson::FilesManager* fm = (Nelson::FilesManager*)eval->FileManager;
         delete fm;
         eval->FileManager = nullptr;
         return true;
@@ -97,4 +96,3 @@ NLSGATEWAYREMOVEEXTENDED(gateway, (void*)finishModule)
 //=============================================================================
 NLSGATEWAYNAME()
 //=============================================================================
-

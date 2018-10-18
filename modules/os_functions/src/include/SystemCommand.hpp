@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -18,12 +18,14 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
-#include "nlsOs_functions_exports.h"
 #include "ArrayOf.hpp"
+#include "nlsOs_functions_exports.h"
+#include <string>
 //=============================================================================
 namespace Nelson {
-    NLSOS_FUNCTIONS_IMPEXP ArrayOf SystemCommand(const std::wstring &command, int &ierr);
-    NLSOS_FUNCTIONS_IMPEXP std::wstring SystemCommandW(const std::wstring &command, int &ierr);
-}
+NLSOS_FUNCTIONS_IMPEXP ArrayOf
+SystemCommand(const std::wstring& command, int& ierr);
+NLSOS_FUNCTIONS_IMPEXP std::wstring
+SystemCommandW(const std::wstring& command, int& ierr);
+} // namespace Nelson
 //=============================================================================

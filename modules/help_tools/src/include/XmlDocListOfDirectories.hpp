@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -18,38 +18,50 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
-#include <boost/container/vector.hpp>
-#include "nlsHelp_tools_exports.h"
-#include "XmlDocDocument.hpp"
-#include "XmlDocDirectory.hpp"
-#include "XmlDocMainIndex.hpp"
 #include "Types.hpp"
+#include "XmlDocDirectory.hpp"
+#include "XmlDocDocument.hpp"
+#include "XmlDocMainIndex.hpp"
+#include "XmlTarget.hpp"
+#include "nlsHelp_tools_exports.h"
+#include <boost/container/vector.hpp>
+#include <string>
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    class NLSHELP_TOOLS_IMPEXP XmlDocListOfDirectories {
+//=============================================================================
+class NLSHELP_TOOLS_IMPEXP XmlDocListOfDirectories
+{
 
-    private:
-        wstringVector srcDirectories;
-        std::wstring dstDirectory;
-        std::wstring mainTitle;
-        boost::container::vector<XmlDocDirectory *> itemsDirectories;
-        bool bOverwriteExistingFiles;
-        std::wstring lastError;
-        void clearItems();
-        bool isQtHelp;
-        XmlDocMainIndex *mainIndex;
+private:
+    wstringVector srcDirectories;
+    std::wstring dstDirectory;
+    std::wstring mainTitle;
+    boost::container::vector<XmlDocDirectory*> itemsDirectories;
+    bool bOverwriteExistingFiles;
+    std::wstring lastError;
+    void
+    clearItems();
+    DOCUMENT_OUTPUT outputTarget;
+    XmlDocMainIndex* mainIndex;
 
-    public:
-        XmlDocListOfDirectories(wstringVector srcDirectories, std::wstring dstDirectory, std::wstring mainTitle, bool bOverwriteExistingFiles = false, bool isQtHelp = false);
-        ~XmlDocListOfDirectories();
-        bool read();
-        bool writeAsHtml();
-        std::wstring getLastError();
-        void getIndex(wstringVector &names, wstringVector &urls, wstringVector &descriptions);
-        std::wstring getOutputHelpBasename();
-    };
-    //=============================================================================
-}
+public:
+    XmlDocListOfDirectories(wstringVector srcDirectories, std::wstring dstDirectory,
+        std::wstring mainTitle, bool bOverwriteExistingFiles = false,
+        DOCUMENT_OUTPUT outputTarget = DOCUMENT_OUTPUT::HMTL);
+    ~XmlDocListOfDirectories();
+    bool
+    read();
+    bool
+    writeAsHtml();
+    bool
+    writeAsMarkdown();
+    std::wstring
+    getLastError();
+    void
+    getIndex(wstringVector& names, wstringVector& urls, wstringVector& descriptions);
+    std::wstring
+    getOutputHelpBasename();
+};
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

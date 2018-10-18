@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -19,25 +19,27 @@
 #include "ByteCode.hpp"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    void CodeToByte(const std::wstring &nlf_filename)
-    {
-    }
-    //=============================================================================
-    void CodeToByte(MacroFunctionDef *fptr, Serialize *s)
-    {
-    }
-    //=============================================================================
-    MacroFunctionDef * ByteToCode(const std::wstring &nlb_filename)
-    {
-        MacroFunctionDef *macro = nullptr;
-        return macro;
-    }
-    //=============================================================================
-    MacroFunctionDef * ByteToCode(Serialize *s)
-    {
-        MacroFunctionDef *macro = nullptr;
-        return macro;
-    }
-    //=============================================================================
+//=============================================================================
+void
+CodeToByte(const std::wstring& nlf_filename)
+{}
+//=============================================================================
+void
+CodeToByte(MacroFunctionDef* fptr, Serialize* s)
+{}
+//=============================================================================
+MacroFunctionDef*
+ByteToCode(const std::wstring& nlb_filename)
+{
+    MacroFunctionDef* macro = nullptr;
+    return macro;
+}
+//=============================================================================
+MacroFunctionDef*
+ByteToCode(Serialize* s)
+{
+    MacroFunctionDef* macro = nullptr;
+    return macro;
+}
+//=============================================================================
 }

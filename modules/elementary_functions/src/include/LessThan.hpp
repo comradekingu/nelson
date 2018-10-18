@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -20,12 +20,12 @@
 //=============================================================================
 #include "nlsElementary_functions_exports.h"
 #include "ArrayOf.hpp"
-#include "Exception.hpp"
 //=============================================================================
 namespace Nelson {
-    /**
-    * Element-wise compare (lt) of two arrays.
-    */
-    NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf LessThan(ArrayOf A, ArrayOf B);
+/**
+ * Element-wise compare (lt) of two arrays.
+ */
+NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
+LessThan(ArrayOf& A, ArrayOf& B, bool& needToOverload);
 }
 //=============================================================================

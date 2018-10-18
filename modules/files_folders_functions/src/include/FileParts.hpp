@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -18,13 +18,18 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
 #include "nlsFiles_folders_functions_exports.h"
+#include <string>
 //=============================================================================
 namespace Nelson {
-    NLSFILES_FOLDERS_FUNCTIONS_IMPEXP std::wstring FilePartsPath(const std::wstring &fullpath);
-    NLSFILES_FOLDERS_FUNCTIONS_IMPEXP std::wstring FilePartsFilename(const std::wstring &fullpath);
-    NLSFILES_FOLDERS_FUNCTIONS_IMPEXP std::wstring FilePartsExtension(const std::wstring &fullpath);
-    NLSFILES_FOLDERS_FUNCTIONS_IMPEXP void FileParts(const std::wstring &fullpath, std::wstring &path, std::wstring &filename, std::wstring &extension);
-}
+NLSFILES_FOLDERS_FUNCTIONS_IMPEXP std::wstring
+FilePartsPath(const std::wstring& fullpath);
+NLSFILES_FOLDERS_FUNCTIONS_IMPEXP std::wstring
+FilePartsFilename(const std::wstring& fullpath);
+NLSFILES_FOLDERS_FUNCTIONS_IMPEXP std::wstring
+FilePartsExtension(const std::wstring& fullpath);
+NLSFILES_FOLDERS_FUNCTIONS_IMPEXP void
+FileParts(const std::wstring& fullpath, std::wstring& path, std::wstring& filename,
+    std::wstring& extension);
+} // namespace Nelson
 //=============================================================================

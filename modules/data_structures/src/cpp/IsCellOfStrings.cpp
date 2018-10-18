@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -19,27 +19,24 @@
 #include "IsCellOfStrings.hpp"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    bool IsCellOfString(ArrayOf cellarr)
-    {
-        if (cellarr.getDataClass() != NLS_CELL_ARRAY)
-        {
-            return false;
-        }
-        if (cellarr.isEmpty())
-        {
-            return true;
-        }
-        ArrayOf *arg = (ArrayOf*)(cellarr.getDataPointer());
-        for (indexType k = 0; k < cellarr.getDimensions().getElementCount(); k++)
-        {
-            if (!arg[k].isString())
-            {
-                return false;
-            }
-        }
+//=============================================================================
+bool
+IsCellOfString(ArrayOf cellarr)
+{
+    if (cellarr.getDataClass() != NLS_CELL_ARRAY) {
+        return false;
+    }
+    if (cellarr.isEmpty()) {
         return true;
     }
-    //=============================================================================
+    ArrayOf* arg = (ArrayOf*)(cellarr.getDataPointer());
+    for (indexType k = 0; k < cellarr.getDimensions().getElementCount(); k++) {
+        if (!arg[k].isCharacterArray()) {
+            return false;
+        }
+    }
+    return true;
+}
+//=============================================================================
 }
 //=============================================================================

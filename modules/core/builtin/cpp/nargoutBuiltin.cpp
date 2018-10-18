@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -23,54 +23,40 @@
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::CoreGateway::nargoutBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::CoreGateway::nargoutBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (nLhs > 1)
-    {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+    if (nLhs > 1) {
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    if (argIn.size() > 1)
-    {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    if (argIn.size() > 1) {
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    if (argIn.size() == 0)
-    {
-        Context *context = eval->getContext();
-        if (context->getCurrentScope()->getName() == "base")
-        {
-            Error(eval, _W("not allowed in base scope."));
-        }
-        else
-        {
+    if (argIn.size() == 0) {
+        Context* context = eval->getContext();
+        if (context->getCurrentScope()->getName() == "base") {
+            Error(_W("not allowed in base scope."));
+        } else {
             int nargout = context->getCurrentScope()->getNargOut();
             retval.push_back(ArrayOf::doubleConstructor(nargout));
         }
-    }
-    else // argIn.size() == 1
+    } else // argIn.size() == 1
     {
         ArrayOf param1 = argIn[0];
         std::wstring name;
-        if (param1.isSingleString())
-        {
+        if (param1.isRowVectorCharacterArray()) {
             name = param1.getContentAsWideString();
-        }
-        else if (param1.isFunctionHandle())
-        {
+        } else if (param1.isFunctionHandle()) {
             function_handle fh = param1.getContentAsFunctionHandle();
-            FunctionDef *funcDef = (FunctionDef *)fh;
-            if (eval->getContext()->getGlobalScope()->isPointerOnFunction(funcDef))
-            {
+            FunctionDef* funcDef = (FunctionDef*)fh;
+            if (eval->getContext()->getGlobalScope()->isPointerOnFunction(funcDef)) {
                 name = utf8_to_wstring(funcDef->name);
+            } else {
+                Error(ERROR_WRONG_ARGUMENT_1_TYPE_FUNCTION_HANDLE_EXPECTED);
             }
-            else
-            {
-                Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_FUNCTION_HANDLE_EXPECTED);
-            }
-        }
-        else
-        {
-            Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_OR_FUNCTION_HANDLE_EXPECTED);
+        } else {
+            Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_OR_FUNCTION_HANDLE_EXPECTED);
         }
         retval.push_back(ArrayOf::doubleConstructor(NargOut(eval, name)));
     }

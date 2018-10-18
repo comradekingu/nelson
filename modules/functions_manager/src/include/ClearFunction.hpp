@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -18,12 +18,15 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsFunctions_manager_exports.h"
 #include "Evaluator.hpp"
+#include "nlsFunctions_manager_exports.h"
 //=============================================================================
 namespace Nelson {
-    NLSFUNCTIONS_MANAGER_IMPEXP bool ClearBuiltin(std::wstring builtinName);
-    NLSFUNCTIONS_MANAGER_IMPEXP bool ClearAllBuiltin();
-    NLSFUNCTIONS_MANAGER_IMPEXP bool ClearMacroCache(Evaluator *eval);
-}
+NLSFUNCTIONS_MANAGER_IMPEXP bool
+ClearBuiltin(std::wstring builtinName);
+NLSFUNCTIONS_MANAGER_IMPEXP bool
+ClearAllBuiltin();
+NLSFUNCTIONS_MANAGER_IMPEXP bool
+ClearMacroCache(Evaluator* eval);
+} // namespace Nelson
 //=============================================================================

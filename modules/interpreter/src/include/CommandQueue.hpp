@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -19,22 +19,28 @@
 #pragma once
 //=============================================================================
 #include <string>
-#include <boost/container/vector.hpp>
-#include <boost/thread/mutex.hpp>
+#include <vector>
+#include <mutex>
 #include "nlsInterpreter_exports.h"
 //=============================================================================
 namespace Nelson {
-    class NLSINTERPRETER_IMPEXP CommandQueue {
-    private:
-        boost::mutex m_mutex;
-        boost::container::vector<std::string> commands;
-    public:
-        CommandQueue();
-        ~CommandQueue();
-        bool isEmpty();
-        void add(std::string cmdline, bool bIsPriority = false);
-        void clear();
-        bool get(std::string &cmd);
-    };
+class NLSINTERPRETER_IMPEXP CommandQueue
+{
+private:
+    std::mutex m_mutex;
+    std::vector<std::wstring> commands;
+
+public:
+    CommandQueue();
+    ~CommandQueue();
+    bool
+    isEmpty();
+    void
+    add(const std::wstring& cmdline, bool bIsPriority = false);
+    void
+    clear();
+    bool
+    get(std::wstring& cmd);
+};
 };
 //=============================================================================

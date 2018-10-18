@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -16,8 +16,20 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-if ~ismodule('module_skeleton')
-	run('loader.nls')
+if ~havecompiler()
+  error(_('Please install and configure a C/C++ compiler'));
 end
+//=============================================================================
+run([fileparts(nfilename('fullpath')), '/src/builder.nls']);
+run([fileparts(nfilename('fullpath')), '/builtin/builder.nls']);
+//=============================================================================
+if ~ismodule('module_skeleton')
+  // need to load module to build help
+  run('loader.nls')
+end
+//=============================================================================
 buildhelp('module_skeleton')
+//=============================================================================
+// unload module and dependencies
+removemodule('module_skeleton')
 //=============================================================================

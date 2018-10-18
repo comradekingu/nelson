@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -19,10 +19,9 @@
 function buildhelpweb(varargin)
   // buildhelpweb(destdir, [currentlang])
 
-  if ~(nargin() == 1 | nargin() == 2)
+  if ~(nargin() == 1 || nargin() == 2)
     error(_('Wrong number of input arguments.'));
   end 
-
 
   if nargin() == 2
     lang = varargin{2};
@@ -37,7 +36,7 @@ function buildhelpweb(varargin)
 
   srclist = {};
   run([nelsonroot() '/modules/' 'modules.nls']);
-  for module = modules_help_list
+  for module = modules_help_list(:)'
     src = [modulepath(module{1}), '/help/', lang, '/xml'];
     if isdir(src)
       srclist{end + 1} = src;
@@ -47,5 +46,8 @@ function buildhelpweb(varargin)
   title = ['Nelson', ' ', int2str(vervec(1)), '.', int2str(vervec(2)), '.', int2str(vervec(3)), '.', int2str(vervec(4))];
   xmldoctohtml(srclist, dirdest, title);
 
+endfunction
+//=============================================================================
+function helpForNelsonOnly()
 endfunction
 //=============================================================================

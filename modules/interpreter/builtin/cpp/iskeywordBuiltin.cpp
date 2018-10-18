@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -22,30 +22,25 @@
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::InterpreterGateway::iskeywordBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::InterpreterGateway::iskeywordBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (nLhs > 1)
-    {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+    if (nLhs > 1) {
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    if (argIn.size() == 0)
-    {
+    if (argIn.size() == 0) {
         wstringVector keys = GetKeywords(true);
-        ArrayOf *elements = new_with_exception<ArrayOf>(keys.size());
-        for (size_t k = 0; k < keys.size(); k++)
-        {
-            elements[k] = ArrayOf::stringConstructor(keys[k]);
+        ArrayOf* elements = new_with_exception<ArrayOf>(keys.size());
+        for (size_t k = 0; k < keys.size(); k++) {
+            elements[k] = ArrayOf::characterArrayConstructor(keys[k]);
         }
         Dimensions dims(keys.size(), 1);
         ArrayOf c = ArrayOf(NLS_CELL_ARRAY, dims, elements);
         retval.push_back(c);
-    }
-    else
-    {
-        if (!argIn[0].isSingleString())
-        {
-            Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
+    } else {
+        if (!argIn[0].isRowVectorCharacterArray()) {
+            Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
         }
         std::wstring warg = argIn[0].getContentAsWideString();
         retval.push_back(ArrayOf::logicalConstructor(isKeyword(warg)));

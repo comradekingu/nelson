@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -16,121 +16,98 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <QtWidgets/QApplication>
-#include <QtCore/QtGlobal>
-#include "Evaluator.hpp"
 #include "MainGuiObject.hpp"
-#include "QtMainWindow.h"
-#include "Console.hpp"
-#include "GuiTerminal.hpp"
-#include "GetQtPath.hpp"
 #include "AddPathToEnvironmentVariable.hpp"
-#include "Nelson_VERSION.h"
+#include "Console.hpp"
+#include "Evaluator.hpp"
 #include "GetNelsonMainEvaluatorDynamicFunction.hpp"
+#include "GetQtPath.hpp"
+#include "GuiTerminal.hpp"
+#include "Warning.hpp"
+#include "Nelson_VERSION.h"
+#include "QtMainWindow.h"
+#include <QtCore/QtGlobal>
+#include <QtWidgets/QApplication>
 //===================================================================================
-static QApplication *NelSonQtApp = nullptr;
+static QApplication* NelSonQtApp = nullptr;
 static QtMainWindow* NelSonQtMainWindow = nullptr;
 static bool messageVerbose = false;
 //===================================================================================
-void QtMessageVerbose(bool bVerbose)
+void
+QtMessageVerbose(bool bVerbose)
 {
     messageVerbose = bVerbose;
 }
 //===================================================================================
-bool IsQtMessageVerbose()
+bool
+IsQtMessageVerbose()
 {
     return messageVerbose;
 }
 //===================================================================================
-static void QtMessageOutput(QtMsgType type, const QMessageLogContext &context, const QString &msg)
+static void
+QtMessageOutput(QtMsgType type, const QMessageLogContext& context, const QString& msg)
 {
     QByteArray localMsg = msg.toLocal8Bit();
     std::string str(localMsg);
-    if (!messageVerbose)
-    {
+    if (!messageVerbose) {
         return;
     }
-    switch (type)
-    {
-        case QtDebugMsg:
-        {
-            Evaluator *eval = (Evaluator *)GetNelsonMainEvaluatorDynamicFunction();
-            if (eval)
-            {
-                Interface *io = eval->getInterface();
-                if (io)
-                {
-                    io->outputMessage(str);
-                }
-            }
-        }
-        break;
+    switch (type) {
+    case QtDebugMsg: {
+        Warning(str);
+    } break;
 #if QT_VERSION > QT_VERSION_CHECK(5, 5, 0)
-        case QtInfoMsg:
+    case QtInfoMsg:
 #endif
-        case QtWarningMsg:
-        {
-            Evaluator *eval = (Evaluator *)GetNelsonMainEvaluatorDynamicFunction();
-            if (eval)
-            {
-                Interface *io = eval->getInterface();
-                if (io)
-                {
-                    io->warningMessage(str);
-                }
+    case QtWarningMsg: {
+        Warning(str);
+    } break;
+    case QtCriticalMsg:
+    case QtFatalMsg: {
+        Evaluator* eval = (Evaluator*)GetNelsonMainEvaluatorDynamicFunction();
+        if (eval) {
+            Interface* io = eval->getInterface();
+            if (io) {
+                io->errorMessage(str);
             }
         }
-        break;
-        case QtCriticalMsg:
-        case QtFatalMsg:
-        {
-            Evaluator *eval = (Evaluator *)GetNelsonMainEvaluatorDynamicFunction();
-            if (eval)
-            {
-                Interface *io = eval->getInterface();
-                if (io)
-                {
-                    io->errorMessage(str);
-                }
-            }
-        }
-        break;
+    } break;
     }
 }
 //===================================================================================
-#if defined  _MSC_VER || defined __APPLE__
-static char *argv[] = { "Nelson", Q_NULLPTR };
+#if defined _MSC_VER || defined __APPLE__
+static char* argv[] = { "Nelson", Q_NULLPTR };
 static int argc = sizeof(argv) / sizeof(char*) - 1;
 #else
 // These variables must be global for linux ...
-static char *argv[] = { "Nelson", NULL };
+static char* argv[] = { "Nelson", NULL };
 static int argc = 1;
 #endif
 //===================================================================================
-void InitGuiObjects(void)
+void
+InitGuiObjects(void)
 {
     qInstallMessageHandler(QtMessageOutput);
-    if (NelSonQtApp == nullptr)
-    {
+    if (NelSonQtApp == nullptr) {
         NelSonQtApp = new QApplication(argc, argv);
         QCoreApplication::setApplicationName("Nelson");
-        QCoreApplication::setOrganizationDomain("https://nelson-numerical-software.github.io/nelson-website/");
+        QCoreApplication::setOrganizationDomain(
+            "https://nelson-numerical-software.github.io/nelson-website/");
         AddPathToEnvironmentVariable(std::wstring(L"PATH"), GetQtPath(L"BinariesPath"));
     }
 }
 //===================================================================================
-void *CreateGuiEvaluator(void* vcontext, NELSON_ENGINE_MODE _mode)
+void*
+CreateGuiEvaluator(void* vcontext, NELSON_ENGINE_MODE _mode)
 {
     CreateConsole();
     NelSonQtMainWindow = new QtMainWindow();
-    if (NelSonQtMainWindow)
-    {
-        GuiTerminal *nlsTerm = new GuiTerminal((void*)NelSonQtMainWindow);
-        if (nlsTerm)
-        {
-            Evaluator *mainEvaluator = new Evaluator((Context*)vcontext, nlsTerm, _mode);
-            if (mainEvaluator)
-            {
+    if (NelSonQtMainWindow) {
+        GuiTerminal* nlsTerm = new GuiTerminal((void*)NelSonQtMainWindow);
+        if (nlsTerm) {
+            Evaluator* mainEvaluator = new Evaluator((Context*)vcontext, nlsTerm, _mode);
+            if (mainEvaluator) {
                 mainEvaluator->mainGuiObject = (void*)NelSonQtMainWindow;
             }
             return (void*)mainEvaluator;
@@ -139,25 +116,16 @@ void *CreateGuiEvaluator(void* vcontext, NELSON_ENGINE_MODE _mode)
     return nullptr;
 }
 //===================================================================================
-void *CreateMainGuiObject(void)
+void
+DestroyMainGuiObject(void* term)
 {
-    CreateConsole();
-    NelSonQtMainWindow = new QtMainWindow();
-    return (void*)NelSonQtMainWindow;
-}
-//===================================================================================
-void DestroyMainGuiObject(void *term)
-{
-    if (NelSonQtApp)
-    {
-        if (NelSonQtMainWindow)
-        {
+    if (NelSonQtApp) {
+        if (NelSonQtMainWindow) {
             delete NelSonQtMainWindow;
             NelSonQtMainWindow = nullptr;
         }
-        if (term)
-        {
-            GuiTerminal *nlsTerm = (GuiTerminal *)term;
+        if (term) {
+            GuiTerminal* nlsTerm = (GuiTerminal*)term;
             delete nlsTerm;
             nlsTerm = nullptr;
         }
@@ -167,7 +135,8 @@ void DestroyMainGuiObject(void *term)
     DestroyConsole();
 }
 //===================================================================================
-void *GetMainGuiObject(void)
+void*
+GetMainGuiObject(void)
 {
     return (void*)NelSonQtMainWindow;
 }

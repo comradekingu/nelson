@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -21,59 +21,43 @@
 #include "Error.hpp"
 #include "OverloadFunction.hpp"
 #include "characters_encoding.hpp"
+#include "IsErrorStruct.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::ErrorManagerGateway::errorBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::ErrorManagerGateway::errorBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() != 1)
-    {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    if (argIn.size() != 1) {
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     // Call overload if it exists
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
-    if (!bSuccess)
-    {
-        if (argIn[0].isSingleString())
-        {
-            std::wstring msg = argIn[0].getContentAsWideString();
-            if (msg.compare(L"") != 0)
-            {
-                if (eval->getCallerFunctionName().compare("EvaluateScript") == 0)
-                {
-                    Error(eval, msg);
-                }
-                else
-                {
-                    std::wstring currentFilename = L"";
-                    size_t sz = eval->cstack.size();
-                    int line = -1;
-                    int position = -1;
-                    if (sz > 2)
-                    {
-                        line = eval->cstack[sz - 2].tokid & 0x0000FFFF;
-                        position = eval->cstack[sz - 2].tokid >> 16;
-                        std::wstring callerName = eval->getCallerFunctionNameW();
-                        std::wstring fileName = L"";
-                        if (callerName == L"EvaluateScript")
-                        {
-                            fileName = eval->getCurrentEvaluateFilename();
-                        }
-                        else
-                        {
-                            fileName = callerName;
-                        }
-                        currentFilename = fileName;
-                    }
-                    throw Exception(msg, eval->getCallerFunctionNameW(), line, position, currentFilename);
-                }
+    if (eval->mustOverloadBasicTypes()) {
+        retval = OverloadFunction(eval, nLhs, argIn, "error", bSuccess);
+    }
+    if (!bSuccess) {
+        if (argIn[0].isSparse() || argIn[0].isCell() || argIn[0].isHandle() || argIn[0].isStruct()
+            || argIn[0].isClassStruct()) {
+            retval = OverloadFunction(eval, nLhs, argIn, "error", bSuccess);
+            if (bSuccess) {
+                return retval;
             }
         }
-        else
-        {
-            Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
+        if (argIn[0].isRowVectorCharacterArray()) {
+            std::wstring msg = argIn[0].getContentAsWideString();
+            if (msg.compare(L"") != 0) {
+                Error(msg);
+            }
+        } else {
+            Exception e;
+            if (IsErrorStruct(argIn[0], e)) {
+                eval->setLastErrorException(e);
+                throw e;
+            } else {
+                Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
+            }
         }
     }
     return retval;

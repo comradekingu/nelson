@@ -51,25 +51,37 @@
     <ClCompile Include="..\cpp\mat2strBuiltin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\cpp\ndarraychar_horzcat_ndarraycharBuiltin.cpp">
+    <ClCompile Include="..\cpp\startsWithBuiltin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\cpp\ndarraychar_isequalBuiltin.cpp">
+    <ClCompile Include="..\cpp\containsBuiltin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\cpp\ndarraychar_vertcat_ndarraycharBuiltin.cpp">
+    <ClCompile Include="..\cpp\endsWithBuiltin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\cpp\char_dispBuiltin.cpp">
+    <ClCompile Include="..\cpp\countBuiltin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\cpp\char_horzcat_charBuiltin.cpp">
+    <ClCompile Include="..\cpp\strrepBuiltin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\cpp\char_isequalBuiltin.cpp">
+    <ClCompile Include="..\cpp\replaceBuiltin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\cpp\char_vertcat_charBuiltin.cpp">
+    <ClCompile Include="..\cpp\strlengthBuiltin.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\strtrimBuiltin.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\stringBuiltin.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\stringsBuiltin.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\deblankBuiltin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -110,25 +122,37 @@
     <ClInclude Include="..\include\mat2strBuiltin.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\ndarraychar_horzcat_ndarraycharBuiltin.hpp">
+    <ClInclude Include="..\include\startsWithBuiltin.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\ndarraychar_isequalBuiltin.hpp">
+    <ClInclude Include="..\include\containsBuiltin.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\ndarraychar_vertcat_ndarraycharBuiltin.hpp">
+    <ClInclude Include="..\include\endsWithBuiltin.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\char_dispBuiltin.hpp">
+    <ClInclude Include="..\include\countBuiltin.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\char_horzcat_charBuiltin.hpp">
+    <ClInclude Include="..\include\strrepBuiltin.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\char_isequalBuiltin.hpp">
+    <ClInclude Include="..\include\replaceBuiltin.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\char_vertcat_charBuiltin.hpp">
+    <ClInclude Include="..\include\strlengthBuiltin.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\strtrimBuiltin.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\stringBuiltin.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\stringsBuiltin.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\deblankBuiltin.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -17,29 +17,30 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "NelsonGateway.hpp"
+#include "Rng.hpp"
 #include "randBuiltin.hpp"
 #include "randnBuiltin.hpp"
 #include "rngBuiltin.hpp"
-#include "Rng.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 const std::wstring gatewayName = L"random";
 //=============================================================================
-static const nlsGateway gateway[] =
-{
+static const nlsGateway gateway[] = {
     { "rand", Nelson::RandomGateway::randBuiltin, 1, -1 },
     { "randn", Nelson::RandomGateway::randnBuiltin, 1, -1 },
     { "rng", Nelson::RandomGateway::rngBuiltin, 2, 1 },
 };
 //=============================================================================
-static bool initializeRandModule(Nelson::Evaluator* eval)
+static bool
+initializeRandModule(Nelson::Evaluator* eval)
 {
     RngSetDefault(eval);
     return true;
 }
 //=============================================================================
-static bool finishRandModule(Nelson::Evaluator* eval)
+static bool
+finishRandModule(Nelson::Evaluator* eval)
 {
     RngDelete(eval);
     return true;
@@ -53,4 +54,3 @@ NLSGATEWAYREMOVEEXTENDED(gateway, (void*)finishRandModule)
 //=============================================================================
 NLSGATEWAYNAME()
 //=============================================================================
-

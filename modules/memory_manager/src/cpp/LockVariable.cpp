@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -20,41 +20,48 @@
 #include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    bool LockVariable(const std::wstring &variable, Scope * scope)
-    {
-        return LockVariable(wstring_to_utf8(variable), scope);
-    }
-    //=============================================================================
-    bool LockVariable(const std::string &variable, Scope * scope)
-    {
-        return scope->lockVariable(variable);
-    }
-    //=============================================================================
-    bool UnlockVariable(const std::wstring &variable, Scope * scope)
-    {
-        return UnlockVariable(wstring_to_utf8(variable), scope);
-    }
-    //=============================================================================
-    bool UnlockVariable(const std::string &variable, Scope * scope)
-    {
-        return scope->unlockVariable(variable);
-    }
-    //=============================================================================
-    bool IsLockedVariable(const std::wstring &variable, Scope * scope)
-    {
-        return IsLockedVariable(wstring_to_utf8(variable), scope);
-    }
-    //=============================================================================
-    bool IsLockedVariable(const std::string &variable, Scope * scope)
-    {
-        return scope->isLockedVariable(variable);
-    }
-    //=============================================================================
-    stringVector GetLockedVariables(const std::string &variable, Scope * scope)
-    {
-        return scope->getLockedVariables();
-    }
-    //=============================================================================
+//=============================================================================
+bool
+LockVariable(const std::wstring& variable, Scope* scope)
+{
+    return LockVariable(wstring_to_utf8(variable), scope);
+}
+//=============================================================================
+bool
+LockVariable(const std::string& variable, Scope* scope)
+{
+    return scope->lockVariable(variable);
+}
+//=============================================================================
+bool
+UnlockVariable(const std::wstring& variable, Scope* scope)
+{
+    return UnlockVariable(wstring_to_utf8(variable), scope);
+}
+//=============================================================================
+bool
+UnlockVariable(const std::string& variable, Scope* scope)
+{
+    return scope->unlockVariable(variable);
+}
+//=============================================================================
+bool
+IsLockedVariable(const std::wstring& variable, Scope* scope)
+{
+    return IsLockedVariable(wstring_to_utf8(variable), scope);
+}
+//=============================================================================
+bool
+IsLockedVariable(const std::string& variable, Scope* scope)
+{
+    return scope->isLockedVariable(variable);
+}
+//=============================================================================
+stringVector
+GetLockedVariables(const std::string& variable, Scope* scope)
+{
+    return scope->getLockedVariables();
+}
+//=============================================================================
 }
 //=============================================================================

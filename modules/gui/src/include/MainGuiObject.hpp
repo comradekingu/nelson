@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -18,15 +18,22 @@
 //=============================================================================
 #pragma once
 //===================================================================================
-#include "nlsGui_exports.h"
 #include "NelSon_engine_mode.h"
+#include "nlsGui_exports.h"
 //===================================================================================
-extern "C" {
-    NLSGUI_IMPEXP void InitGuiObjects(void);
-    NLSGUI_IMPEXP void *CreateGuiEvaluator(void* vcontext, NELSON_ENGINE_MODE _mode);
-    NLSGUI_IMPEXP void DestroyMainGuiObject(void *term);
-    NLSGUI_IMPEXP void *GetMainGuiObject(void);
-    NLSGUI_IMPEXP void QtMessageVerbose(bool bVerbose);
-    NLSGUI_IMPEXP bool IsQtMessageVerbose();
+extern "C"
+{
+    NLSGUI_IMPEXP void
+    InitGuiObjects(void);
+    NLSGUI_IMPEXP void*
+    CreateGuiEvaluator(void* vcontext, NELSON_ENGINE_MODE _mode);
+    NLSGUI_IMPEXP void
+    DestroyMainGuiObject(void* term);
+    NLSGUI_IMPEXP void*
+    GetMainGuiObject(void);
+    NLSGUI_IMPEXP void
+    QtMessageVerbose(bool bVerbose);
+    NLSGUI_IMPEXP bool
+    IsQtMessageVerbose();
 };
 //===================================================================================

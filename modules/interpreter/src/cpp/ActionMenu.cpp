@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -17,47 +17,47 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "ActionMenu.hpp"
-#include "GetNelsonMainEvaluatorDynamicFunction.hpp"
 #include "CommandQueue.hpp"
 #include "Evaluator.hpp"
+#include "GetNelsonMainEvaluatorDynamicFunction.hpp"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    void doExit(void)
-    {
-        Evaluator *eval = (Evaluator *)GetNelsonMainEvaluatorDynamicFunction();
-        if (eval)
-        {
-            eval->addCommandToQueue(L"quit;");
-        }
+//=============================================================================
+void
+doExit(void)
+{
+    Evaluator* eval = (Evaluator*)GetNelsonMainEvaluatorDynamicFunction();
+    if (eval) {
+        eval->addCommandToQueue(L"quit;");
     }
-    //=============================================================================
-    void doHelp(void)
-    {
-        Evaluator *eval = (Evaluator *)GetNelsonMainEvaluatorDynamicFunction();
-        if (eval)
-        {
-            eval->addCommandToQueue(L"help;");
-        }
+}
+//=============================================================================
+void
+doHelp(void)
+{
+    Evaluator* eval = (Evaluator*)GetNelsonMainEvaluatorDynamicFunction();
+    if (eval) {
+        eval->addCommandToQueue(L"doc;");
     }
-    //=============================================================================
-    void doPause(void)
-    {
-        Evaluator *eval = (Evaluator *)GetNelsonMainEvaluatorDynamicFunction();
-        if (eval)
-        {
-            eval->addCommandToQueue(L"pause;");
-        }
+}
+//=============================================================================
+void
+doPause(void)
+{
+    Evaluator* eval = (Evaluator*)GetNelsonMainEvaluatorDynamicFunction();
+    if (eval) {
+        eval->addCommandToQueue(L"keyboard;");
     }
-    //=============================================================================
-    void doStop(void)
-    {
-        Evaluator *eval = (Evaluator *)GetNelsonMainEvaluatorDynamicFunction();
-        if (eval)
-        {
-            eval->addCommandToQueue(L"abort;");
-        }
+}
+//=============================================================================
+void
+doStop(void)
+{
+    Evaluator* eval = (Evaluator*)GetNelsonMainEvaluatorDynamicFunction();
+    if (eval) {
+        eval->addCommandToQueue(L"abort;");
     }
-    //=============================================================================
+}
+//=============================================================================
 };
 //=============================================================================

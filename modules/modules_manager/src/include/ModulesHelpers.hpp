@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -18,15 +18,22 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
 #include "nlsModules_manager_exports.h"
+#include <string>
 //=============================================================================
 namespace Nelson {
-    NLSMODULES_MANAGER_IMPEXP std::wstring ConstructBinariesPath(const std::wstring &modulerootpath);
-    NLSMODULES_MANAGER_IMPEXP std::wstring ConstructDynamicLibraryName(const std::wstring &moduleshortname);
-    NLSMODULES_MANAGER_IMPEXP std::wstring ConstructDynamicLibraryFullname(const std::wstring &modulerootpath, const std::wstring &moduleshortname);
-    NLSMODULES_MANAGER_IMPEXP std::wstring ConstructEtcName(const std::wstring &modulerootpath, const std::wstring &moduleshortname);
-    NLSMODULES_MANAGER_IMPEXP std::wstring ConstructScriptName(const std::wstring &modulerootpath, const std::wstring &moduleshortname);
-    NLSMODULES_MANAGER_IMPEXP std::wstring ConstructRootName(const std::wstring &modulerootpath, const std::wstring &moduleshortname);
-}
+NLSMODULES_MANAGER_IMPEXP std::wstring
+ConstructBinariesPath(const std::wstring& modulerootpath);
+NLSMODULES_MANAGER_IMPEXP std::wstring
+ConstructDynamicLibraryName(const std::wstring& moduleshortname);
+NLSMODULES_MANAGER_IMPEXP std::wstring
+ConstructDynamicLibraryFullname(
+    const std::wstring& modulerootpath, const std::wstring& moduleshortname);
+NLSMODULES_MANAGER_IMPEXP std::wstring
+ConstructEtcName(const std::wstring& modulerootpath, const std::wstring& moduleshortname);
+NLSMODULES_MANAGER_IMPEXP std::wstring
+ConstructScriptName(const std::wstring& modulerootpath, const std::wstring& moduleshortname);
+NLSMODULES_MANAGER_IMPEXP std::wstring
+ConstructRootName(const std::wstring& modulerootpath, const std::wstring& moduleshortname);
+} // namespace Nelson
 //=============================================================================

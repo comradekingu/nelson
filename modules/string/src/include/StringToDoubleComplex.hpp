@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -16,13 +16,16 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <string>
-#include "nlsString_exports.h"
+#pragma once
+//=============================================================================
 #include "Types.hpp"
+#include "nlsString_exports.h"
+#include <string>
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    NLSSTRING_IMPEXP doublecomplex stringToDoubleComplex(const std::wstring &str, bool &wasConverted);
-    //=============================================================================
-}
+//=============================================================================
+NLSSTRING_IMPEXP doublecomplex
+stringToDoubleComplex(const std::wstring& str, bool& wasConverted);
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

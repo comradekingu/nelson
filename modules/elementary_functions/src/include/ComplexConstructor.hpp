@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -22,7 +22,9 @@
 #include "nlsElementary_functions_exports.h"
 //=============================================================================
 namespace Nelson {
-    NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf ComplexConstructor(ArrayOf arrayA, ArrayOf arrayB);
-    NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf ComplexConstructor(ArrayOf arrayA);
-}
-//=============================================================================
+NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
+ComplexConstructor(ArrayOf arrayA, ArrayOf arrayB);
+NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
+ComplexConstructor(ArrayOf arrayA);
+} // namespace Nelson
+  //=============================================================================

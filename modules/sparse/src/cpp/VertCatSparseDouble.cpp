@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -21,28 +21,39 @@
 #include "VertCatSparseDouble.hpp"
 #include "CtransposeSparseDouble.hpp"
 #include "HorzCatSparseDouble.hpp"
+#include "Error.hpp"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    ArrayOf VertCatSparseDouble(ArrayOf A, ArrayOf B)
-    {
-        ArrayOf C;
-        if (A.isEmpty(true))
-        {
-            ArrayOf C(B);
-            return C;
-        }
-        if (B.isEmpty(true))
-        {
-            ArrayOf C(A);
-            return C;
-        }
-        A = CtransposeSparseDouble(A);
-        B = CtransposeSparseDouble(B);
-        C = HorzCatSparseDouble(A, B);
-        C = CtransposeSparseDouble(C);
+//=============================================================================
+ArrayOf
+VertCatSparseDouble(ArrayOf A, ArrayOf B)
+{
+    ArrayOf C;
+    if (!A.isSparseDoubleType()) {
+        Error(ERROR_WRONG_ARGUMENT_1_TYPE_SPARSE_DOUBLE_EXPECTED);
+    }
+    if (!B.isSparseDoubleType()) {
+        Error(ERROR_WRONG_ARGUMENT_2_TYPE_SPARSE_DOUBLE_EXPECTED);
+    }
+    if (A.isEmpty(false)) {
+        ArrayOf C(B);
         return C;
     }
-    //=============================================================================
+    if (B.isEmpty(false)) {
+        ArrayOf C(A);
+        return C;
+    }
+    Dimensions dimsA = A.getDimensions();
+    Dimensions dimsB = B.getDimensions();
+    if (dimsA.getColumns() != dimsB.getColumns()) {
+        Error(ERROR_DIMENSIONS_NOT_CONSISTENT);
+    }
+    A = CtransposeSparseDouble(A);
+    B = CtransposeSparseDouble(B);
+    C = HorzCatSparseDouble(A, B);
+    C = CtransposeSparseDouble(C);
+    return C;
+}
+//=============================================================================
 }
 //=============================================================================

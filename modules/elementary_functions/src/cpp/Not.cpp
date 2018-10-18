@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -17,25 +17,39 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "Not.hpp"
+#include "Exception.hpp"
+#include "Error.hpp"
 //=============================================================================
 namespace Nelson {
-
-    void boolean_not(indexType N, logical* C, const logical *A)
-    {
-        for (indexType i = 0; i<N; i++)
-        {
-            C[i] = !A[i];
-        }
+//=============================================================================
+static void
+boolean_not(indexType N, logical* C, const logical* A)
+{
+    for (indexType i = 0; i < N; i++) {
+        C[i] = !A[i];
     }
-    ArrayOf Not(ArrayOf A)
-    {
-        ArrayOf C;
+}
+//=============================================================================
+ArrayOf
+Not(ArrayOf& A, bool& needToOverload)
+{
+    ArrayOf C;
+    needToOverload = false;
+    if (A.getDataClass() == NLS_SCOMPLEX || A.getDataClass() == NLS_DCOMPLEX) {
+        Error(_W("Input argument must be real."));
+    }
+    try {
         A.promoteType(NLS_LOGICAL);
-        C = ArrayOf(NLS_LOGICAL, A.getDimensions(), NULL);
-        void *Cp = C.allocateArrayOf(NLS_LOGICAL, A.getLength());
-        boolean_not(A.getLength(), (logical*)Cp, (const logical*)A.getDataPointer());
-        C.setDataPointer(Cp);
-        return C;
+    } catch (Exception&) {
+        needToOverload = true;
+        return ArrayOf();
     }
+    logical* Cp = (logical*)ArrayOf::allocateArrayOf(
+        NLS_LOGICAL, A.getDimensions().getElementCount(), stringVector(), false);
+    boolean_not(A.getLength(), (logical*)Cp, (const logical*)A.getDataPointer());
+    C = ArrayOf(NLS_LOGICAL, A.getDimensions(), Cp);
+    return C;
+}
+//=============================================================================
 }
 //=============================================================================

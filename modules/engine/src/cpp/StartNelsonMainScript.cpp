@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -16,44 +16,36 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <boost/filesystem.hpp>
 #include "StartNelsonMainScript.hpp"
-#include "GetNelsonPath.hpp"
-#include "EvaluateScriptFile.hpp"
-#include "Interface.hpp"
 #include "CloseAllFiles.hpp"
+#include "EvaluateScriptFile.hpp"
+#include "GetNelsonPath.hpp"
+#include "Interface.hpp"
+#include <boost/filesystem.hpp>
 //=============================================================================
-bool StartNelsonMainScript(Evaluator* eval)
+bool
+StartNelsonMainScript(Evaluator* eval)
 {
-    Context *ctx = eval->getContext();
-    if (ctx)
-    {
+    Context* ctx = eval->getContext();
+    if (ctx) {
         std::wstring rootPath = Nelson::GetRootPath();
         boost::filesystem::path path(rootPath);
         path += L"/etc/startup.nls";
         bool bIsFile = boost::filesystem::exists(path) && !boost::filesystem::is_directory(path);
-        if (bIsFile)
-        {
+        if (bIsFile) {
             std::wstring wstr = path.generic_wstring();
-            try
-            {
+            try {
                 EvaluateScriptFile(eval, wstr.c_str());
-            }
-            catch (Exception &e)
-            {
+            } catch (Exception& e) {
                 // close all files in case of error at start-up
                 CloseAllFiles();
-                Interface *io = eval->getInterface();
-                e.what();
-                eval->setLastException(e);
+                Interface* io = eval->getInterface();
+                eval->setLastErrorException(e);
                 std::wstring errmsg = _W("Main startup.nls failed to run.");
-                if (io)
-                {
+                if (io) {
                     io->errorMessage(errmsg);
                     io->errorMessage(e.getFormattedErrorMessage() + L"\n");
-                }
-                else
-                {
+                } else {
                     errmsg = errmsg + L"\n";
                     fwprintf(stderr, L"%ls", errmsg.c_str());
                     fwprintf(stderr, L"%ls", e.getFormattedErrorMessage().c_str());

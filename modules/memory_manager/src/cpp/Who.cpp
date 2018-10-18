@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -20,40 +20,30 @@
 #include "Error.hpp"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    stringVector Who(Evaluator* eval, SCOPE_LEVEL scopeLevel, bool withPersistent)
-    {
-        stringVector names;
-        switch (scopeLevel)
-        {
-            case GLOBAL_SCOPE:
-            {
-                names = eval->getContext()->getGlobalScope()->getVariablesList(withPersistent);
-            }
-            break;
-            case BASE_SCOPE:
-            {
-                names = eval->getContext()->getBaseScope()->getVariablesList(withPersistent);
-            }
-            break;
-            case CALLER_SCOPE:
-            {
-                names = eval->getContext()->getCallerScope()->getVariablesList(withPersistent);
-            }
-            break;
-            case LOCAL_SCOPE:
-            {
-                names = eval->getContext()->getCurrentScope()->getVariablesList(withPersistent);
-            }
-            break;
-            default:
-            {
-                Error(eval, _W("Wrong scope."));
-            }
-            break;
-        }
-        return names;
+//=============================================================================
+stringVector
+Who(Evaluator* eval, SCOPE_LEVEL scopeLevel, bool withPersistent)
+{
+    stringVector names;
+    switch (scopeLevel) {
+    case GLOBAL_SCOPE: {
+        names = eval->getContext()->getGlobalScope()->getVariablesList(withPersistent);
+    } break;
+    case BASE_SCOPE: {
+        names = eval->getContext()->getBaseScope()->getVariablesList(withPersistent);
+    } break;
+    case CALLER_SCOPE: {
+        names = eval->getContext()->getCallerScope()->getVariablesList(withPersistent);
+    } break;
+    case LOCAL_SCOPE: {
+        names = eval->getContext()->getCurrentScope()->getVariablesList(withPersistent);
+    } break;
+    default: {
+        Error(_W("Wrong scope."));
+    } break;
     }
-    //=============================================================================
+    return names;
+}
+//=============================================================================
 }
 //=============================================================================

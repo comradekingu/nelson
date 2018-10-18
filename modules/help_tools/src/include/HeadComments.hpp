@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -18,21 +18,22 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
-#include "Types.hpp"
 #include "Evaluator.hpp"
+#include "Types.hpp"
 #include "nlsHelp_tools_exports.h"
+#include <string>
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    typedef enum
-    {
-        NO_ERROR,
-        NOT_A_MACRO,
-        FILE_NOT_EXIST,
-    } HEADCOMMENTS_ERROR;
-    //=============================================================================
-    NLSHELP_TOOLS_IMPEXP wstringVector HeadComments(Evaluator* eval, std::wstring filename, HEADCOMMENTS_ERROR &headError);
-    //=============================================================================
-}
+//=============================================================================
+typedef enum
+{
+    MACRO_OK,
+    NOT_A_MACRO,
+    FILE_NOT_EXIST,
+} HEADCOMMENTS_ERROR;
+//=============================================================================
+NLSHELP_TOOLS_IMPEXP wstringVector
+HeadComments(Evaluator* eval, std::wstring filename, HEADCOMMENTS_ERROR& headError);
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

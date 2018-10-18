@@ -1,5 +1,5 @@
 ;==============================================================================
-; Copyright (c) 2016-2017 Allan CORNET (Nelson)
+; Copyright (c) 2016-2018 Allan CORNET (Nelson)
 ;==============================================================================
 ; LICENCE_BLOCK_BEGIN
 ; This program is free software: you can redistribute it and/or modify
@@ -16,7 +16,7 @@
 ; along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ; LICENCE_BLOCK_END
 ;==============================================================================
-Source: {#RootPath}resources\banner_nelson.png; DestDir: {app}\resources\;
-Source: {#RootPath}resources\fibonacci.ico; DestDir: {app}\resources\;
-Source: {#RootPath}resources\fibonacci.png; DestDir: {app}\resources\;
+Source: {#RootPath}resources\*.png; DestDir: {app}\resources\;
+Source: {#RootPath}resources\*ico; DestDir: {app}\resources\;
+Source: {#RootPath}resources\*.svg; DestDir: {app}\resources\;
 ;==============================================================================

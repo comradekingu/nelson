@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -18,64 +18,100 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <QtWidgets/QMainWindow>
 #include "QtTerminal.h"
+#include <QtGui/QDragEnterEvent>
+#include <QtGui/QDropEvent>
+#include <QtWidgets/QMainWindow>
+#include <QtWidgets/QToolBar>
 //=============================================================================
-class QtMainWindow : public QMainWindow {
+class QtMainWindow : public QMainWindow
+{
     Q_OBJECT
 
 public:
     QtMainWindow();
     ~QtMainWindow();
 
-    QtTerminal *getQtTerminal();
+    QtTerminal*
+    getQtTerminal();
 
 private slots:
-    void about();
-    void help();
-    void website();
-    void bugAndRequest();
+    void
+    about();
+    void
+    help();
+    void
+    website();
+    void
+    bugAndRequest();
 
-    void cutText();
-    void copyText();
-    void pasteText();
-    void selectAllText();
-    void emptyClipboard();
+    void
+    cutText();
+    void
+    copyText();
+    void
+    pasteText();
+    void
+    selectAllText();
+    void
+    emptyClipboard();
 
-    void clearConsole();
+    void
+    clearConsole();
 
-    void runFile();
-    void pwdDisplay();
-    void changeDir();
+    void
+    runFile();
+    void
+    pwdDisplay();
+    void
+    changeDir();
+
+    void
+    editor();
 
 private:
-    void createMenus();
-    virtual void closeEvent(QCloseEvent *event);
-    void executeCommand(std::wstring cmd);
+    void
+    createMenus();
+    void
+    createToolbars();
+    virtual void
+    closeEvent(QCloseEvent* event);
 
-    QMenuBar *mainMenuBar;
-    QMenu *fileMenu;
-    QAction *runAct;
-    QAction *pwdAct;
-    QAction *chdirAct;
-    QAction *exitAct;
+    QString nelsonPath;
 
-    QMenu *editMenu;
-    QAction *cutAct;
-    QAction *copyAct;
-    QAction *pasteAct;
-    QAction *selectAllAct;
-    QAction *emptyClipboardAct;
-    QAction *clearConsoleAct;
+    QMenuBar* mainMenuBar;
+    QMenu* fileMenu;
+    QAction* runAction;
+    QAction* pwdAction;
+    QAction* chdirAction;
+    QAction* exitAction;
 
-    QMenu *helpMenu;
-    QAction *helpAct;
-    QAction *webAct;
-    QAction *bugAct;
+    QMenu* editMenu;
+    QAction* cutAction;
+    QAction* copyAction;
+    QAction* pasteAction;
+    QAction* selectAllAction;
+    QAction* emptyClipboardAction;
+    QAction* clearConsoleAction;
 
-    QAction *aboutAct;
+    QMenu* helpMenu;
+    QAction* helpAction;
+    QAction* webAction;
+    QAction* bugAction;
 
-    QtTerminal *qtTerminal;
+    QAction* aboutAction;
+
+    QAction* editorAction;
+
+    QtTerminal* qtTerminal;
+
+    QToolBar* toolBar;
+
     bool bClosed;
+
+    void
+    dragEnterEvent(QDragEnterEvent* event);
+    void
+    dropEvent(QDropEvent* event);
 };
 //=============================================================================

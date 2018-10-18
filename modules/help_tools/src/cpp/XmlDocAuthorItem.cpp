@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -17,33 +17,38 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "XmlDocAuthorItem.hpp"
-#include "characters_encoding.hpp"
-#include "XmlDocumentTags.hpp"
 #include "HtmlTags.hpp"
+#include "XmlDocumentTags.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    XmlDocAuthorItem::XmlDocAuthorItem(std::wstring author)
-    {
-        this->_author = author;
-    }
-    //=============================================================================
-    XmlDocAuthorItem::~XmlDocAuthorItem()
-    {
-        this->_author = L"";
-    }
-    //=============================================================================
-    std::wstring XmlDocAuthorItem::getItemType()
-    {
-        return  utf8_to_wstring(AUTHOR_ITEM_TAG);
-    }
-    //=============================================================================
-    bool XmlDocAuthorItem::writeAsHtml(std::string &utf8stream)
-    {
-        utf8stream = utf8stream + HTML_P_IN_TAG + wstring_to_utf8(this->_author) + HTML_P_OUT_TAG + "\n";
-        utf8stream = utf8stream + "\n";
-        return true;
-    }
-    //=============================================================================
+//=============================================================================
+XmlDocAuthorItem::XmlDocAuthorItem(std::wstring author) { this->_author = author; }
+//=============================================================================
+XmlDocAuthorItem::~XmlDocAuthorItem() { this->_author = L""; }
+//=============================================================================
+std::wstring
+XmlDocAuthorItem::getItemType()
+{
+    return utf8_to_wstring(AUTHOR_ITEM_TAG);
+}
+//=============================================================================
+bool
+XmlDocAuthorItem::writeAsHtml(std::string& utf8stream)
+{
+    utf8stream
+        = utf8stream + HTML_P_IN_TAG + wstring_to_utf8(this->_author) + HTML_P_OUT_TAG + "\n";
+    utf8stream = utf8stream + "\n";
+    return true;
+}
+//=============================================================================
+bool
+XmlDocAuthorItem::writeAsMarkdown(std::string& utf8stream)
+{
+    utf8stream = utf8stream + wstring_to_utf8(this->_author) + "\n";
+    utf8stream = utf8stream + "\n";
+    return true;
+}
+//=============================================================================
 }
 //=============================================================================

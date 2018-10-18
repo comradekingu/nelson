@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -17,15 +17,22 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #pragma once
-#include <string>
 #include "Types.hpp"
+#include <string>
 //=============================================================================
 namespace Nelson {
-    bool isValidImageTag(std::wstring tag);
-    bool parseImageTag(std::wstring tag, std::wstring srcDirectory, std::wstring &oldPath, std::wstring &newPath);
-    bool findImageTag(std::wstring text, wstringVector &imagesTag);
-    bool copyImages(wstringVector srcImages, wstringVector dstImages);
-    bool copyImage(std::wstring srcImage, std::wstring dstImage);
-    std::wstring crcFile(std::wstring filename);
-}
+bool
+isValidImageTag(std::wstring tag);
+bool
+parseImageTag(
+    std::wstring tag, std::wstring srcDirectory, std::wstring& oldPath, std::wstring& newPath);
+bool
+findImageTag(std::wstring text, wstringVector& imagesTag);
+bool
+copyImages(wstringVector srcImages, wstringVector dstImages);
+bool
+copyImage(std::wstring srcImage, std::wstring dstImage);
+std::wstring
+crcFile(std::wstring filename);
+} // namespace Nelson
 //=============================================================================

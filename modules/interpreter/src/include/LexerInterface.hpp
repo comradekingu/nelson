@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -35,39 +35,37 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 // DEALINGS IN THE SOFTWARE.
-
-#ifndef __LexerInterface_hpp__
-#define __LexerInterface_hpp__
-
+//=============================================================================
+#pragma once
+//=============================================================================
 #include <stdio.h>
-
+#include <string>
+//=============================================================================
 namespace Nelson {
-    /**
-     * Set the string buffer to be processed by the lexer.
-     */
-    void setLexBuffer(const char *buffer);
-    /**
-     * Set the FILE pointer for the file to be processed
-     * by the lexer.
-     */
-    void setLexFile(FILE *fp);
-    /**
-     * Lex the file, and then check to see if more input is needed.
-     */
-    bool lexCheckForMoreInput(int pcount);
-    /**
-     * Set the contents of the lexical buffer, and reset the
-     * continuationCount to zero.
-     */
-    void lexSetAdditionalInput(char *buffer);
-    /**
-     * Retrieve the contents of the continuationCount.
-     */
-    int getContinuationCount();
-    /**
-     * Get an error message that describes the current token
-     */
-    void GetLexTokenDescription(char *buffer);
-}
+/**
+ * Set the string buffer to be processed by the lexer.
+ */
+void
+setLexBuffer(const std::wstring& buffer);
+void
+setLexBuffer(const std::string& buffer);
 
-#endif
+/**
+ * Set the FILE pointer for the file to be processed
+ * by the lexer.
+ */
+void
+setLexFile(FILE* fp);
+/**
+ * Lex the file, and then check to see if more input is needed.
+ */
+bool
+lexCheckForMoreInput(int pcount);
+/**
+ * Retrieve the contents of the continuationCount.
+ */
+int
+getContinuationCount();
+//=============================================================================
+} // namespace Nelson
+//=============================================================================

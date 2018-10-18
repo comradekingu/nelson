@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -16,57 +16,50 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <cstring>
 #include "LogicalConstructors.hpp"
-#include "Exception.hpp"
+#include "Error.hpp"
 #include "SparseDynamicFunctions.hpp"
 //=============================================================================
 namespace Nelson {
-    ArrayOf TrueConstructor(Dimensions dim, bool bIsSparse)
-    {
-        ArrayOf res;
-        if (bIsSparse)
-        {
-            if (dim.getLength() > 2)
-            {
-                throw Exception(_W("N-dimensional sparse arrays are not supported."));
-            }
-            else
-            {
-                void *pLogicalSparse = LogicalSparseMatrixConstructorDynamicFunction(dim.getRows(), dim.getColumns(), (logical)1);
-                res = ArrayOf(NLS_LOGICAL, dim, (void*)pLogicalSparse, true);
-            }
+ArrayOf
+TrueConstructor(Dimensions& dim, bool bIsSparse)
+{
+    ArrayOf res;
+    if (bIsSparse) {
+        if (dim.getLength() > 2) {
+            Error(_W("N-dimensional sparse arrays are not supported."));
+        } else {
+            void* pLogicalSparse = LogicalSparseMatrixConstructorDynamicFunction(
+                dim.getRows(), dim.getColumns(), (logical)1);
+            res = ArrayOf(NLS_LOGICAL, dim, (void*)pLogicalSparse, true);
         }
-        else
-        {
-            logical *pLogical = (logical*)ArrayOf::allocateArrayOf(NLS_LOGICAL, dim.getElementCount());
-            memset(pLogical, 1, sizeof(logical) * dim.getElementCount());
-            res = ArrayOf(NLS_LOGICAL, dim, (void*)pLogical, false);
-        }
-        return res;
+    } else {
+        logical* pLogical = (logical*)ArrayOf::allocateArrayOf(NLS_LOGICAL, dim.getElementCount());
+        memset(pLogical, 1, sizeof(logical) * dim.getElementCount());
+        res = ArrayOf(NLS_LOGICAL, dim, (void*)pLogical, false);
     }
-    //=============================================================================
-    ArrayOf FalseConstructor(Dimensions dim, bool bIsSparse)
-    {
-        ArrayOf res;
-        if (bIsSparse)
-        {
-            if (dim.getLength() > 2)
-            {
-                throw Exception(_W("N-dimensional sparse arrays are not supported."));
-            }
-            else
-            {
-                void *pLogicalSparse = LogicalSparseMatrixConstructorDynamicFunction(dim.getRows(), dim.getColumns(), (logical)0);
-                res = ArrayOf(NLS_LOGICAL, dim, (void*)pLogicalSparse, true);
-            }
+    return res;
+}
+//=============================================================================
+ArrayOf
+FalseConstructor(Dimensions& dim, bool bIsSparse)
+{
+    ArrayOf res;
+    if (bIsSparse) {
+        if (dim.getLength() > 2) {
+            Error(_W("N-dimensional sparse arrays are not supported."));
+        } else {
+            void* pLogicalSparse = LogicalSparseMatrixConstructorDynamicFunction(
+                dim.getRows(), dim.getColumns(), (logical)0);
+            res = ArrayOf(NLS_LOGICAL, dim, (void*)pLogicalSparse, true);
         }
-        else
-        {
-            logical *pLogical = (logical*)ArrayOf::allocateArrayOf(NLS_LOGICAL, dim.getElementCount());
-            res = ArrayOf(NLS_LOGICAL, dim, (void*)pLogical, false);
-        }
-        return res;
+    } else {
+        logical* pLogical = (logical*)ArrayOf::allocateArrayOf(NLS_LOGICAL, dim.getElementCount());
+        res = ArrayOf(NLS_LOGICAL, dim, (void*)pLogical, false);
     }
-    //=============================================================================
+    return res;
+}
+//=============================================================================
 }
 //=============================================================================

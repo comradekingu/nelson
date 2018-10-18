@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -17,33 +17,31 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "NelsonGateway.hpp"
-#include "eyeBuiltin.hpp"
-#include "nanBuiltin.hpp"
-#include "infBuiltin.hpp"
-#include "iBuiltin.hpp"
-#include "piBuiltin.hpp"
 #include "epsBuiltin.hpp"
+#include "eyeBuiltin.hpp"
+#include "iBuiltin.hpp"
+#include "infBuiltin.hpp"
+#include "nanBuiltin.hpp"
 #include "onesBuiltin.hpp"
+#include "piBuiltin.hpp"
 #include "zerosBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 const std::wstring gatewayName = L"constructors_functions";
 //=============================================================================
-static const nlsGateway gateway[] =
-{
-    { "eye", Nelson::ConstructorsGateway::eyeBuiltin, 1, 0 },
-    { "i", Nelson::ConstructorsGateway::iBuiltin, 1, 0 },
-    { "j", Nelson::ConstructorsGateway::iBuiltin, 1, 0 },
-    { "nan", Nelson::ConstructorsGateway::nanBuiltin, 1, 0 },
-    { "NaN", Nelson::ConstructorsGateway::nanBuiltin, 1, 0 },
-    { "inf", Nelson::ConstructorsGateway::infBuiltin, 1, 0 },
-    { "Inf", Nelson::ConstructorsGateway::infBuiltin, 1, 0 },
-    { "eps", Nelson::ConstructorsGateway::epsBuiltin, 1, 0 },
-    { "pi", Nelson::ConstructorsGateway::piBuiltin, 1, 0 },
-    { "ones", Nelson::ConstructorsGateway::onesBuiltin, -1, 1 },
-    { "zeros", Nelson::ConstructorsGateway::zerosBuiltin, -1, 1 }
-};
+static const nlsGateway gateway[]
+    = { { "eye", Nelson::ConstructorsGateway::eyeBuiltin, 1, 0, CPP_BUILTIN },
+          { "i", Nelson::ConstructorsGateway::iBuiltin, 1, 0, CPP_BUILTIN },
+          { "j", Nelson::ConstructorsGateway::iBuiltin, 1, 0, CPP_BUILTIN },
+          { "nan", Nelson::ConstructorsGateway::nanBuiltin, 1, 0, CPP_BUILTIN },
+          { "NaN", Nelson::ConstructorsGateway::nanBuiltin, 1, 0, CPP_BUILTIN },
+          { "inf", Nelson::ConstructorsGateway::infBuiltin, 1, 0, CPP_BUILTIN },
+          { "Inf", Nelson::ConstructorsGateway::infBuiltin, 1, 0, CPP_BUILTIN },
+          { "eps", Nelson::ConstructorsGateway::epsBuiltin, 1, 0, CPP_BUILTIN },
+          { "pi", Nelson::ConstructorsGateway::piBuiltin, 1, 0, CPP_BUILTIN },
+          { "ones", Nelson::ConstructorsGateway::onesBuiltin, -1, 1, CPP_BUILTIN },
+          { "zeros", Nelson::ConstructorsGateway::zerosBuiltin, -1, 1, CPP_BUILTIN } };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)
 //=============================================================================
@@ -53,4 +51,3 @@ NLSGATEWAYREMOVE(gateway)
 //=============================================================================
 NLSGATEWAYNAME()
 //=============================================================================
-

@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -21,7 +21,8 @@
 #include "nlsTime_exports.h"
 //=============================================================================
 namespace Nelson {
-    NLSTIME_IMPEXP void DateVector(double dateSerial, double &Y, double &M, double &D, double &H, double &MN, double &S, bool rf = false);
+NLSTIME_IMPEXP void
+DateVector(double dateSerial, double& Y, double& M, double& D, double& H, double& MN, double& S,
+    bool rf = false);
 }
 //=============================================================================
-

@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -18,38 +18,46 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
-#include "nlsHelp_tools_exports.h"
 #include "Types.hpp"
+#include "nlsHelp_tools_exports.h"
+#include <string>
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    class NLSHELP_TOOLS_IMPEXP QtHelpProject {
-    private:
-        std::wstring destdirectory;
-        std::wstring filenameDestination;
-        std::string utf8stream;
-        std::wstring mainTitle;
-        std::wstring name_space;
-        std::wstring virtualfolder;
+//=============================================================================
+class NLSHELP_TOOLS_IMPEXP QtHelpProject
+{
+private:
+    std::wstring destdirectory;
+    std::wstring filenameDestination;
+    std::string utf8stream;
+    std::wstring mainTitle;
+    std::wstring name_space;
+    std::wstring virtualfolder;
 
-        wstringVector sectionsName;
-        wstringVector sectionsUrl;
+    wstringVector sectionsName;
+    wstringVector sectionsUrl;
 
-        wstringVector keywordsName;
-        wstringVector keywordsUrl;
+    wstringVector keywordsName;
+    wstringVector keywordsUrl;
 
-        void assembleContent();
+    void
+    assembleContent();
 
-        std::string uuid_module();
+    std::string
+    uuid_module();
 
-    public:
-        QtHelpProject(std::wstring destdirectory, std::wstring mainTitle, std::wstring name_space, std::wstring virtualfolder = L"help");
-        ~QtHelpProject();
-        std::wstring getFilename();
-        bool write();
-        void appendSection(std::wstring sectionName, std::wstring sectionUrl, wstringVector names, wstringVector urls);
-    };
-    //=============================================================================
-}
+public:
+    QtHelpProject(std::wstring destdirectory, std::wstring mainTitle, std::wstring name_space,
+        std::wstring virtualfolder = L"help");
+    ~QtHelpProject();
+    std::wstring
+    getFilename();
+    bool
+    write();
+    void
+    appendSection(
+        std::wstring sectionName, std::wstring sectionUrl, wstringVector names, wstringVector urls);
+};
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

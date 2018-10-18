@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -18,11 +18,12 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsHandle_exports.h"
 #include "ArrayOf.hpp"
 #include "Evaluator.hpp"
+#include "nlsHandle_exports.h"
 //=============================================================================
 namespace Nelson {
-    NLSHANDLE_IMPEXP void HandleDelete(Evaluator *eval, ArrayOf A);
+NLSHANDLE_IMPEXP void
+HandleDelete(Evaluator* eval, ArrayOf A);
 }
 //=============================================================================

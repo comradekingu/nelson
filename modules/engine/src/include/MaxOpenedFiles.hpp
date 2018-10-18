@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -22,6 +22,7 @@
 //=============================================================================
 namespace Nelson {
 #define MIN_OPENFILES 10240
-    NLSENGINE_IMPEXP bool setMaxOpenedFiles();
-}
+NLSENGINE_IMPEXP bool
+setMaxOpenedFiles();
+} // namespace Nelson
 //=============================================================================

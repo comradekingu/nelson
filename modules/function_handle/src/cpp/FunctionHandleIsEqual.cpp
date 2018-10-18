@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -20,23 +20,20 @@
 #include "MacroFunctionDef.hpp"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    bool FunctionHandleIsEqual(ArrayOf A, ArrayOf B)
-    {
-        bool bRes;
-        if (A.isFunctionHandle() && B.isFunctionHandle())
-        {
-            function_handle fhA = A.getContentAsFunctionHandle();
-            function_handle fhB = B.getContentAsFunctionHandle();
-            bRes = (fhA == fhB);
-        }
-        else
-        {
-            bRes = false;
-        }
-        return bRes;
+//=============================================================================
+bool
+FunctionHandleIsEqual(ArrayOf A, ArrayOf B)
+{
+    bool bRes;
+    if (A.isFunctionHandle() && B.isFunctionHandle()) {
+        function_handle fhA = A.getContentAsFunctionHandle();
+        function_handle fhB = B.getContentAsFunctionHandle();
+        bRes = (fhA == fhB);
+    } else {
+        bRes = false;
     }
-    //=============================================================================
+    return bRes;
 }
 //=============================================================================
-
+}
+//=============================================================================

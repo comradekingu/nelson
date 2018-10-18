@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -18,40 +18,22 @@
 //=============================================================================
 #include "eqBuiltin.hpp"
 #include "Error.hpp"
-#include "OverloadBinaryOperator.hpp"
-#include "OverloadRequired.hpp"
-#include "Equals.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::ElementaryFunctionsGateway::eqBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::ElementaryFunctionsGateway::eqBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() != 2)
-    {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    if (argIn.size() != 2) {
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    if (nLhs > 1)
-    {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+    if (nLhs > 1) {
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    bool bSuccess = false;
-    ArrayOf res = OverloadBinaryOperator(eval, argIn[0], argIn[1], "eq", bSuccess);
-    if (bSuccess)
-    {
-        retval.push_back(res);
-        return retval;
-    }
-    else
-    {
-        if ((argIn[0].getDataClass() == NLS_HANDLE) || (argIn[0].getDataClass() == NLS_STRUCT_ARRAY) || (argIn[0].getDataClass() == NLS_CELL_ARRAY) ||
-                (argIn[1].getDataClass() == NLS_HANDLE) || (argIn[1].getDataClass() == NLS_STRUCT_ARRAY) || (argIn[1].getDataClass() == NLS_CELL_ARRAY) ||
-                (argIn[0].isSparse() || argIn[1].isSparse()) )
-        {
-            OverloadRequired(eval, argIn, Nelson::BINARY);
-        }
-        retval.push_back(Equals(argIn[0], argIn[1]));
-    }
+    ArrayOf A = argIn[0];
+    ArrayOf B = argIn[1];
+    retval.push_back(eval->eqOperator(A, B));
     return retval;
 }
 //=============================================================================

@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -23,49 +23,40 @@
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::QmlEngineGateway::QObject_propertiesBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::QmlEngineGateway::QObject_propertiesBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    if (argIn.size() != 1)
-    {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    if (argIn.size() != 1) {
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    if (nLhs > 1)
-    {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+    if (nLhs > 1) {
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     bool fullList = false;
     ArrayOfVector retval;
     ArrayOf param1 = argIn[0];
-    if (!param1.isHandle())
-    {
-        Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_HANDLE_EXPECTED);
+    if (!param1.isHandle()) {
+        Error(ERROR_WRONG_ARGUMENT_1_TYPE_HANDLE_EXPECTED);
     }
     wstringVector fieldnames;
     fieldnamesQmlHandleObject(param1, fullList, fieldnames);
-    if (nLhs == 0)
-    {
-        Interface *io = eval->getInterface();
-        if (io)
-        {
+    if (nLhs == 0) {
+        Interface* io = eval->getInterface();
+        if (io) {
             std::wstring msg;
-            if (fieldnames.size() == 0)
-            {
+            if (fieldnames.size() == 0) {
                 msg = _W("No property for class: QObject.") + L"\n";
-            }
-            else
-            {
+            } else {
                 msg = _W("Properties for class: QObject:") + L"\n\n";
-                for (size_t k = 0; k < fieldnames.size(); k++)
-                {
+                for (size_t k = 0; k < fieldnames.size(); k++) {
                     msg = msg + std::wstring(L"\t") + fieldnames[k] + std::wstring(L"\n");
                 }
                 msg = msg + std::wstring(L"\n");
             }
             io->outputMessage(msg);
         }
-    }
-    else
-    {
+    } else {
         retval.push_back(ToCellStringAsColumn(fieldnames));
     }
     return retval;

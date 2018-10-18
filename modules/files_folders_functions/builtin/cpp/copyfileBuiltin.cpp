@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -17,28 +17,24 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "copyfileBuiltin.hpp"
+#include "CopyFile.hpp"
 #include "Error.hpp"
 #include "IsFile.hpp"
-#include "CopyFile.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::FilesFoldersGateway::copyfileBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::FilesFoldersGateway::copyfileBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() == 2 || argIn.size() == 3)
-    {
+    if (argIn.size() == 2 || argIn.size() == 3) {
         bool bForce = false;
-        if (argIn.size() == 3)
-        {
+        if (argIn.size() == 3) {
             std::wstring arg3 = argIn[2].getContentAsWideString();
-            if ((arg3 == L"f") || (arg3 == L"F"))
-            {
+            if ((arg3 == L"f") || (arg3 == L"F")) {
                 bForce = true;
-            }
-            else
-            {
-                Error(eval, "'f' expected.");
+            } else {
+                Error("'f' expected.");
             }
         }
         bool bRes = false;
@@ -46,50 +42,34 @@ ArrayOfVector Nelson::FilesFoldersGateway::copyfileBuiltin(Evaluator* eval, int 
         ArrayOf arg2 = argIn[1];
         std::wstring dest = arg2.getContentAsWideString();
         ArrayOf arg1 = argIn[0];
-        if (arg1.isSingleString())
-        {
+        if (arg1.isRowVectorCharacterArray()) {
             std::wstring src = arg1.getContentAsWideString();
-            if (IsFile(src))
-            {
+            if (IsFile(src)) {
                 bRes = CopyFile(src, dest, bForce, errorMessage);
-            }
-            else
-            {
+            } else {
                 bRes = CopyDirectory(src, dest, bForce, errorMessage);
             }
-        }
-        else if (arg1.isCell())
-        {
+        } else if (arg1.isCell()) {
             wstringVector src = arg1.getContentAsWideStringVector(true);
             bRes = CopyFiles(src, dest, bForce, errorMessage);
+        } else {
+            Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_OR_CELL_EXPECTED);
         }
-        else
-        {
-            Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_OR_CELL_EXPECTED);
-        }
-        if (nLhs == 0)
-        {
-            if (!bRes)
-            {
-                Error(eval, errorMessage);
+        if (nLhs == 0) {
+            if (!bRes) {
+                Error(errorMessage);
             }
-        }
-        else
-        {
+        } else {
             retval.push_back(ArrayOf::logicalConstructor(bRes));
-            if (nLhs > 1)
-            {
-                retval.push_back(ArrayOf::stringConstructor(errorMessage));
+            if (nLhs > 1) {
+                retval.push_back(ArrayOf::characterArrayConstructor(errorMessage));
             }
-            if (nLhs > 2)
-            {
-                Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+            if (nLhs > 2) {
+                Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
             }
         }
-    }
-    else
-    {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    } else {
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     return retval;
 }

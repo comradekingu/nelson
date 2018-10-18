@@ -1,5 +1,5 @@
 ;==============================================================================
-; Copyright (c) 2016-2017 Allan CORNET (Nelson)
+; Copyright (c) 2016-2018 Allan CORNET (Nelson)
 ;==============================================================================
 ; LICENCE_BLOCK_BEGIN
 ; This program is free software: you can redistribute it and/or modify
@@ -20,6 +20,7 @@ Source: {#RootPath}modules\modules.nls; DestDir: {app}\modules\;
 ;==============================================================================
 #include "main/module.iss"
 #include "characters_encoding/module.iss"
+#include "nelson_manager/module.iss"
 #include "terminal/module.iss"
 #include "elementary_mathematics/module.iss"
 #include "api_nelson/module.iss"
@@ -41,6 +42,7 @@ Source: {#RootPath}modules\modules.nls; DestDir: {app}\modules\;
 #include "data_structures/module.iss"
 #include "integer/module.iss"
 #include "elementary_functions/module.iss"
+#include "special_functions/module.iss"
 #include "trigonometric_functions/module.iss"
 #include "sparse/module.iss"
 #include "logical/module.iss"
@@ -64,4 +66,11 @@ Source: {#RootPath}modules\modules.nls; DestDir: {app}\modules\;
 #include "com_engine/module.iss"
 #include "fftw/module.iss"
 #include "f2c/module.iss"
+#include "nig/module.iss"
+#include "slicot/module.iss"
+#include "text_editor/module.iss"
+#include "text_completion/module.iss"
+#include "mpi/module.iss"
+#include "json/module.iss"
+#include "audio/module.iss"
 ;==============================================================================

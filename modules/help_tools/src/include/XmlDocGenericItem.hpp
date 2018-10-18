@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -18,18 +18,26 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
-#include <iostream>
-#include <fstream>
 #include "nlsHelp_tools_exports.h"
+#include <fstream>
+#include <iostream>
+#include <string>
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    class NLSHELP_TOOLS_IMPEXP XmlDocGenericItem {
-    public:
-        virtual std::wstring getItemType() = 0;
-        virtual bool writeAsHtml(std::string &utf8stream) = 0;
-    };
-    //=============================================================================
-}
+//=============================================================================
+class NLSHELP_TOOLS_IMPEXP XmlDocGenericItem
+{
+public:
+    virtual std::wstring
+    getItemType()
+        = 0;
+    virtual bool
+    writeAsHtml(std::string& utf8stream)
+        = 0;
+    virtual bool
+    writeAsMarkdown(std::string& utf8stream)
+        = 0;
+};
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -17,18 +17,17 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "NelsonGateway.hpp"
-#include "markdownBuiltin.hpp"
 #include "headcommentsBuiltin.hpp"
-#include "xmldoccheckerBuiltin.hpp"
 #include "htmltopdfBuiltin.hpp"
+#include "markdownBuiltin.hpp"
 #include "xmldocbuildBuiltin.hpp"
+#include "xmldoccheckerBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 const std::wstring gatewayName = L"help_tools";
 //=============================================================================
-static const nlsGateway gateway[] =
-{
+static const nlsGateway gateway[] = {
     { "markdown", Nelson::HelpToolsGateway::markdownBuiltin, 1, 2 },
     { "headcomments", Nelson::HelpToolsGateway::headcommentsBuiltin, 1, 1 },
     { "xmldocchecker", Nelson::HelpToolsGateway::xmldoccheckerBuiltin, 2, 1 },
@@ -36,12 +35,14 @@ static const nlsGateway gateway[] =
     { "htmltopdf", Nelson::HelpToolsGateway::htmltopdfBuiltin, 0, 2 },
 };
 //=============================================================================
-static bool initializeHelpToolsModule(Nelson::Evaluator* eval)
+static bool
+initializeHelpToolsModule(Nelson::Evaluator* eval)
 {
     return true;
 }
 //=============================================================================
-static bool finishHelpToolsModule(Nelson::Evaluator* eval)
+static bool
+finishHelpToolsModule(Nelson::Evaluator* eval)
 {
     return true;
 }
@@ -54,4 +55,3 @@ NLSGATEWAYREMOVEEXTENDED(gateway, (void*)finishHelpToolsModule)
 //=============================================================================
 NLSGATEWAYNAME()
 //=============================================================================
-

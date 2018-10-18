@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -17,47 +17,50 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "Rand.hpp"
-#include "RandomInterface.hpp"
 #include "Error.hpp"
+#include "RandomInterface.hpp"
 //=============================================================================
 namespace Nelson {
-    ArrayOf Rand(Evaluator *eval, Class cl)
-    {
-        Dimensions dims(1, 1);
-        return Rand(eval, dims, cl);
+ArrayOf
+Rand(Evaluator* eval, Class cl)
+{
+    Dimensions dims(1, 1);
+    return Rand(eval, dims, cl);
+}
+//=============================================================================
+ArrayOf
+Rand(Evaluator* eval, Dimensions& dims, Class cl)
+{
+    dims.simplify();
+    if (dims.isEmpty(false)) {
+        ArrayOf res = ArrayOf::emptyConstructor(dims);
+        res.promoteType(cl);
+        return res;
     }
-    //=============================================================================
-    ArrayOf Rand(Evaluator *eval, Dimensions dims, Class cl)
-    {
-        dims.simplify();
-        if (eval->RandomEngine == nullptr)
-        {
-            Error(eval, _W("random engine not initialized."));
-        }
-        RandomInterface *randEngine = (RandomInterface *)eval->RandomEngine;
-        switch (cl)
-        {
-            case NLS_SINGLE:
-            {
-                indexType nbElements = dims.getElementCount();
-                single * mat = (single*)ArrayOf::allocateArrayOf(cl, nbElements, Nelson::stringVector(), false);
-                randEngine->getValuesAsSingle(mat, nbElements, dims.getColumns());
-                return ArrayOf(cl, dims, mat, false);
-            }
-            break;
-            case NLS_DOUBLE:
-            {
-                indexType nbElements = dims.getElementCount();
-                double * mat = (double*)ArrayOf::allocateArrayOf(cl, nbElements, Nelson::stringVector(), false);
-                randEngine->getValuesAsDouble(mat, nbElements, dims.getColumns());
-                return ArrayOf(cl, dims, mat, false);
-            }
-            break;
-            default:
-                Error(eval, ERROR_TYPE_NOT_SUPPORTED);
-        }
-        return ArrayOf();
+    if (eval->RandomEngine == nullptr) {
+        Error(_W("random engine not initialized."));
     }
-    //=============================================================================
+    RandomInterface* randEngine = (RandomInterface*)eval->RandomEngine;
+    switch (cl) {
+    case NLS_SINGLE: {
+        indexType nbElements = dims.getElementCount();
+        single* mat
+            = (single*)ArrayOf::allocateArrayOf(cl, nbElements, Nelson::stringVector(), false);
+        randEngine->getValuesAsSingle(mat, nbElements, dims.getColumns());
+        return ArrayOf(cl, dims, mat, false);
+    } break;
+    case NLS_DOUBLE: {
+        indexType nbElements = dims.getElementCount();
+        double* mat
+            = (double*)ArrayOf::allocateArrayOf(cl, nbElements, Nelson::stringVector(), false);
+        randEngine->getValuesAsDouble(mat, nbElements, dims.getColumns());
+        return ArrayOf(cl, dims, mat, false);
+    } break;
+    default:
+        Error(ERROR_TYPE_NOT_SUPPORTED);
+    }
+    return ArrayOf();
+}
+//=============================================================================
 }
 //=============================================================================

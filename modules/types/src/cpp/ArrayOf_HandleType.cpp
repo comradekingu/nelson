@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -19,45 +19,72 @@
 #include "ArrayOf.hpp"
 #include "Data.hpp"
 #include "HandleManager.hpp"
+#include "Error.hpp"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    const bool ArrayOf::isHandle() const
-    {
-        bool ishandle = (dp->dataClass == NLS_HANDLE);
-        return ishandle;
+//=============================================================================
+bool
+ArrayOf::isHandle() const
+{
+    bool ishandle = (dp->dataClass == NLS_HANDLE);
+    return ishandle;
+}
+//=============================================================================
+ArrayOf
+ArrayOf::handleConstructor(nelson_handle hl)
+{
+    nelson_handle* ptrObject = (nelson_handle*)ArrayOf::allocateArrayOf(NLS_HANDLE, 1);
+    Dimensions dims(1, 1);
+    ptrObject[0] = hl;
+    return ArrayOf(NLS_HANDLE, dims, (void*)ptrObject);
+}
+//=============================================================================
+ArrayOf
+ArrayOf::handleConstructor(HandleGenericObject* ptr)
+{
+    nelson_handle* ptrObject = (nelson_handle*)ArrayOf::allocateArrayOf(NLS_HANDLE, 1);
+    Dimensions dims(1, 1);
+    ptrObject[0] = HandleManager::getInstance()->addHandle(ptr);
+    return ArrayOf(NLS_HANDLE, dims, (void*)ptrObject);
+}
+//=============================================================================
+HandleGenericObject*
+ArrayOf::getContentAsHandleScalar() const
+{
+    if (!isHandle()) {
+        Error(_W("Expected a handle scalar."));
     }
-    //=============================================================================
-    ArrayOf ArrayOf::handleConstructor(nelson_handle hl)
-    {
-        nelson_handle *ptrObject = (nelson_handle *)ArrayOf::allocateArrayOf(NLS_HANDLE, 1);
-        Dimensions dims(1, 1);
-        ptrObject[0] = hl;
-        return ArrayOf(NLS_HANDLE, dims, (void *)ptrObject);
+    if (!isScalar()) {
+        Error(_W("Expected a handle scalar."));
     }
-    //=============================================================================
-    ArrayOf ArrayOf::handleConstructor(HandleGenericObject *ptr)
-    {
-        nelson_handle *ptrObject = (nelson_handle *)ArrayOf::allocateArrayOf(NLS_HANDLE, 1);
-        Dimensions dims(1, 1);
-        ptrObject[0] = HandleManager::getInstance()->addHandle(ptr);
-        return ArrayOf(NLS_HANDLE, dims, (void *)ptrObject);
+    nelson_handle* qp = (nelson_handle*)dp->getData();
+    if (qp == nullptr) {
+        Error(_W("Expected a valid handle."));
     }
-    //=============================================================================
-    HandleGenericObject *ArrayOf::getContentAsHandleScalar()
-    {
-        if (!isHandle())
-        {
-            throw Exception(_W("Expected a handle scalar."));
-        }
-        if (!isScalar())
-        {
-            throw Exception(_W("Expected a handle scalar."));
-        }
-        nelson_handle *qp = (nelson_handle*)dp->getData();
-        nelson_handle hl = (*qp);
-        return HandleManager::getInstance()->getPointer(hl);
-    }
-    //=============================================================================
+    nelson_handle hl = (*qp);
+    return HandleManager::getInstance()->getPointer(hl);
+}
+//=============================================================================
+bool
+ArrayOf::isHandleProperty(std::wstring propertyName) const
+{
+    HandleGenericObject* obj = getContentAsHandleScalar();
+    return obj->isProperty(propertyName);
+}
+//=============================================================================
+bool
+ArrayOf::isHandleMethod(std::wstring methodName) const
+{
+    HandleGenericObject* obj = getContentAsHandleScalar();
+    return obj->isMethod(methodName);
+}
+//=============================================================================
+std::wstring
+ArrayOf::getHandleCategory() const
+{
+    HandleGenericObject* obj = getContentAsHandleScalar();
+    return obj->getCategory();
+}
+//=============================================================================
 }
 //=============================================================================

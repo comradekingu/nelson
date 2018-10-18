@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -18,21 +18,22 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
 #include "nlsInterpreter_exports.h"
+#include <string>
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    class NLSINTERPRETER_IMPEXP StackEntry {
-    public:
-        std::string cname;
-        std::string detail;
-        int tokid;
+//=============================================================================
+class NLSINTERPRETER_IMPEXP StackEntry
+{
+public:
+    std::string cname;
+    std::string detail;
+    int tokid;
 
-        StackEntry(std::string cntxt, std::string detail, int id);
-        StackEntry();
-        ~StackEntry();
-    };
-    //=============================================================================
-}
+    StackEntry(std::string cntxt, std::string detail, int id);
+    StackEntry();
+    ~StackEntry();
+};
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

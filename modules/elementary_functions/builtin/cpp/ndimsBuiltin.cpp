@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -23,58 +23,62 @@
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::ElementaryFunctionsGateway::ndimsBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::ElementaryFunctionsGateway::ndimsBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() != 1)
-    {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    if (argIn.size() != 1) {
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    if (nLhs > 1)
-    {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+    if (nLhs > 1) {
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOf param1 = argIn[0];
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
-    if (!bSuccess)
-    {
-        if (param1.isClassStruct())
-        {
-            Error(eval, _("Undefined function 'ndims' for input arguments of type") + " '" + ClassName(param1) + "'.");
+    if (eval->mustOverloadBasicTypes()) {
+        retval = OverloadFunction(eval, nLhs, argIn, "ndims", bSuccess);
+    }
+    if (!bSuccess) {
+        if (param1.isClassStruct()) {
+            retval = OverloadFunction(eval, nLhs, argIn, "ndims", bSuccess);
+            if (bSuccess) {
+                return retval;
+            }
+            Error(_("Undefined function 'ndims' for input arguments of type") + " '"
+                + ClassName(param1) + "'.");
         }
-        switch (param1.getDataClass())
-        {
-            case NLS_LOGICAL:
-            case NLS_UINT8:
-            case NLS_INT8:
-            case NLS_UINT16:
-            case NLS_INT16:
-            case NLS_UINT32:
-            case NLS_INT32:
-            case NLS_UINT64:
-            case NLS_INT64:
-            case NLS_SINGLE:
-            case NLS_DOUBLE:
-            case NLS_SCOMPLEX:
-            case NLS_DCOMPLEX:
-            case NLS_CHAR:
-            case NLS_CELL_ARRAY:
-            case NLS_STRUCT_ARRAY:
-            {
-                double ndims = (double)param1.getDimensions().getLength();
-                if (ndims < 2)
-                {
-                    ndims = 2;
-                }
-                retval.push_back(ArrayOf::doubleConstructor(ndims));
+        switch (param1.getDataClass()) {
+        case NLS_LOGICAL:
+        case NLS_UINT8:
+        case NLS_INT8:
+        case NLS_UINT16:
+        case NLS_INT16:
+        case NLS_UINT32:
+        case NLS_INT32:
+        case NLS_UINT64:
+        case NLS_INT64:
+        case NLS_SINGLE:
+        case NLS_DOUBLE:
+        case NLS_SCOMPLEX:
+        case NLS_DCOMPLEX:
+        case NLS_CHAR:
+        case NLS_CELL_ARRAY:
+        case NLS_STRUCT_ARRAY: {
+            double ndims = (double)param1.getDimensions().getLength();
+            if (ndims < 2) {
+                ndims = 2;
             }
-            break;
-            default:
-            {
-                Error(eval, _("Undefined function 'ndims' for input arguments of type") + " '" + ClassName(param1) + "'.");
+            retval.push_back(ArrayOf::doubleConstructor(ndims));
+        } break;
+        default: {
+            retval = OverloadFunction(eval, nLhs, argIn, "ndims", bSuccess);
+            if (bSuccess) {
+                return retval;
             }
-            break;
+            Error(_("Undefined function 'ndims' for input arguments of type") + " '"
+                + ClassName(param1) + "'.");
+        } break;
         }
     }
     return retval;

@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -17,40 +17,35 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "FunctionHandleDisplay.hpp"
+#include "BuiltInFunctionDefManager.hpp"
 #include "Error.hpp"
 #include "MacroFunctionDef.hpp"
 #include "PathFuncManager.hpp"
-#include "BuiltInFunctionDefManager.hpp"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    void FunctionHandleDisplay(Evaluator *eval, ArrayOf Var)
-    {
-        if (!Var.isFunctionHandle())
-        {
-            Error(eval, _W("FunctionHandleDisplay method: function_handle expected."));
+//=============================================================================
+void
+FunctionHandleDisplay(Evaluator* eval, ArrayOf Var)
+{
+    if (!Var.isFunctionHandle()) {
+        Error(_W("FunctionHandleDisplay method: function_handle expected."));
+    }
+    Interface* io = eval->getInterface();
+    if (io) {
+        function_handle fh = Var.getContentAsFunctionHandle();
+        std::wstring functionname;
+        bool found = PathFuncManager::getInstance()->find(fh, functionname);
+        if (!found) {
+            found = BuiltInFunctionDefManager::getInstance()->find(fh, functionname);
         }
-        Interface *io = eval->getInterface();
-        if (io)
-        {
-            function_handle fh = Var.getContentAsFunctionHandle();
-            std::wstring functionname;
-            bool found = PathFuncManager::getInstance()->find(fh, functionname);
-            if (!found)
-            {
-                found = BuiltInFunctionDefManager::getInstance()->find(fh, functionname);
-            }
-            if (found)
-            {
-                io->outputMessage(L"@" + functionname);
-                io->outputMessage("\n");
-            }
-            else
-            {
-                io->outputMessage(_W("function_handle not valid."));
-                io->outputMessage("\n");
-            }
+        if (found) {
+            io->outputMessage(L"@" + functionname);
+            io->outputMessage("\n");
+        } else {
+            io->outputMessage(_W("function_handle not valid."));
+            io->outputMessage("\n");
         }
     }
+}
 }
 //=============================================================================

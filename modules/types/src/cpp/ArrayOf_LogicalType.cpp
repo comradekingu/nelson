@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -18,45 +18,49 @@
 //=============================================================================
 #include "ArrayOf.hpp"
 #include "Data.hpp"
+#include "Error.hpp"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    const bool ArrayOf::isLogical() const
-    {
-        return (dp->dataClass == NLS_LOGICAL);
+//=============================================================================
+bool
+ArrayOf::isLogical() const
+{
+    return (dp->dataClass == NLS_LOGICAL);
+}
+//=============================================================================
+bool
+ArrayOf::isNdArrayLogical() const
+{
+    return (dp->dataClass == NLS_LOGICAL) && !is2D();
+}
+//=============================================================================
+bool
+ArrayOf::isSparseLogicalType() const
+{
+    return (dp->dataClass == NLS_LOGICAL) && (dp->sparse) && is2D();
+}
+//=============================================================================
+ArrayOf
+ArrayOf::logicalConstructor(bool aval)
+{
+    Dimensions dim;
+    dim.makeScalar();
+    logical* data = (logical*)allocateArrayOf(NLS_LOGICAL, 1);
+    *data = (logical)aval;
+    return ArrayOf(NLS_LOGICAL, dim, data);
+}
+//=============================================================================
+logical
+ArrayOf::getContentAsLogicalScalar(bool arrayAsScalar) const
+{
+    if (!isLogical()) {
+        Error(ERROR_TYPE_LOGICAL_EXPECTED);
     }
-    //=============================================================================
-    const bool ArrayOf::isNdArrayLogical() const
-    {
-        return (dp->dataClass == NLS_LOGICAL) && !is2D();
+    if (isEmpty() || (!arrayAsScalar && !isScalar())) {
+        Error(ERROR_SIZE_SCALAR_EXPECTED);
     }
-    //=============================================================================
-    const bool ArrayOf::isLogicalSparseType() const
-    {
-        return (dp->dataClass == NLS_LOGICAL) && (dp->sparse) && is2D();
-    }
-    //=============================================================================
-    ArrayOf ArrayOf::logicalConstructor(bool aval)
-    {
-        Dimensions dim;
-        dim.makeScalar();
-        logical *data = (logical *)allocateArrayOf(NLS_LOGICAL, 1);
-        *data = (logical)aval;
-        return ArrayOf(NLS_LOGICAL, dim, data);
-    }
-    //=============================================================================
-    logical ArrayOf::getContentAsLogicalScalar() const
-    {
-        if (!isLogical())
-        {
-            throw Exception(ERROR_TYPE_LOGICAL_EXPECTED);
-        }
-        if (getLength() != 1)
-        {
-            throw Exception(ERROR_SIZE_SCALAR_EXPECTED);
-        }
-        logical *qp = (logical*)dp->getData();
-        return (*qp);
-    }
+    logical* qp = (logical*)dp->getData();
+    return (*qp);
+}
 }
 //=============================================================================

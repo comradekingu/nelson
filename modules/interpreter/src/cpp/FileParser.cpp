@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -20,28 +20,32 @@
 #include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    static std::wstring wfilename = L"";
-    //=============================================================================
-    void setParserFilename(const std::string &filename)
-    {
-        wfilename = utf8_to_wstring(filename);
-    }
-    //=============================================================================
-    void setParserFilename(const std::wstring &filename)
-    {
-        wfilename = filename;
-    }
-    //=============================================================================
-    std::string getParserFilenameU()
-    {
-        return wstring_to_utf8(wfilename);
-    }
-    //=============================================================================
-    std::wstring getParserFilenameW()
-    {
-        return wfilename;
-    }
-    //=============================================================================
+//=============================================================================
+static std::wstring wfilename = L"";
+//=============================================================================
+void
+setParserFilename(const std::string& filename)
+{
+    wfilename = utf8_to_wstring(filename);
+}
+//=============================================================================
+void
+setParserFilename(const std::wstring& filename)
+{
+    wfilename = filename;
+}
+//=============================================================================
+std::string
+getParserFilenameU()
+{
+    return wstring_to_utf8(wfilename);
+}
+//=============================================================================
+std::wstring
+getParserFilenameW()
+{
+    return wfilename;
+}
+//=============================================================================
 }
 //=============================================================================

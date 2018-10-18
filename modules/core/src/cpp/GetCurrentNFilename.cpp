@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -20,32 +20,28 @@
 #include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
-    std::wstring GetCurrentNFilenameW(Evaluator* eval)
-    {
-        std::string callerName = eval->getCallerFunctionName();
-        std::wstring fileName = L"";
-        if (callerName == "EvaluateScript")
-        {
-            fileName = eval->getCurrentEvaluateFilename();
+std::wstring
+GetCurrentNFilenameW(Evaluator* eval)
+{
+    std::string callerName = eval->getCallerFunctionName();
+    std::wstring fileName = L"";
+    if (callerName == "EvaluateScript") {
+        fileName = eval->getCurrentEvaluateFilename();
+    } else {
+        if (callerName == "EvaluateString") {
+            fileName = L"";
+        } else {
+            fileName = utf8_to_wstring(callerName);
         }
-        else
-        {
-            if (callerName == "EvaluateString")
-            {
-                fileName = L"";
-            }
-            else
-            {
-                fileName = utf8_to_wstring(callerName);
-            }
-        }
-        return fileName;
     }
-    //=============================================================================
-    NLSCORE_IMPEXP std::string GetCurrentNFilenameU(Evaluator* eval)
-    {
-        return wstring_to_utf8(GetCurrentNFilenameW(eval));
-    }
-    //=============================================================================
+    return fileName;
+}
+//=============================================================================
+NLSCORE_IMPEXP std::string
+GetCurrentNFilenameU(Evaluator* eval)
+{
+    return wstring_to_utf8(GetCurrentNFilenameW(eval));
+}
+//=============================================================================
 }
 //=============================================================================

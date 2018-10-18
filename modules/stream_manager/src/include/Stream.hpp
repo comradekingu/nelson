@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -39,9 +39,14 @@
 #pragma once
 
 namespace Nelson {
-    class Stream {
-    public:
-        virtual void writeBytes(const void* data, int len) = 0;
-        virtual void readBytes(void* data, int len) = 0;
-    };
-}
+class Stream
+{
+public:
+    virtual void
+    writeBytes(const void* data, int len)
+        = 0;
+    virtual void
+    readBytes(void* data, int len)
+        = 0;
+};
+} // namespace Nelson

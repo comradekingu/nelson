@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -20,38 +20,37 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include <Windows.h>
 #endif
-#include <boost/algorithm/string/predicate.hpp>
-#include <iostream>
-#include <cstring>
-#include <signal.h>
 #include "BasicTerminal.hpp"
-#include "characters_encoding.hpp"
 #include "Evaluator.hpp"
+#include "characters_encoding.hpp"
+#include <boost/algorithm/string/predicate.hpp>
+#include <cstring>
+#include <iostream>
+#include <signal.h>
 //=============================================================================
 static bool bCONTROLC = false;
 //=============================================================================
-static void ControlC_Command(void)
+static void
+ControlC_Command(void)
 {
     bCONTROLC = true;
     Nelson::sigInterrupt(1);
 }
 //=============================================================================
 #ifdef _MSC_VER
-static BOOL CtrlHandler(DWORD fdwCtrlType)
+static BOOL
+CtrlHandler(DWORD fdwCtrlType)
 {
-    switch (fdwCtrlType)
-    {
-        case CTRL_BREAK_EVENT:
-        case CTRL_C_EVENT:
-        {
-            ControlC_Command();
-        }
+    switch (fdwCtrlType) {
+    case CTRL_BREAK_EVENT:
+    case CTRL_C_EVENT: {
+        ControlC_Command();
+    }
         return TRUE;
-        case CTRL_SHUTDOWN_EVENT:
-        case CTRL_LOGOFF_EVENT:
-        case CTRL_CLOSE_EVENT:
-        {
-        }
+    case CTRL_SHUTDOWN_EVENT:
+    case CTRL_LOGOFF_EVENT:
+    case CTRL_CLOSE_EVENT: {
+    }
         return FALSE;
     }
     return FALSE;
@@ -59,32 +58,32 @@ static BOOL CtrlHandler(DWORD fdwCtrlType)
 
 #endif
 //=============================================================================
-static void intHandler(int dummy=0)
+static void
+intHandler(int dummy = 0)
 {
     ControlC_Command();
 }
 //=============================================================================
-std::wstring BasicTerminal::getTextLine(std::wstring prompt, bool bIsInput)
+std::wstring
+BasicTerminal::getTextLine(std::wstring prompt, bool bIsInput)
 {
     return utf8_to_wstring(getTextLine(wstring_to_utf8(prompt), bIsInput));
 }
 //=============================================================================
-std::string BasicTerminal::getTextLine(std::string prompt, bool bIsInput)
+std::string
+BasicTerminal::getTextLine(std::string prompt, bool bIsInput)
 {
     atPrompt = true;
     fprintf(stdout, "%s", prompt.c_str());
     this->diary.writeMessage(prompt);
     char buffer[CMD_BUFFER_SIZE];
     std::string retLine = "";
-    if (fgets(buffer, CMD_BUFFER_SIZE, stdin) != nullptr)
-    {
+    if (fgets(buffer, CMD_BUFFER_SIZE, stdin) != nullptr) {
         retLine = buffer;
     }
     this->diary.writeMessage(retLine);
-    if (bIsInput)
-    {
-        if (boost::algorithm::ends_with(retLine, L"\n"))
-        {
+    if (bIsInput) {
+        if (boost::algorithm::ends_with(retLine, L"\n")) {
             retLine.pop_back();
         }
     }
@@ -92,64 +91,84 @@ std::string BasicTerminal::getTextLine(std::string prompt, bool bIsInput)
     return retLine;
 }
 //=============================================================================
-std::wstring BasicTerminal::getInput(std::wstring prompt)
+std::wstring
+BasicTerminal::getInput(std::wstring prompt)
 {
     return getTextLine(prompt, true);
 }
 //=============================================================================
-std::wstring BasicTerminal::getLine(std::wstring prompt)
+std::wstring
+BasicTerminal::getLine(std::wstring prompt)
 {
     return getTextLine(prompt, false);
 }
 //=============================================================================
-std::string BasicTerminal::getLine(std::string prompt)
+std::string
+BasicTerminal::getLine(std::string prompt)
 {
     return getTextLine(prompt, false);
 }
 //=============================================================================
-size_t BasicTerminal::getTerminalWidth()
+size_t
+BasicTerminal::getTerminalWidth()
 {
     return WIDTH;
 }
 //=============================================================================
-void BasicTerminal::outputMessage(std::wstring msg)
+void
+BasicTerminal::outputMessage(std::wstring msg)
 {
-    if (atPrompt)
-    {
+    if (atPrompt) {
         outputMessage(L"\n");
     }
     outputMessage(wstring_to_utf8(msg));
 }
 //=============================================================================
-void BasicTerminal::outputMessage(std::string msg)
+void
+BasicTerminal::outputMessage(std::string msg)
 {
     fprintf(stdout, "%s", msg.c_str());
     this->diary.writeMessage(msg);
 }
 //=============================================================================
-void BasicTerminal::errorMessage(std::wstring msg)
+void
+BasicTerminal::errorMessage(std::wstring msg)
 {
     errorMessage(wstring_to_utf8(msg));
 }
 //=============================================================================
-void BasicTerminal::errorMessage(std::string msg)
+void
+BasicTerminal::errorMessage(std::string msg)
 {
-    fprintf(stderr, "%s", msg.c_str());
-    this->diary.writeMessage(msg);
+    std::string _msg = msg + "\n";
+    if (atPrompt) {
+        _msg = "\n" + msg;
+        atPrompt = false;
+    }
+    fprintf(stderr, "%s", _msg.c_str());
+    diary.writeMessage(_msg);
 }
 //=============================================================================
-void BasicTerminal::warningMessage(std::wstring msg)
+void
+BasicTerminal::warningMessage(std::wstring msg)
 {
     warningMessage(wstring_to_utf8(msg));
 }
 //=============================================================================
-void BasicTerminal::warningMessage(std::string msg)
+void
+BasicTerminal::warningMessage(std::string msg)
 {
-    fprintf(stdout, "%s", msg.c_str());
-    this->diary.writeMessage(msg);
+    std::string _msg = msg + "\n";
+    if (atPrompt) {
+        msg = "\n" + msg;
+        atPrompt = false;
+    }
+    fprintf(stdout, "%s", _msg.c_str());
+    diary.writeMessage(_msg);
 }
 //=============================================================================
-void BasicTerminal::clearTerminal()
+void
+BasicTerminal::clearTerminal()
 {
     // NOTHING
 }
@@ -164,20 +183,18 @@ BasicTerminal::BasicTerminal()
 #endif
     /*
     #ifndef _MSC_VER
-    	 setbuf(stdout, NULL);
-    	 setbuf(stdin, NULL);
+         setbuf(stdout, NULL);
+         setbuf(stdin, NULL);
     #endif
     */
     atPrompt = false;
 }
 //=============================================================================
-BasicTerminal::~BasicTerminal()
-{
-}
+BasicTerminal::~BasicTerminal() {}
 //=============================================================================
-bool BasicTerminal::isAtPrompt()
+bool
+BasicTerminal::isAtPrompt()
 {
     return atPrompt;
 }
 //=============================================================================
-

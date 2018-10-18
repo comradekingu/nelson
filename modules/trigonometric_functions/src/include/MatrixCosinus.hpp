@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -18,10 +18,11 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsTrigonometric_functions_exports.h"
 #include "ArrayOf.hpp"
+#include "nlsTrigonometric_functions_exports.h"
 //=============================================================================
 namespace Nelson {
-    NLSTRIGONOMETRIC_FUNCTIONS_IMPEXP ArrayOf MatrixCos(ArrayOf A);
+NLSTRIGONOMETRIC_FUNCTIONS_IMPEXP ArrayOf
+MatrixCos(const ArrayOf& A, bool& needToOverload);
 }
 //=============================================================================

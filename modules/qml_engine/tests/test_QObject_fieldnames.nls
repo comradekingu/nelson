@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -27,28 +27,28 @@ R2 = fieldnames(qobj1);
 assert_isequal(R1, R2);
 //=============================================================================
 REF = { 'active'
- 'activeFocusItem'
- 'children'
- 'className'
- 'color'
- 'contentItem'
- 'contentOrientation'
- 'data'
- 'flags'
- 'height'
- 'maximumHeight'
- 'maximumWidth'
- 'minimumHeight'
- 'minimumWidth'
- 'modality'
- 'objectName'
- 'opacity'
- 'parent'
- 'title'
- 'visibility'
- 'visible'
- 'width'
- 'x'
- 'y'};
+'activeFocusItem'
+'children'
+'className'
+'color'
+'contentItem'
+'contentOrientation'
+'data'
+'flags'
+'height'
+'maximumHeight'
+'maximumWidth'
+'minimumHeight'
+'minimumWidth'
+'modality'
+'objectName'
+'opacity'
+'parent'
+'title'
+'visibility'
+'visible'
+'width'
+'x'
+'y'};
 assert_isequal(R1, REF);
 //=============================================================================

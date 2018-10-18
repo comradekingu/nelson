@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -16,26 +16,38 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <boost/locale.hpp>
-#include "characters_encoding.hpp"
 #include "i18n.hpp"
+#include "characters_encoding.hpp"
+#include <boost/locale.hpp>
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    std::wstring gettextw(std::wstring S)
-    {
-        return boost::locale::translate<wchar_t>(S.c_str());
+//=============================================================================
+std::wstring
+gettextw(std::wstring S)
+{
+    if (S.empty()) {
+        return std::wstring();
     }
-    //=============================================================================
-    std::wstring gettextw(std::string S)
-    {
-        return utf8_to_wstring(boost::locale::translate(S).str());
+    return boost::locale::translate<wchar_t>(S.c_str());
+}
+//=============================================================================
+std::wstring
+gettextw(std::string S)
+{
+    if (S.empty()) {
+        return std::wstring();
     }
-    //=============================================================================
-    std::string gettext(std::string S)
-    {
-        return boost::locale::translate(S).str();
+    return utf8_to_wstring(boost::locale::translate(S).str());
+}
+//=============================================================================
+std::string
+gettext(std::string S)
+{
+    if (S.empty()) {
+        return std::string();
     }
-    //=============================================================================
+    return boost::locale::translate(S).str();
+}
+//=============================================================================
 }
 //=============================================================================

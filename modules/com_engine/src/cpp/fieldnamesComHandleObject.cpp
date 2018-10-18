@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -18,96 +18,70 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <Windows.h>
-#include <algorithm>
 #include "fieldnamesComHandleObject.hpp"
 #include "HandleManager.hpp"
+#include <Windows.h>
+#include <algorithm>
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    void fieldnamesComHandleObject(ArrayOf A, bool fullList, wstringVector &fieldnames)
-    {
-        if (!A.isHandle())
-        {
-            throw Exception(ERROR_WRONG_ARGUMENT_1_TYPE_HANDLE_EXPECTED);
-        }
-        if (!A.isScalar())
-        {
-            throw Exception(ERROR_SIZE_SCALAR_EXPECTED);
-        }
-        nelson_handle *qp = (nelson_handle*)A.getDataPointer();
-        if (qp == nullptr)
-        {
-            throw Exception(_W("COM valid handle expected."));
-        }
-        nelson_handle hl = qp[0];
-        HandleGenericObject *hlObj = HandleManager::getInstance()->getPointer(hl);
-        if (hlObj == nullptr)
-        {
-            throw Exception(_W("COM valid handle expected."));
-        }
-        if (hlObj->getCategory() != COM_CATEGORY_STR)
-        {
-            throw Exception(_W("COM handle expected."));
-        }
-        ComHandleObject *comhandleobj = (ComHandleObject *)hlObj;
-        fieldnamesComHandleObject(comhandleobj, fullList, fieldnames);
+//=============================================================================
+void
+fieldnamesComHandleObject(ArrayOf A, bool fullList, wstringVector& fieldnames)
+{
+    if (A.getHandleCategory() != COM_CATEGORY_STR) {
+        Error(_W("COM handle expected."));
     }
-    //=============================================================================
-    void fieldnamesComHandleObject(ComHandleObject *comHandle, bool fullList, wstringVector &fieldnames)
-    {
-        void *ptr = comHandle->getPointer();
-        fieldnames.clear();
-        if (ptr == nullptr)
-        {
-            throw Exception(_W("COM valid handle expected."));
+    ComHandleObject* comhandleobj = (ComHandleObject*)A.getContentAsHandleScalar();
+    fieldnamesComHandleObject(comhandleobj, fullList, fieldnames);
+}
+//=============================================================================
+void
+fieldnamesComHandleObject(ComHandleObject* comHandle, bool fullList, wstringVector& fieldnames)
+{
+    void* ptr = comHandle->getPointer();
+    fieldnames.clear();
+    if (ptr == nullptr) {
+        Error(_W("COM valid handle expected."));
+    }
+    VARIANT* pVariant = (VARIANT*)ptr;
+    ITypeInfo* ti;
+    unsigned int tiCount;
+    HRESULT hr;
+    if ((hr = pVariant->pdispVal->GetTypeInfoCount(&tiCount)) == S_OK && tiCount == 1) {
+        TYPEATTR* pAttr;
+        hr = pVariant->pdispVal->GetTypeInfo(0, LOCALE_USER_DEFAULT, &ti);
+        if (FAILED(hr)) {
+            return;
         }
-        VARIANT *pVariant = (VARIANT *)ptr;
-        ITypeInfo *ti;
-        unsigned int tiCount;
-        HRESULT hr;
-        if ((hr = pVariant->pdispVal->GetTypeInfoCount(&tiCount)) == S_OK && tiCount == 1)
-        {
-            TYPEATTR *pAttr;
-            hr = pVariant->pdispVal->GetTypeInfo(0, LOCALE_USER_DEFAULT, &ti);
-            if (FAILED(hr))
-            {
+        hr = ti->GetTypeAttr(&pAttr);
+        if (FAILED(hr)) {
+            return;
+        }
+        for (int k = 0; k < pAttr->cFuncs; k++) {
+            FUNCDESC* pFuncDesc;
+            BSTR name;
+            hr = ti->GetFuncDesc(k, &pFuncDesc);
+            if (FAILED(hr)) {
                 return;
             }
-            hr = ti->GetTypeAttr(&pAttr);
-            if (FAILED(hr))
-            {
+            hr = ti->GetDocumentation(pFuncDesc->memid, &name, NULL, NULL, NULL);
+            if (FAILED(hr)) {
                 return;
             }
-            for (int k = 0; k<pAttr->cFuncs; k++)
-            {
-                FUNCDESC *pFuncDesc;
-                BSTR name;
-                hr = ti->GetFuncDesc(k, &pFuncDesc);
-                if (FAILED(hr))
-                {
-                    return;
+            if (pFuncDesc->invkind & (DISPATCH_PROPERTYGET | DISPATCH_PROPERTYPUT)) {
+                std::wstring fieldname = std::wstring(name);
+                if (std::find(fieldnames.begin(), fieldnames.end(), fieldname)
+                    == fieldnames.end()) {
+                    fieldnames.push_back(fieldname);
                 }
-                hr = ti->GetDocumentation(pFuncDesc->memid, &name, NULL, NULL, NULL);
-                if (FAILED(hr))
-                {
-                    return;
-                }
-                if (pFuncDesc->invkind & (DISPATCH_PROPERTYGET | DISPATCH_PROPERTYPUT))
-                {
-                    std::wstring fieldname = std::wstring(name);
-                    if (std::find(fieldnames.begin(), fieldnames.end(), fieldname) == fieldnames.end())
-                    {
-                        fieldnames.push_back(fieldname);
-                    }
-                }
-                SysFreeString(name);
-                ti->ReleaseFuncDesc(pFuncDesc);
             }
-            ti->ReleaseTypeAttr(pAttr);
+            SysFreeString(name);
+            ti->ReleaseFuncDesc(pFuncDesc);
         }
-        std::sort(fieldnames.begin(), fieldnames.end());
+        ti->ReleaseTypeAttr(pAttr);
     }
-    //=============================================================================
+    std::sort(fieldnames.begin(), fieldnames.end());
+}
+//=============================================================================
 }
 //=============================================================================

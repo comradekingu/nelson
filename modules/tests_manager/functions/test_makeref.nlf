@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -26,6 +26,10 @@ function r = test_makeref(filename)
     error(_('<--CHECK REF--> tag expected.'));
   end
   [p, f, e] = fileparts(filename);
+  if strcmp(p, '') == true;
+    p = pwd();
+    filename = [p, '/', f, e];
+  end
   dia_ref = [p, '/', f, '.ref'];
   // delete previous .ref
   rm = rmfile(dia_ref);
@@ -46,10 +50,10 @@ function r = test_makerefile(filename, options, ref_dest)
   if options.cli_mode
    nelson_exe_path = ['"', nelson_bin_path, '/', 'nelson-cli', '"'];
   else
-    if test_case_res.options.gui_mode
+    if options.gui_mode
       nelson_exe_path = ['"', nelson_bin_path, '/', 'nelson-gui', '"'];
     else
-      if test_case_res.options.adv_cli_mode
+      if options.adv_cli_mode
         nelson_exe_path = ['"', nelson_bin_path, '/', 'nelson-adv-cli', '"'];
       else
         nelson_exe_path = ['"', nelson_bin_path, '/', 'nelson-cli', '"'];

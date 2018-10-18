@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -18,19 +18,20 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
 #include "HandleGenericObject.hpp"
 #include "nlsCom_engine_exports.h"
+#include <string>
 //=============================================================================
 #define COM_CATEGORY_STR L"COM"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    class NLSCOM_ENGINE_IMPEXP ComHandleObject : public HandleGenericObject {
-    public:
-        ComHandleObject(void *_ptr);
-        ~ComHandleObject();
-    };
-    //=============================================================================
-}
+//=============================================================================
+class NLSCOM_ENGINE_IMPEXP ComHandleObject : public HandleGenericObject
+{
+public:
+    ComHandleObject(void* _ptr);
+    ~ComHandleObject();
+};
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

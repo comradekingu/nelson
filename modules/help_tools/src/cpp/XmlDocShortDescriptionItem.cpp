@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -17,44 +17,54 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "XmlDocShortDescriptionItem.hpp"
-#include "characters_encoding.hpp"
-#include "XmlDocumentTags.hpp"
 #include "HtmlTags.hpp"
+#include "XmlDocumentTags.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    XmlDocShortDescriptionItem::XmlDocShortDescriptionItem(std::wstring description)
-    {
-        this->_description = description;
-    }
-    //=============================================================================
-    XmlDocShortDescriptionItem::~XmlDocShortDescriptionItem()
-    {
-        this->_description = L"";
-    }
-    //=============================================================================
-    void XmlDocShortDescriptionItem::setValue(std::wstring value)
-    {
-        this->_description = value;
-    }
-    //=============================================================================
-    std::wstring XmlDocShortDescriptionItem::getValue()
-    {
-        return this->_description;
-    }
-    //=============================================================================
-    std::wstring XmlDocShortDescriptionItem::getItemType()
-    {
-        return utf8_to_wstring(SHORT_DESCRIPTION_TAG);
-    }
-    //=============================================================================
-    bool XmlDocShortDescriptionItem::writeAsHtml(std::string &utf8stream)
-    {
-        utf8stream = utf8stream + HTML_H3_IN_TAG + wstring_to_utf8(_description) + HTML_H3_OUT_TAG + "\n";
-        utf8stream = utf8stream + HTML_HR_OUT_TAG + "\n";
-        utf8stream = utf8stream + "\n";
-        return true;
-    }
-    //=============================================================================
+//=============================================================================
+XmlDocShortDescriptionItem::XmlDocShortDescriptionItem(std::wstring description)
+{
+    this->_description = description;
+}
+//=============================================================================
+XmlDocShortDescriptionItem::~XmlDocShortDescriptionItem() { this->_description = L""; }
+//=============================================================================
+void
+XmlDocShortDescriptionItem::setValue(std::wstring value)
+{
+    this->_description = value;
+}
+//=============================================================================
+std::wstring
+XmlDocShortDescriptionItem::getValue()
+{
+    return this->_description;
+}
+//=============================================================================
+std::wstring
+XmlDocShortDescriptionItem::getItemType()
+{
+    return utf8_to_wstring(SHORT_DESCRIPTION_TAG);
+}
+//=============================================================================
+bool
+XmlDocShortDescriptionItem::writeAsHtml(std::string& utf8stream)
+{
+    utf8stream
+        = utf8stream + HTML_H3_IN_TAG + wstring_to_utf8(_description) + HTML_H3_OUT_TAG + "\n";
+    utf8stream = utf8stream + HTML_HR_OUT_TAG + "\n";
+    utf8stream = utf8stream + "\n";
+    return true;
+}
+//=============================================================================
+bool
+XmlDocShortDescriptionItem::writeAsMarkdown(std::string& utf8stream)
+{
+    utf8stream = utf8stream + wstring_to_utf8(_description) + "\n";
+    utf8stream = utf8stream + "\n";
+    return true;
+}
+//=============================================================================
 }
 //=============================================================================

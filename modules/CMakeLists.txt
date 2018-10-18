@@ -1,5 +1,5 @@
 #==============================================================================
-# Copyright (c) 2016-2017 Allan CORNET (Nelson)
+# Copyright (c) 2016-2018 Allan CORNET (Nelson)
 #==============================================================================
 # LICENCE_BLOCK_BEGIN
 # This program is free software: you can redistribute it and/or modify
@@ -20,6 +20,7 @@ include_directories(${EIGEN_INCLUDE_DIR})
 #==============================================================================	
 LIST(APPEND moduleslist
 characters_encoding
+nelson_manager
 i18n
 elementary_mathematics
 error_manager
@@ -27,6 +28,7 @@ types
 api_nelson
 stream_manager
 elementary_functions
+special_functions
 interpreter
 double
 single
@@ -51,11 +53,15 @@ data_structures
 history_manager
 terminal
 gui
+text_completion
+text_editor
 handle
 qml_engine
 com_engine
+nig
 fftw
 f2c
+slicot
 help_browser
 dynamic_link
 help_tools
@@ -64,6 +70,9 @@ modules_manager
 engine
 assert_functions
 tests_manager
+audio
+mpi
+json
 main
 )
 #==============================================================================	

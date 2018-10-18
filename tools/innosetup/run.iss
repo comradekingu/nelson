@@ -1,5 +1,5 @@
 ;==============================================================================
-; Copyright (c) 2016-2017 Allan CORNET (Nelson)
+; Copyright (c) 2016-2018 Allan CORNET (Nelson)
 ;==============================================================================
 ; LICENCE_BLOCK_BEGIN
 ; This program is free software: you can redistribute it and/or modify
@@ -16,10 +16,11 @@
 ; along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ; LICENCE_BLOCK_END
 ;==============================================================================
-Filename: "{app}\bin\{#BinPath}\{#APPLICATION_EXE_GUI_NAME}"; Description: "{cm:LaunchProgram,{#StringChange(APPLICATION_NAME, '&', '&&')}}"; Flags: nowait postinstall skipifsilent
 #ifdef NELSON_X64
-Filename: "{app}\bin\{#BinPath}\vc_redist.x64.exe"; Parameters: "/q /passive /norestart"; Check: VCRedistNeedsInstall; WorkingDir: {app}\bin\{#BinPath}; StatusMsg: Installing VC++ 2015 Redistributables...
+Filename: "{app}\bin\{#BinPath}\vcredist_x64.exe"; Parameters: "/q /passive /norestart"; Check: VCRedistNeedsInstall; WorkingDir: {app}\bin\{#BinPath}; StatusMsg: Installing VC++ 2015 Redistributables...
 #else
-Filename: "{app}\bin\{#BinPath}\vc_redist.x86.exe"; Parameters: "/q /passive /norestart"; Check: VCRedistNeedsInstall; WorkingDir: {app}\bin\{#BinPath}; StatusMsg: Installing VC++ 2015 Redistributables...
+Filename: "{app}\bin\{#BinPath}\vcredist_x86.exe"; Parameters: "/q /passive /norestart"; Check: VCRedistNeedsInstall; WorkingDir: {app}\bin\{#BinPath}; StatusMsg: Installing VC++ 2015 Redistributables...
 #endif
+;==============================================================================
+Filename: "{app}\bin\{#BinPath}\MSMpiSetup.exe"; Parameters: " -unattend -minimal"; WorkingDir: {app}\bin\{#BinPath}; StatusMsg: Installing MS-MPI Redistributables...
 ;==============================================================================

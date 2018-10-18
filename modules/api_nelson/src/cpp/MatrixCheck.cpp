@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -19,116 +19,122 @@
 #include "MatrixCheck.hpp"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    void CheckNumeric(ArrayOf A, ArrayOf B, const std::string &opname) throw(Exception)
-    {
-        bool Anumeric, Bnumeric;
-        Anumeric = !A.isReferenceType();
-        Bnumeric = !B.isReferenceType();
-        if (!(Anumeric && Bnumeric))
-            throw Exception(std::string(_("Cannot apply numeric operation ")) +
-                            opname + std::string(_(" to reference types.")));
+//=============================================================================
+void
+CheckNumeric(ArrayOf A, ArrayOf B, const std::string& opname)
+{
+    bool Anumeric, Bnumeric;
+    Anumeric = !A.isReferenceType();
+    Bnumeric = !B.isReferenceType();
+    if (!(Anumeric && Bnumeric))
+        Error(std::string(_("Cannot apply numeric operation ")) + opname
+            + std::string(_(" to reference types.")));
+}
+//=============================================================================
+void
+VectorCheckReference(ArrayOf& A, ArrayOf& B, const std::string& opname)
+{
+    if (!(A.isReferenceType() && B.isReferenceType())) {
+        Error(_W("Same reference type expected."));
     }
-    //=============================================================================
-    bool MatrixCheck(ArrayOf A, ArrayOf B, const std::string &opname) throw(Exception)
-    {
-        // Test for either a scalar (test 1)
-        if (A.isScalar() || B.isScalar())
-        {
-            return false;
-        }
-        // Test for A & B numeric
-        CheckNumeric(A, B, opname);
-        // Test for 2D
-        if (!A.is2D() || !B.is2D())
-            throw Exception(std::string(_("Cannot apply matrix operation ")) +
-                            opname + std::string(_(" to N-Dimensional arrays.")));
-        return true;
+    Dimensions dimsA = A.getDimensions();
+    Dimensions dimsB = B.getDimensions();
+    if (!(SameSizeCheck(dimsA, dimsB) || A.isScalar() || B.isScalar())) {
+        Error(std::string(_("Size mismatch on arguments to arithmetic operator ")) + opname);
     }
-    //=============================================================================
-    Class FindCommonType(ArrayOf A, ArrayOf B, bool isDivOrMatrix)
-    {
-        Class Cclass;
-        Class Aclass = A.getDataClass();
-        Class Bclass = B.getDataClass();
-        if ( (Aclass == Bclass) &&
-                ( (Aclass == NLS_LOGICAL) ||
-                  (Aclass == NLS_UINT8) ||
-                  (Aclass == NLS_INT8) ||
-                  (Aclass == NLS_UINT16) ||
-                  (Aclass == NLS_INT16) ||
-                  (Aclass == NLS_UINT32) ||
-                  (Aclass == NLS_INT32) ||
-                  (Aclass == NLS_UINT64) ||
-                  (Aclass == NLS_INT64) ||
-                  (Aclass == NLS_SINGLE) ||
-                  (Aclass == NLS_DOUBLE) ||
-                  (Aclass == NLS_SCOMPLEX) ||
-                  (Aclass == NLS_DCOMPLEX) ||
-                  (Aclass == NLS_CHAR)) )
-        {
-            return Aclass;
-        }
-        if ((Aclass < NLS_INT64) || (Aclass == NLS_CHAR))
-        {
-            Aclass = NLS_INT64;
-        }
-        if ((Bclass < NLS_INT64) || (Bclass == NLS_CHAR))
-        {
-            Bclass = NLS_INT64;
-        }
-        // Division or matrix operations do no allow integer
-        // data types.  These must be promoted to doubles.
-        if (isDivOrMatrix && (Aclass < NLS_SINGLE))
-        {
-            Aclass = NLS_DOUBLE;
-        }
-        if (isDivOrMatrix && (Bclass < NLS_SINGLE))
-        {
-            Bclass = NLS_DOUBLE;
-        }
-        // An integer or double mixed with a complex is promoted to a dcomplex type
-        if ((Aclass == NLS_SCOMPLEX) && ((Bclass == NLS_DOUBLE) || (Bclass < NLS_SINGLE)))
-        {
-            Bclass = NLS_DCOMPLEX;
-        }
-        if ((Bclass == NLS_SCOMPLEX) && ((Aclass == NLS_DOUBLE) || (Aclass < NLS_SINGLE)))
-        {
-            Aclass = NLS_DCOMPLEX;
-        }
-        // The output class is now the dominant class remaining:
-        Cclass = (Aclass > Bclass) ? Aclass : Bclass;
-        return Cclass;
+}
+//=============================================================================
+bool
+MatrixCheck(ArrayOf A, ArrayOf B, const std::string& opname)
+{
+    // Test for either a scalar (test 1)
+    if (A.isScalar() || B.isScalar()) {
+        return false;
     }
-    //=============================================================================
-    bool SameSizeCheck(Dimensions Adim, Dimensions Bdim)
-    {
-        Adim.simplify();
-        Bdim.simplify();
-        return (Adim.equals(Bdim));
+    // Test for A & B numeric
+    CheckNumeric(A, B, opname);
+    // Test for 2D
+    if (!A.is2D() || !B.is2D())
+        Error(std::string(_("Cannot apply matrix operation ")) + opname
+            + std::string(_(" to N-Dimensional arrays.")));
+    return true;
+}
+//=============================================================================
+Class
+FindCommonType(const ArrayOf& A, const ArrayOf& B, bool isDivOrMatrix)
+{
+    Class Cclass;
+    Class Aclass = A.getDataClass();
+    Class Bclass = B.getDataClass();
+    if ((Aclass == Bclass)
+        && ((Aclass == NLS_LOGICAL) || (Aclass == NLS_UINT8) || (Aclass == NLS_INT8)
+               || (Aclass == NLS_UINT16) || (Aclass == NLS_INT16) || (Aclass == NLS_UINT32)
+               || (Aclass == NLS_INT32) || (Aclass == NLS_UINT64) || (Aclass == NLS_INT64)
+               || (Aclass == NLS_SINGLE) || (Aclass == NLS_DOUBLE) || (Aclass == NLS_SCOMPLEX)
+               || (Aclass == NLS_DCOMPLEX) || (Aclass == NLS_CHAR))) {
+        return Aclass;
     }
-    //=============================================================================
-    void VectorCheck(ArrayOf& A, ArrayOf& B, const std::string &opname) throw(Exception)
-    {
-        stringVector dummySV;
-        // Check for numeric types
-        CheckNumeric(A, B, opname);
-        if (!(SameSizeCheck(A.getDimensions(), B.getDimensions()) || A.isScalar() || B.isScalar()))
-        {
-            throw Exception(std::string(_("Size mismatch on arguments to arithmetic operator ")) + opname);
+    // Division or matrix operations do no allow integer
+    // data types.  These must be promoted to doubles.
+    if (isDivOrMatrix && (Aclass < NLS_SINGLE)) {
+        Aclass = NLS_DOUBLE;
+    }
+    if (isDivOrMatrix && (Bclass < NLS_SINGLE)) {
+        Bclass = NLS_DOUBLE;
+    }
+    // An integer or double mixed with a complex is promoted to a dcomplex type
+    if ((Aclass == NLS_SCOMPLEX) && ((Bclass == NLS_DOUBLE) || (Bclass < NLS_SINGLE))) {
+        Bclass = NLS_DCOMPLEX;
+    }
+    if ((Bclass == NLS_SCOMPLEX) && ((Aclass == NLS_DOUBLE) || (Aclass < NLS_SINGLE))) {
+        Aclass = NLS_DCOMPLEX;
+    }
+    // The output class is now the dominant class remaining:
+    Cclass = (Aclass > Bclass) ? Aclass : Bclass;
+    return Cclass;
+}
+//=============================================================================
+bool
+SameSizeCheck(Dimensions& Adim, Dimensions& Bdim)
+{
+    Adim.simplify();
+    Bdim.simplify();
+    return (Adim.equals(Bdim));
+}
+//=============================================================================
+void
+VectorCheck(ArrayOf& A, ArrayOf& B, const std::string& opname)
+{
+    stringVector dummySV;
+    // Check for numeric types
+    CheckNumeric(A, B, opname);
+    Dimensions dimsA = A.getDimensions();
+    Dimensions dimsB = B.getDimensions();
+    if (!(SameSizeCheck(dimsA, dimsB) || A.isScalar() || B.isScalar())) {
+        Error(std::string(_("Size mismatch on arguments to arithmetic operator ")) + opname);
+    }
+}
+//=============================================================================
+void
+BoolVectorCheck(ArrayOf& A, ArrayOf& B, const std::string& opname)
+{
+    A.promoteType(NLS_LOGICAL);
+    B.promoteType(NLS_LOGICAL);
+    if (A.isVector() && B.isVector()) {
+        if ((A.isRowVector() && B.isRowVector()) || (A.isColumnVector() && B.isColumnVector())) {
+            if (A.getDimensions().getElementCount() != B.getDimensions().getElementCount()) {
+                Error(std::string(_("Size mismatch on arguments to ")) + opname);
+            }
         }
-    }
-    //=============================================================================
-    void BoolVectorCheck(ArrayOf& A, ArrayOf& B, const std::string &opname) throw(Exception)
-    {
-        A.promoteType(NLS_LOGICAL);
-        B.promoteType(NLS_LOGICAL);
-        if (!(SameSizeCheck(A.getDimensions(), B.getDimensions()) || A.isScalar() || B.isScalar()))
-        {
-            throw Exception(std::string(_("Size mismatch on arguments to ")) + opname);
+    } else {
+        Dimensions dimsA = A.getDimensions();
+        Dimensions dimsB = B.getDimensions();
+        if (!(SameSizeCheck(dimsA, dimsB) || A.isScalar() || B.isScalar())) {
+            Error(std::string(_("Size mismatch on arguments to ")) + opname);
         }
     }
-    //=============================================================================
+}
+//=============================================================================
 
 }
 //=============================================================================

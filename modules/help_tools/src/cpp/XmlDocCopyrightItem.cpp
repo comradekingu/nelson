@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -17,45 +17,49 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "XmlDocCopyrightItem.hpp"
-#include "characters_encoding.hpp"
-#include "XmlDocumentTags.hpp"
 #include "HtmlTags.hpp"
+#include "XmlDocumentTags.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    XmlDocCopyrightItem::XmlDocCopyrightItem(std::wstring copyright)
-    {
-        this->_copyright = copyright;
-    }
-    //=============================================================================
-    XmlDocCopyrightItem::~XmlDocCopyrightItem()
-    {
-        this->_copyright = L"";
-    }
-    //=============================================================================
-    void XmlDocCopyrightItem::setValue(std::wstring value)
-    {
-        this->_copyright = value;
-    }
-    //=============================================================================
-    std::wstring XmlDocCopyrightItem::getValue()
-    {
-        return this->_copyright;
-    }
-    //=============================================================================
-    std::wstring XmlDocCopyrightItem::getItemType()
-    {
-        return utf8_to_wstring(COPYRIGHT_TAG);
-    }
-    //=============================================================================
-    bool XmlDocCopyrightItem::writeAsHtml(std::string &utf8stream)
-    {
-        utf8stream = utf8stream + HTML_COMMENT_IN_TAG + "\n";
-        utf8stream = utf8stream + wstring_to_utf8(this->_copyright) + "\n";
-        utf8stream = utf8stream + HTML_COMMENT_OUT_TAG + "\n";
-        utf8stream = utf8stream + "\n";
-        return true;
-    }
-    //=============================================================================
+//=============================================================================
+XmlDocCopyrightItem::XmlDocCopyrightItem(std::wstring copyright) { this->_copyright = copyright; }
+//=============================================================================
+XmlDocCopyrightItem::~XmlDocCopyrightItem() { this->_copyright = L""; }
+//=============================================================================
+void
+XmlDocCopyrightItem::setValue(std::wstring value)
+{
+    this->_copyright = value;
+}
+//=============================================================================
+std::wstring
+XmlDocCopyrightItem::getValue()
+{
+    return this->_copyright;
+}
+//=============================================================================
+std::wstring
+XmlDocCopyrightItem::getItemType()
+{
+    return utf8_to_wstring(COPYRIGHT_TAG);
+}
+//=============================================================================
+bool
+XmlDocCopyrightItem::writeAsHtml(std::string& utf8stream)
+{
+    utf8stream = utf8stream + HTML_COMMENT_IN_TAG + "\n";
+    utf8stream = utf8stream + wstring_to_utf8(this->_copyright) + "\n";
+    utf8stream = utf8stream + HTML_COMMENT_OUT_TAG + "\n";
+    utf8stream = utf8stream + "\n";
+    return true;
+}
+//=============================================================================
+bool
+XmlDocCopyrightItem::writeAsMarkdown(std::string& utf8stream)
+{
+    return true;
+}
+//=============================================================================
 }
 //=============================================================================

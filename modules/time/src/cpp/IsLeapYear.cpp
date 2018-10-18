@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -19,16 +19,16 @@
 #include "IsLeapYear.hpp"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    bool IsLeapYear(int year)
-    {
-        if (year < 0)
-        {
-            return false;
-        }
-        /* Check if the year is divisible by 4 or is divisible by 400 */
-        return (bool)((year % 4 == 0 && year % 100 != 0) || (year % 400 == 0));
+//=============================================================================
+bool
+IsLeapYear(int year)
+{
+    if (year < 0) {
+        return false;
     }
-    //=============================================================================
+    /* Check if the year is divisible by 4 or is divisible by 400 */
+    return (bool)((year % 4 == 0 && year % 100 != 0) || (year % 400 == 0));
+}
+//=============================================================================
 }
 //=============================================================================

@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -18,30 +18,39 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
 #include "nlsStream_manager_exports.h"
+#include <string>
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    // Think to update with <boost/endian/conversion.hpp>
-    // http://www.boost.org/doc/libs/develop/libs/endian/doc/conversion.html
-    class NLSSTREAM_MANAGER_IMPEXP File {
-    private:
-        void *stream;
-        std::wstring filename;
-        std::wstring mode;
-        bool bIsFilePointer;
-    public:
-        File(bool bIsFilePointer = true);
-        ~File();
-        std::wstring getFileMode();
-        void setFileMode(std::wstring _mode);
-        void * getFilePointer();
-        void setFilePointer(void* fp);
-        std::wstring getFileName();
-        void setFileName(std::wstring _filename);
-        bool isInterfaceMethod();
-    };
-    //=============================================================================
+//=============================================================================
+// Think to update with <boost/endian/conversion.hpp>
+// http://www.boost.org/doc/libs/develop/libs/endian/doc/conversion.html
+class NLSSTREAM_MANAGER_IMPEXP File
+{
+private:
+    void* stream;
+    std::wstring filename;
+    std::wstring mode;
+    bool bIsFilePointer;
+
+public:
+    File(bool bIsFilePointer = true);
+    ~File();
+    std::wstring
+    getFileMode();
+    void
+    setFileMode(std::wstring _mode);
+    void*
+    getFilePointer();
+    void
+    setFilePointer(void* fp);
+    std::wstring
+    getFileName();
+    void
+    setFileName(std::wstring _filename);
+    bool
+    isInterfaceMethod();
 };
+//=============================================================================
+}; // namespace Nelson
 //=============================================================================

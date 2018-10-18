@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -17,34 +17,29 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "NargIn.hpp"
-#include "characters_encoding.hpp"
 #include "Error.hpp"
 #include "MacroFunctionDef.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    int NargIn(Evaluator* eval, std::wstring functionName)
-    {
-        int nargin = 0;
-        FuncPtr fptr = nullptr;
-        bool bIsFun = eval->lookupFunction(wstring_to_utf8(functionName), fptr);
-        if (bIsFun)
-        {
-            if (fptr->type() == NLS_MACRO_FUNCTION)
-            {
-                nargin = ((MacroFunctionDef*)(fptr))->nargin();
-            }
-            else
-            {
-                nargin = fptr->inputArgCount();
-            }
+//=============================================================================
+int
+NargIn(Evaluator* eval, std::wstring functionName)
+{
+    int nargin = 0;
+    FuncPtr fptr = nullptr;
+    bool bIsFun = eval->lookupFunction(wstring_to_utf8(functionName), fptr);
+    if (bIsFun) {
+        if (fptr->type() == NLS_MACRO_FUNCTION) {
+            nargin = ((MacroFunctionDef*)(fptr))->nargin();
+        } else {
+            nargin = fptr->inputArgCount();
         }
-        else
-        {
-            Error(eval, _W("function not found."));
-        }
-        return nargin;
+    } else {
+        Error(_W("function not found."));
     }
-    //=============================================================================
+    return nargin;
+}
+//=============================================================================
 }
 //=============================================================================

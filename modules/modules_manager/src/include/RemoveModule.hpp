@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -18,10 +18,11 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsModules_manager_exports.h"
 #include "Evaluator.hpp"
+#include "nlsModules_manager_exports.h"
 //=============================================================================
 namespace Nelson {
-    NLSMODULES_MANAGER_IMPEXP bool RemoveModule(Evaluator* eval, std::wstring moduleshortname);
+NLSMODULES_MANAGER_IMPEXP bool
+RemoveModule(Evaluator* eval, std::wstring moduleshortname);
 }
 //=============================================================================

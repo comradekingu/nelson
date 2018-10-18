@@ -1,5 +1,5 @@
 ;==============================================================================
-; Copyright (c) 2016-2017 Allan CORNET (Nelson)
+; Copyright (c) 2016-2018 Allan CORNET (Nelson)
 ;==============================================================================
 ; LICENCE_BLOCK_BEGIN
 ; This program is free software: you can redistribute it and/or modify
@@ -36,6 +36,7 @@ DefaultDirName={pf}\{#APPLICATION_NAME}-{#APPLICATION_VERSION} (32 bits)
 DefaultGroupName={#APPLICATION_NAME}-{#APPLICATION_VERSION} (32 bits)
 #endif
 
+UsePreviousAppDir=no
 LicenseFile={#RootPath}COPYING.md
 OutputDir={#RootPath}
 SetupIconFile={#RootPath}resources/fibonacci.ico

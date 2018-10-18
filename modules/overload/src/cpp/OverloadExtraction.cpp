@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -18,32 +18,34 @@
 //=============================================================================
 #include "OverloadExtraction.hpp"
 #include "ClassName.hpp"
-#include "Exception.hpp"
+#include "Error.hpp"
 //=============================================================================
 namespace Nelson {
-    ArrayOfVector OverloadExtraction(Evaluator *eval, const std::string &ClassName, ArrayOfVector args)
+ArrayOfVector
+OverloadExtraction(Evaluator* eval, const std::string& ClassName, ArrayOfVector args)
+{
+    /*
+    Context *context = eval->getContext();
+    FunctionDef *funcDef = nullptr;
+    std::string OverloadName = ClassName(a) + "_" + functionName;
+    if (!context->lookupFunction(OverloadName, funcDef))
     {
-        /*
-        Context *context = eval->getContext();
-        FunctionDef *funcDef = nullptr;
-        std::string OverloadName = ClassName(a) + "_" + functionName;
-        if (!context->lookupFunction(OverloadName, funcDef))
-        {
-        	throw Exception(std::string("function ") + OverloadName + " undefined.");
-        }
-        ArrayOfVector argsIn;
-        argsIn.push_back(a);
-        int nargout = 1;
-        ArrayOfVector res = funcDef->evaluateFunction(eval, argsIn, nargout);
-        if (res.size() != 1)
-        {
-        	throw Exception(std::string("function ") + OverloadName + " only one output argument expected.");
-        }
-        return res[0];
-        */
-        ArrayOfVector res;
-        return res;
+        Error(std::string("function ") + OverloadName + " undefined.");
     }
-    //=============================================================================
+    ArrayOfVector argsIn;
+    argsIn.push_back(a);
+    int nargout = 1;
+    ArrayOfVector res = funcDef->evaluateFunction(eval, argsIn, nargout);
+    if (res.size() != 1)
+    {
+        Error(std::string("function ") + OverloadName + " only one output argument
+    expected.");
+    }
+    return res[0];
+    */
+    ArrayOfVector res;
+    return res;
+}
+//=============================================================================
 }
 //=============================================================================

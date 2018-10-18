@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -22,50 +22,36 @@
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::EngineGateway::getnelsonmodeBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::EngineGateway::getnelsonmodeBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() != 0)
-    {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    if (argIn.size() != 0) {
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    if (nLhs > 1)
-    {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    if (nLhs > 1) {
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     NELSON_ENGINE_MODE _mode = (NELSON_ENGINE_MODE)eval->getNelsonEngineMode();
-    switch (_mode)
-    {
-        case BASIC_ENGINE:
-        {
-            retval.push_back(ArrayOf::stringConstructor("BASIC_ENGINE"));
-        }
-        break;
-        case ADVANCED_ENGINE:
-        {
-            retval.push_back(ArrayOf::stringConstructor("ADVANCED_ENGINE"));
-        }
-        break;
-        case BASIC_TERMINAL:
-        {
-            retval.push_back(ArrayOf::stringConstructor("BASIC_TERMINAL"));
-        }
-        break;
-        case ADVANCED_TERMINAL:
-        {
-            retval.push_back(ArrayOf::stringConstructor("ADVANCED_TERMINAL"));
-        }
-        break;
-        case GUI:
-        {
-            retval.push_back(ArrayOf::stringConstructor("GUI"));
-        }
-        break;
-        default:
-        {
-            Error(eval, _W("unknown mode."));
-        }
-        break;
+    switch (_mode) {
+    case BASIC_ENGINE: {
+        retval.push_back(ArrayOf::characterArrayConstructor("BASIC_ENGINE"));
+    } break;
+    case ADVANCED_ENGINE: {
+        retval.push_back(ArrayOf::characterArrayConstructor("ADVANCED_ENGINE"));
+    } break;
+    case BASIC_TERMINAL: {
+        retval.push_back(ArrayOf::characterArrayConstructor("BASIC_TERMINAL"));
+    } break;
+    case ADVANCED_TERMINAL: {
+        retval.push_back(ArrayOf::characterArrayConstructor("ADVANCED_TERMINAL"));
+    } break;
+    case GUI: {
+        retval.push_back(ArrayOf::characterArrayConstructor("GUI"));
+    } break;
+    default: {
+        Error(_W("unknown mode."));
+    } break;
     }
     return retval;
 }

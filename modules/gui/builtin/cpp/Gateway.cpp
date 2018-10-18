@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -19,15 +19,14 @@
 #include "NelsonGateway.hpp"
 #include "bannerBuiltin.hpp"
 #include "inserthtmlBuiltin.hpp"
-#include "uigetdirBuiltin.hpp"
 #include "qt_verboseBuiltin.hpp"
+#include "uigetdirBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 const std::wstring gatewayName = L"gui";
 //=============================================================================
-static const nlsGateway gateway[] =
-{
+static const nlsGateway gateway[] = {
     { "banner", Nelson::GuiGateway::bannerBuiltin, 0, 0 },
     { "inserthtml", Nelson::GuiGateway::inserthtmlBuiltin, 0, 1 },
     { "uigetdir", Nelson::GuiGateway::uigetdirBuiltin, 1, 2 },

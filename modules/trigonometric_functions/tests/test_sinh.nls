@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -46,5 +46,5 @@ A = zeros(1000, 1000);
 C = sinh(A);
 assert_isapprox(C, A); 
 //=============================================================================
-assert_checkerror('sinh(''a'')', [_('function'), ' ', 'char_sinh', ' ', _('undefined.')]);
+assert_checkerror('sinh(''a'')', [_('Undefined function ''sinh'' for input arguments of type '''), class('a'), '''.']);
 //=============================================================================

@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -16,23 +16,21 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <boost/filesystem.hpp>
 #include "GetCurrentDirectory.hpp"
+#include <boost/filesystem.hpp>
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    std::wstring GetCurrentDirectory()
-    {
-        std::wstring currentdir = L"";
-        try
-        {
-            boost::filesystem::path pwd = boost::filesystem::current_path();
-            currentdir = pwd.generic_wstring();
-        }
-        catch (const boost::filesystem::filesystem_error&)
-        {
-        }
-        return currentdir;
+//=============================================================================
+std::wstring
+GetCurrentDirectory()
+{
+    std::wstring currentdir = L"";
+    try {
+        boost::filesystem::path pwd = boost::filesystem::current_path();
+        currentdir = pwd.generic_wstring();
+    } catch (const boost::filesystem::filesystem_error&) {
     }
+    return currentdir;
+}
 }
 //=============================================================================

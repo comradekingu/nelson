@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -24,58 +24,49 @@
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::LinearAlgebraGateway::schurBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::LinearAlgebraGateway::schurBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() > 2 || argIn.size() < 1)
-    {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    if (argIn.size() > 2 || argIn.size() < 1) {
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    if (nLhs > 2)
-    {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+    if (nLhs > 2) {
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     // Call overload if it exists
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
-    if (!bSuccess)
-    {
-        if ((argIn[0].getDataClass() == NLS_STRUCT_ARRAY) ||
-                (argIn[0].getDataClass() == NLS_CELL_ARRAY) ||
-                argIn[0].isSparse() ||
-                argIn[0].isLogical() ||
-                argIn[0].isString() ||
-                argIn[0].isIntegerType())
-        {
-            OverloadRequired(eval, argIn, Nelson::FUNCTION);
+    if (eval->mustOverloadBasicTypes()) {
+        retval = OverloadFunction(eval, nLhs, argIn, "schur", bSuccess);
+    }
+    if (!bSuccess) {
+        if (argIn[0].isReferenceType() || argIn[0].isSparse() || argIn[0].isLogical()
+            || argIn[0].isCharacterArray() || argIn[0].isIntegerType()) {
+            retval = OverloadFunction(eval, nLhs, argIn, "schur", bSuccess);
+            if (bSuccess) {
+                return retval;
+            }
+            OverloadRequired(eval, argIn, Overload::OverloadClass::FUNCTION);
         }
         bool asComplex = false;
-        if (argIn.size() == 2)
-        {
+        if (argIn.size() == 2) {
             ArrayOf param2 = argIn[1];
             std::wstring str = param2.getContentAsWideString();
-            if (str == L"complex" || str == L"real")
-            {
-                if (str == L"complex")
-                {
+            if (str == L"complex" || str == L"real") {
+                if (str == L"complex") {
                     asComplex = true;
                 }
-            }
-            else
-            {
-                Error(eval, _W("Second input argument must be 'real' or 'complex'."));
+            } else {
+                Error(_W("Second input argument must be 'real' or 'complex'."));
             }
         }
-        if (nLhs == 2)
-        {
+        if (nLhs == 2) {
             ArrayOf U;
             ArrayOf T;
             SchurDecomposition(argIn[0], asComplex, U, T);
             retval.push_back(U);
             retval.push_back(T);
-        }
-        else
-        {
+        } else {
             ArrayOf T;
             SchurDecomposition(argIn[0], asComplex, T);
             retval.push_back(T);

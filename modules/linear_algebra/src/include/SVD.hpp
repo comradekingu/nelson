@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -18,20 +18,23 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsLinear_algebra_exports.h"
 #include "ArrayOf.hpp"
+#include "nlsLinear_algebra_exports.h"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    typedef enum
-    {
-        SVD_DEFAULT,
-        SVD_ECON,
-        SVD_0
-    } SVD_FLAG;
-    //=============================================================================
-    NLSLINEAR_ALGEBRA_IMPEXP void SVD(ArrayOf A, ArrayOf &s);
-    NLSLINEAR_ALGEBRA_IMPEXP void SVD(ArrayOf A, SVD_FLAG flag, ArrayOf &U, ArrayOf &S);
-    NLSLINEAR_ALGEBRA_IMPEXP void SVD(ArrayOf A, SVD_FLAG flag, ArrayOf &U, ArrayOf &S, ArrayOf &V);
-}
+//=============================================================================
+typedef enum
+{
+    SVD_DEFAULT,
+    SVD_ECON,
+    SVD_0
+} SVD_FLAG;
+//=============================================================================
+NLSLINEAR_ALGEBRA_IMPEXP void
+SVD(ArrayOf A, ArrayOf& s);
+NLSLINEAR_ALGEBRA_IMPEXP void
+SVD(ArrayOf A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S);
+NLSLINEAR_ALGEBRA_IMPEXP void
+SVD(ArrayOf A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V);
+} // namespace Nelson
 //=============================================================================

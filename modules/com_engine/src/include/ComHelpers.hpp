@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -18,15 +18,18 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <Windows.h>
 #include <Ole2.h>
+#include <Windows.h>
 #include <string>
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    bool isMethodCom(IDispatch *pDisp, std::wstring methodToSearch);
-    bool isPropertyGetCom(IDispatch *pDisp, std::wstring propertyToSearch);
-    bool isPropertyPutCom(IDispatch *pDisp, std::wstring propertyToSearch);
-    //=============================================================================
-}
+//=============================================================================
+bool
+isMethodCom(IDispatch* pDisp, std::wstring methodToSearch);
+bool
+isPropertyGetCom(IDispatch* pDisp, std::wstring propertyToSearch);
+bool
+isPropertyPutCom(IDispatch* pDisp, std::wstring propertyToSearch);
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

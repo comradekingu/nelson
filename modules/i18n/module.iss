@@ -1,5 +1,5 @@
 ;==============================================================================
-; Copyright (c) 2016-2017 Allan CORNET (Nelson)
+; Copyright (c) 2016-2018 Allan CORNET (Nelson)
 ;==============================================================================
 ; LICENCE_BLOCK_BEGIN
 ; This program is free software: you can redistribute it and/or modify
@@ -17,6 +17,9 @@
 ; LICENCE_BLOCK_END
 ;==============================================================================
 #define MODULE_NAME "i18n"
+;==============================================================================
+Source: {#RootPath}bin\{#BinPath}\libnlsI18n.lib; DestDir: {app}\bin\{#BinPath}\;
+Source: {#RootPath}modules\{#MODULE_NAME}\src\include\*.hpp; DestDir: {app}\modules\{#MODULE_NAME}\src\include\;
 ;==============================================================================
 Source: {#RootPath}bin\{#BinPath}\libnlsI18n.dll; DestDir: {app}\bin\{#BinPath}\;
 Source: {#RootPath}bin\{#BinPath}\libnlsI18n_builtin.dll; DestDir: {app}\bin\{#BinPath}\

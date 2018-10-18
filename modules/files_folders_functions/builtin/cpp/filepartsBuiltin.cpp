@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -22,94 +22,65 @@
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::FilesFoldersGateway::filepartsBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::FilesFoldersGateway::filepartsBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if ((argIn.size() == 1) || (argIn.size() == 2))
-    {
+    if ((argIn.size() == 1) || (argIn.size() == 2)) {
         std::wstring wpath;
         std::wstring wtype;
-        if (argIn.size() == 2)
-        {
-            if (nLhs > 1)
-            {
-                Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        if (argIn.size() == 2) {
+            if (nLhs > 1) {
+                Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
             }
-            if (argIn[1].isSingleString())
-            {
+            if (argIn[1].isRowVectorCharacterArray()) {
                 wtype = argIn[1].getContentAsWideString();
-                if (wtype.compare(L"path") == 0)
-                {
+                if (wtype.compare(L"path") == 0) {
                     // OK
-                }
-                else if (wtype.compare(L"filename") == 0)
-                {
+                } else if (wtype.compare(L"filename") == 0) {
                     // OK
-                }
-                else if (wtype.compare(L"extension") == 0)
-                {
+                } else if (wtype.compare(L"extension") == 0) {
                     // OK
+                } else {
+                    Error(_W("Argument #2 must contain a valid string 'path', 'filename' or "
+                             "'extension' expected."));
                 }
-                else
-                {
-                    Error(eval, L"Argument #2 must contain a valid string 'path', 'filename' or 'extension' expected.");
-                }
+            } else {
+                Error(ERROR_WRONG_ARGUMENT_2_TYPE_STRING_EXPECTED);
             }
-            else
-            {
-                Error(eval, ERROR_WRONG_ARGUMENT_2_TYPE_STRING_EXPECTED);
+        } else {
+            if (nLhs > 3) {
+                Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
             }
         }
-        else
-        {
-            if (nLhs > 3)
-            {
-                Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-            }
-        }
-        if (argIn[0].isSingleString())
-        {
+        if (argIn[0].isRowVectorCharacterArray()) {
             wpath = argIn[0].getContentAsWideString();
-        }
-        else
-        {
-            Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
+        } else {
+            Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
         }
         std::wstring respath;
         std::wstring resfilename;
         std::wstring resextension;
         FileParts(wpath, respath, resfilename, resextension);
-        if (wtype.empty())
-        {
-            retval.push_back(ArrayOf::stringConstructor(respath));
-            if (nLhs > 1)
-            {
-                retval.push_back(ArrayOf::stringConstructor(resfilename));
+        if (wtype.empty()) {
+            retval.push_back(ArrayOf::characterArrayConstructor(respath));
+            if (nLhs > 1) {
+                retval.push_back(ArrayOf::characterArrayConstructor(resfilename));
             }
-            if (nLhs > 2)
-            {
-                retval.push_back(ArrayOf::stringConstructor(resextension));
+            if (nLhs > 2) {
+                retval.push_back(ArrayOf::characterArrayConstructor(resextension));
             }
-        }
-        else
-        {
-            if (wtype.compare(L"path") == 0)
-            {
-                retval.push_back(ArrayOf::stringConstructor(respath));
-            }
-            else if (wtype.compare(L"filename") == 0)
-            {
-                retval.push_back(ArrayOf::stringConstructor(resfilename));
-            }
-            else if (wtype.compare(L"extension") == 0)
-            {
-                retval.push_back(ArrayOf::stringConstructor(resextension));
+        } else {
+            if (wtype.compare(L"path") == 0) {
+                retval.push_back(ArrayOf::characterArrayConstructor(respath));
+            } else if (wtype.compare(L"filename") == 0) {
+                retval.push_back(ArrayOf::characterArrayConstructor(resfilename));
+            } else if (wtype.compare(L"extension") == 0) {
+                retval.push_back(ArrayOf::characterArrayConstructor(resextension));
             }
         }
-    }
-    else
-    {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    } else {
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     return retval;
 }

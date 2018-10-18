@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -18,16 +18,19 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsString_exports.h"
 #include "ArrayOf.hpp"
+#include "nlsString_exports.h"
 //=============================================================================
 namespace Nelson {
-    NLSSTRING_IMPEXP std::wstring ToChar(ArrayOf A, Dimensions &dims);
-    NLSSTRING_IMPEXP std::wstring ToChar(ArrayOfVector A, Dimensions &dims);
+NLSSTRING_IMPEXP std::wstring
+ToChar(const ArrayOf& A, Dimensions& dims);
+NLSSTRING_IMPEXP std::wstring
+ToChar(const ArrayOfVector& A, Dimensions& dims);
 
+NLSSTRING_IMPEXP ArrayOf
+ToChar(const ArrayOf& A, const ArrayOf& B, bool& needToOverload);
+NLSSTRING_IMPEXP ArrayOf
+ToChar(const ArrayOf& A, bool& needToOverload);
 
-    NLSSTRING_IMPEXP ArrayOf ToChar(ArrayOf A, ArrayOf B);
-    NLSSTRING_IMPEXP ArrayOf ToChar(ArrayOf A);
-
-}
-//=============================================================================
+} // namespace Nelson
+  //=============================================================================

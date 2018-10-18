@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -18,36 +18,49 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
-#include <boost/container/vector.hpp>
-#include "nlsHelp_tools_exports.h"
 #include "XmlDocDocument.hpp"
 #include "XmlDocListOfFiles.hpp"
+#include "XmlTarget.hpp"
+#include "nlsHelp_tools_exports.h"
+#include <boost/container/vector.hpp>
+#include <string>
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    class NLSHELP_TOOLS_IMPEXP XmlDocDirectory {
+//=============================================================================
+class NLSHELP_TOOLS_IMPEXP XmlDocDirectory
+{
 
-    private:
-        std::wstring srcDirectory;
-        std::wstring dstDirectory;
-        XmlDocListOfFiles *xmlDocFiles;
-        bool isQtHelp;
-        std::wstring sectionUpName;
-        std::wstring sectionUpUrl;
-    public:
-        XmlDocDirectory(std::wstring srcDirectory, std::wstring dstDirectory, bool bOverwriteExistingFiles = false, bool isQtHelp = false);
-        ~XmlDocDirectory();
-        bool read();
-        bool writeAsHtml();
-        std::wstring getLastError();
-        std::wstring getGeneratedChapterFilename();
-        std::wstring getChapterTitle();
-        std::wstring getModuleName();
-        void setUpSection(std::wstring sectionName, std::wstring sectionUrl);
-        void getIndex(wstringVector &names, wstringVector &urls, wstringVector &descriptions);
+private:
+    std::wstring srcDirectory;
+    std::wstring dstDirectory;
+    XmlDocListOfFiles* xmlDocFiles;
+    DOCUMENT_OUTPUT outputTarget;
+    std::wstring sectionUpName;
+    std::wstring sectionUpUrl;
 
-    };
-    //=============================================================================
-}
+public:
+    XmlDocDirectory(std::wstring srcDirectory, std::wstring dstDirectory,
+        bool bOverwriteExistingFiles = false, DOCUMENT_OUTPUT outputTarget = DOCUMENT_OUTPUT::HMTL);
+    ~XmlDocDirectory();
+    bool
+    read();
+    bool
+    writeAsHtml();
+    bool
+    writeAsMarkdown();
+    std::wstring
+    getLastError();
+    std::wstring
+    getGeneratedChapterFilename();
+    std::wstring
+    getChapterTitle();
+    std::wstring
+    getModuleName();
+    void
+    setUpSection(std::wstring sectionName, std::wstring sectionUrl);
+    void
+    getIndex(wstringVector& names, wstringVector& urls, wstringVector& descriptions);
+};
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

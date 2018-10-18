@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -22,27 +22,26 @@
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::TestsManagerGateway::test_parsetagsBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::TestsManagerGateway::test_parsetagsBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() != 1)
-    {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    if (argIn.size() != 1) {
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    if (nLhs > 1)
-    {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+    if (nLhs > 1) {
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     TestTags tags;
     ArrayOf param1 = argIn[0];
     std::wstring value = param1.getContentAsWideString();
     std::wstring msg;
-    if (!ParseTags(eval, value, tags, msg))
-    {
-        Error(eval, msg);
+    if (!ParseTags(eval, value, tags, msg)) {
+        Error(msg);
     }
     wstringVector fieldnames;
-    ArrayOfVector  fieldvalues;
+    ArrayOfVector fieldvalues;
     fieldnames.push_back(L"not_fixed");
     fieldvalues.push_back(ArrayOf::logicalConstructor(tags.isNotFixed()));
     fieldnames.push_back(L"interactive_test");
@@ -69,6 +68,16 @@ ArrayOfVector Nelson::TestsManagerGateway::test_parsetagsBuiltin(Evaluator* eval
     fieldvalues.push_back(ArrayOf::logicalConstructor(tags.isReleaseOnly()));
     fieldnames.push_back(L"excel_required");
     fieldvalues.push_back(ArrayOf::logicalConstructor(tags.isExcelRequired()));
+    fieldnames.push_back(L"mpi_mode");
+    fieldvalues.push_back(ArrayOf::logicalConstructor(tags.isMpiMode()));
+    fieldnames.push_back(L"audio_input_required");
+    fieldvalues.push_back(ArrayOf::logicalConstructor(tags.isAudioInputRequired()));
+    fieldnames.push_back(L"audio_output_required");
+    fieldvalues.push_back(ArrayOf::logicalConstructor(tags.isAudioOutputRequired()));
+    fieldnames.push_back(L"c_cpp_compiler_required");
+    fieldvalues.push_back(ArrayOf::logicalConstructor(tags.isCCompilerRequired()));
+    fieldnames.push_back(L"index_64_bit_required");
+    fieldvalues.push_back(ArrayOf::logicalConstructor(tags.isIndex64BitRequired()));
     ArrayOf stack = ArrayOf::structConstructor(fieldnames, fieldvalues);
     retval.push_back(stack);
     return retval;

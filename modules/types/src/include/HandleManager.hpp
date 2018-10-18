@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -18,33 +18,42 @@
 //=============================================================================
 #pragma once
 //=============================================================================
+#include "HandleGenericObject.hpp"
+#include "Types.hpp"
+#include "nlsTypes_exports.h"
+#include <boost/unordered_map.hpp>
 #include <string>
 #include <vector>
-#include <boost/unordered_map.hpp>
-#include "nlsTypes_exports.h"
-#include "Types.hpp"
-#include "HandleGenericObject.hpp"
 //=============================================================================
 namespace Nelson {
+//=============================================================================
+class NLSTYPES_IMPEXP HandleManager
+{
     //=============================================================================
-    class NLSTYPES_IMPEXP HandleManager {
-        //=============================================================================
-    public:
-        static HandleManager *getInstance();
-        void destroy();
-        nelson_handle addHandle(HandleGenericObject *ptr);
-        bool removeHandle(nelson_handle hl);
-        HandleGenericObject *getPointer(nelson_handle hl);
-        bool isValid(nelson_handle hl);
-        std::vector<nelson_handle> getAllHandlesOfCategory(std::wstring category);
-        nelson_handle findByPointerValue(void *ptr);
-        //=============================================================================
-    private:
-        HandleManager();
-        boost::unordered_map<nelson_handle, HandleGenericObject *> handleMap;
-        static HandleManager *m_pInstance;
-        //=============================================================================
-    };
+public:
+    static HandleManager*
+    getInstance();
+    void
+    destroy();
+    nelson_handle
+    addHandle(HandleGenericObject* ptr);
+    bool
+    removeHandle(nelson_handle hl);
+    HandleGenericObject*
+    getPointer(nelson_handle hl);
+    bool
+    isValid(nelson_handle hl);
+    std::vector<nelson_handle>
+    getAllHandlesOfCategory(std::wstring category);
+    nelson_handle
+    findByPointerValue(void* ptr);
     //=============================================================================
-}
+private:
+    HandleManager();
+    boost::unordered_map<nelson_handle, HandleGenericObject*> handleMap;
+    static HandleManager* m_pInstance;
+    //=============================================================================
+};
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -18,9 +18,9 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
 #include "HandleGenericObject.hpp"
 #include "nlsQml_engine_exports.h"
+#include <string>
 //=============================================================================
 #define QOBJECT_CATEGORY_STR L"QObject"
 #define QOBJECT_PROPERTY_PARENT_STR "parent"
@@ -28,12 +28,13 @@
 #define QOBJECT_PROPERTY_CLASSNAME_STR "className"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    class NLSQML_ENGINE_IMPEXP QmlHandleObject : public HandleGenericObject {
-    public:
-        QmlHandleObject( void *_ptr);
-        ~QmlHandleObject();
-    };
-    //=============================================================================
-}
+//=============================================================================
+class NLSQML_ENGINE_IMPEXP QmlHandleObject : public HandleGenericObject
+{
+public:
+    QmlHandleObject(void* _ptr);
+    ~QmlHandleObject();
+};
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

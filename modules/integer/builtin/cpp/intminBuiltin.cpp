@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -21,67 +21,45 @@
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::IntegerGateway::intminBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::IntegerGateway::intminBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() > 1)
-    {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    if (argIn.size() > 1) {
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    if (nLhs > 1)
-    {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+    if (nLhs > 1) {
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    if (argIn.size() == 0)
-    {
+    if (argIn.size() == 0) {
         int32 v = std::numeric_limits<int32>::min();
         retval.push_back(ArrayOf::int32Constructor(v));
-    }
-    else
-    {
+    } else {
         ArrayOf param1 = argIn[0];
-        if (!param1.isSingleString())
-        {
-            Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
+        if (!param1.isRowVectorCharacterArray()) {
+            Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
         }
         std::wstring classInt = param1.getContentAsWideString();
-        if (classInt == L"int8")
-        {
+        if (classInt == L"int8") {
             retval.push_back(ArrayOf::int8Constructor(-128));
-        }
-        else if (classInt == L"uint8")
-        {
+        } else if (classInt == L"uint8") {
             retval.push_back(ArrayOf::uint8Constructor(0));
-        }
-        else if (classInt == L"int16")
-        {
+        } else if (classInt == L"int16") {
             retval.push_back(ArrayOf::int16Constructor(-32768));
-        }
-        else if (classInt == L"uint16")
-        {
+        } else if (classInt == L"uint16") {
             retval.push_back(ArrayOf::uint16Constructor(0));
-        }
-        else if (classInt == L"int32")
-        {
+        } else if (classInt == L"int32") {
             int32 v = std::numeric_limits<int32>::min();
             retval.push_back(ArrayOf::int32Constructor(v));
-        }
-        else if (classInt == L"uint32")
-        {
+        } else if (classInt == L"uint32") {
             retval.push_back(ArrayOf::uint32Constructor(0));
-        }
-        else if (classInt == L"int64")
-        {
+        } else if (classInt == L"int64") {
             int64 v = std::numeric_limits<int64>::min();
             retval.push_back(ArrayOf::int64Constructor(v));
-        }
-        else if (classInt == L"uint64")
-        {
+        } else if (classInt == L"uint64") {
             retval.push_back(ArrayOf::uint64Constructor(0));
-        }
-        else
-        {
-            Error(eval, _W("The name of an integer class expected."));
+        } else {
+            Error(_W("The name of an integer class expected."));
         }
     }
     return retval;

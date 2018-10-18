@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -19,112 +19,80 @@
 #include "headcommentsBuiltin.hpp"
 #include "Error.hpp"
 #include "HeadComments.hpp"
-#include "characters_encoding.hpp"
+#include "IsFile.hpp"
 #include "MacroFunctionDef.hpp"
 #include "ToCellString.hpp"
-#include "IsFile.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::HelpToolsGateway::headcommentsBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::HelpToolsGateway::headcommentsBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() != 1)
-    {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    if (argIn.size() != 1) {
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    if (nLhs > 1)
-    {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+    if (nLhs > 1) {
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     std::wstring filename = L"";
-    if (argIn.size() == 1)
-    {
+    if (argIn.size() == 1) {
         ArrayOf arg1 = argIn[0];
         std::wstring functionName = L"";
-        if (arg1.isSingleString())
-        {
+        if (arg1.isRowVectorCharacterArray()) {
             functionName = arg1.getContentAsWideString();
-            if (IsFile(functionName))
-            {
+            if (IsFile(functionName)) {
                 filename = functionName;
-            }
-            else
-            {
-                Context *context = eval->getContext();
-                FunctionDef *funcDef = nullptr;
-                if (context->lookupFunction(wstring_to_utf8(functionName), funcDef))
-                {
-                    if (funcDef->type() == NLS_MACRO_FUNCTION)
-                    {
-                        MacroFunctionDef *fm = (MacroFunctionDef *)funcDef;
+            } else {
+                Context* context = eval->getContext();
+                FunctionDef* funcDef = nullptr;
+                if (context->lookupFunction(wstring_to_utf8(functionName), funcDef)) {
+                    if (funcDef->type() == NLS_MACRO_FUNCTION) {
+                        MacroFunctionDef* fm = (MacroFunctionDef*)funcDef;
                         filename = fm->fileName;
+                    } else {
+                        Error(_W("built-in have no comments."));
                     }
-                    else
-                    {
-                        Error(eval, _W("built-in have no comments."));
-                    }
-                }
-                else
-                {
-                    Error(eval, _W("function does not exist."));
+                } else {
+                    Error(_W("function does not exist."));
                 }
             }
-        }
-        else if (arg1.isFunctionHandle())
-        {
+        } else if (arg1.isFunctionHandle()) {
             function_handle fh = arg1.getContentAsFunctionHandle();
-            FunctionDef *fun = (FunctionDef *)fh;
-            if (eval->getContext()->getGlobalScope()->isPointerOnFunction(fun))
-            {
-                if (fun->type() == NLS_MACRO_FUNCTION)
-                {
-                    MacroFunctionDef *fm = (MacroFunctionDef *)fun;
+            FunctionDef* fun = (FunctionDef*)fh;
+            if (eval->getContext()->getGlobalScope()->isPointerOnFunction(fun)) {
+                if (fun->type() == NLS_MACRO_FUNCTION) {
+                    MacroFunctionDef* fm = (MacroFunctionDef*)fun;
                     filename = fm->fileName;
+                } else {
+                    Error(_W("built-in have no comments."));
                 }
-                else
-                {
-                    Error(eval, _W("built-in have no comments."));
-                }
-            }
-            else
-            {
-                Error(eval, _W("function does not exist."));
+            } else {
+                Error(_W("function does not exist."));
             }
         }
-        HEADCOMMENTS_ERROR err = HEADCOMMENTS_ERROR::NO_ERROR;
+        HEADCOMMENTS_ERROR err = HEADCOMMENTS_ERROR::MACRO_OK;
         wstringVector comments = HeadComments(eval, filename, err);
-        switch (err)
-        {
-            case HEADCOMMENTS_ERROR::NO_ERROR:
-            {
-                if (nLhs == 0)
-                {
-                    Interface *io = eval->getInterface();
-                    if (io)
-                    {
-                        for (size_t i = 0; i < comments.size(); i++)
-                        {
-                            io->outputMessage(comments[i] + L"\n");
-                        }
+        switch (err) {
+        case HEADCOMMENTS_ERROR::MACRO_OK: {
+            if (nLhs == 0) {
+                Interface* io = eval->getInterface();
+                if (io) {
+                    for (size_t i = 0; i < comments.size(); i++) {
+                        io->outputMessage(comments[i] + L"\n");
                     }
                 }
-                else
-                {
-                    retval.push_back(ToCellStringAsColumn(comments));
-                }
+            } else {
+                retval.push_back(ToCellStringAsColumn(comments));
             }
-            break;
-            case HEADCOMMENTS_ERROR::NOT_A_MACRO:
-            {
-                Error(eval, _W("A valid function expected."));
-            }
-            break;
-            case HEADCOMMENTS_ERROR::FILE_NOT_EXIST:
-            {
-                Error(eval, _W("File does not exist."));
-            }
-            break;
+        } break;
+        case HEADCOMMENTS_ERROR::NOT_A_MACRO: {
+            Error(_W("A valid function expected."));
+        } break;
+        case HEADCOMMENTS_ERROR::FILE_NOT_EXIST: {
+            Error(_W("File does not exist."));
+        } break;
         }
     }
     return retval;

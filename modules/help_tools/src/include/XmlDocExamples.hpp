@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -18,27 +18,39 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
-#include <boost/container/vector.hpp>
-#include "nlsHelp_tools_exports.h"
-#include "XmlDocGenericItem.hpp"
 #include "XmlDocExampleItem.hpp"
+#include "XmlDocGenericItem.hpp"
+#include "XmlTarget.hpp"
+#include "nlsHelp_tools_exports.h"
+#include <boost/container/vector.hpp>
+#include <string>
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    class NLSHELP_TOOLS_IMPEXP XmlDocExamples : public XmlDocGenericItem {
-    private:
-        boost::container::vector<XmlDocExampleItem *> examplesVector;
-        bool bIsQtHelp;
-    public:
-        XmlDocExamples(bool isQtHelp);
-        ~XmlDocExamples();
-        void append(std::wstring type, std::wstring description, std::wstring data, std::wstring imageTag);
-        std::wstring getItemType();
-        bool writeAsHtml(std::string &utf8stream);
-        bool writeHeaderAsHtml(std::string &utf8stream);
-        void setDirectories(std::wstring srcDirectory, std::wstring dstDirectory);
-    };
-    //=============================================================================
-}
+//=============================================================================
+class NLSHELP_TOOLS_IMPEXP XmlDocExamples : public XmlDocGenericItem
+{
+private:
+    boost::container::vector<XmlDocExampleItem*> examplesVector;
+    DOCUMENT_OUTPUT outputTarget;
+
+public:
+    XmlDocExamples(DOCUMENT_OUTPUT outputTarget);
+    ~XmlDocExamples();
+    void
+    append(std::wstring type, std::wstring description, std::wstring data, std::wstring imageTag);
+    std::wstring
+    getItemType();
+    bool
+    writeAsHtml(std::string& utf8stream);
+    bool
+    writeHeaderAsHtml(std::string& utf8stream);
+    bool
+    writeAsMarkdown(std::string& utf8stream);
+    bool
+    writeHeaderAsMarkdown(std::string& utf8stream);
+    void
+    setDirectories(std::wstring srcDirectory, std::wstring dstDirectory);
+};
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

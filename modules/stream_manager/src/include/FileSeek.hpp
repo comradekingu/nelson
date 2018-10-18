@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -18,11 +18,11 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
-#include <cstdio>
-#include "nlsStream_manager_exports.h"
 #include "File.hpp"
 #include "Types.hpp"
+#include "nlsStream_manager_exports.h"
+#include <cstdio>
+#include <string>
 //=============================================================================
 #if _MSC_VER
 #if defined(_WIN64)
@@ -47,7 +47,7 @@
 #endif
 //=============================================================================
 namespace Nelson {
-    NLSSTREAM_MANAGER_IMPEXP bool FileSeek(File *fp, int64 offset, int origin);
+NLSSTREAM_MANAGER_IMPEXP bool
+FileSeek(File* fp, int64 offset, int origin);
 };
 //=============================================================================
-

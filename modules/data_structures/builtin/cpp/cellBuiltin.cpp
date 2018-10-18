@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -19,141 +19,124 @@
 #define _CRT_SECURE_NO_WARNINGS
 //=============================================================================
 #include "cellBuiltin.hpp"
-#include "StringFormat.hpp"
 #include "Error.hpp"
+#include "StringFormat.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::DataStructuresGateway::cellBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::DataStructuresGateway::cellBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (nLhs > 1)
-    {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+    if (nLhs > 1) {
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    if (argIn.size() == 0)
-    {
+    if (argIn.size() == 0) {
         indexType index = (indexType)0;
         Dimensions dims(index, index);
-        ArrayOf *elements = new ArrayOf[index];
+        ArrayOf* elements = new ArrayOf[index];
         ArrayOf c = ArrayOf(NLS_CELL_ARRAY, dims, elements);
         retval.push_back(c);
     }
-    if (argIn.size() == 1)
-    {
-        if (argIn[0].getDataClass() == NLS_DOUBLE)
-        {
-            if (argIn[0].isVector() || argIn[0].isScalar())
-            {
-                if (argIn[0].isScalar())
-                {
+    if (argIn.size() == 1) {
+        if (argIn[0].getDataClass() == NLS_STRING_ARRAY) {
+            ArrayOf* elementsCell = (ArrayOf*)ArrayOf::allocateArrayOf(
+                NLS_CELL_ARRAY, argIn[0].getDimensions().getElementCount(), stringVector(), false);
+
+            ArrayOf* elementsStringArray = (ArrayOf*)argIn[0].getDataPointer();
+            for (indexType k = 0; k < argIn[0].getDimensions().getElementCount(); k++) {
+                if (elementsStringArray[k].isCharacterArray()) {
+                    elementsCell[k] = elementsStringArray[k];
+                }
+            }
+            ArrayOf res = ArrayOf(NLS_CELL_ARRAY, argIn[0].getDimensions(), elementsCell);
+            retval.push_back(res);
+        } else if (argIn[0].getDataClass() == NLS_DOUBLE) {
+            if (argIn[0].isVector() || argIn[0].isScalar()) {
+                if (argIn[0].isScalar()) {
                     ArrayOf arg = argIn[0];
                     double dindex = arg.getContentAsDoubleScalar();
-                    if (!std::isfinite(dindex))
-                    {
-                        Error(eval, ERROR_WRONG_ARGUMENT_1_FINITE_SCALAR_INTEGER_VALUE_EXPECTED);
+                    if (!std::isfinite(dindex)) {
+                        Error(ERROR_WRONG_ARGUMENT_1_FINITE_SCALAR_INTEGER_VALUE_EXPECTED);
                     }
-                    if (dindex < 0)
-                    {
+                    if (dindex < 0) {
                         dindex = 0;
                     }
                     indexType index = (indexType)dindex;
-                    if ((double)index != dindex)
-                    {
-                        Error(eval, ERROR_WRONG_ARGUMENT_1_SCALAR_INTEGER_VALUE_EXPECTED);
+                    if ((double)index != dindex) {
+                        Error(ERROR_WRONG_ARGUMENT_1_SCALAR_INTEGER_VALUE_EXPECTED);
                     }
                     Dimensions dims(index, index);
-                    ArrayOf *elements = new ArrayOf[index * index];
-                    for (indexType k = 0; k < index * index; k++)
-                    {
+                    ArrayOf* elements = new ArrayOf[index * index];
+                    for (indexType k = 0; k < index * index; k++) {
                         elements[k] = ArrayOf::emptyConstructor();
                     }
                     ArrayOf c = ArrayOf(NLS_CELL_ARRAY, dims, elements);
                     retval.push_back(c);
-                }
-                else
-                {
+                } else {
                     ArrayOf arg = argIn[0];
                     Dimensions dims(arg.getLength());
-                    double *dindex = (double*)arg.getDataPointer();
-                    for (indexType k = 0; k < (indexType)arg.getLength(); k++)
-                    {
+                    double* dindex = (double*)arg.getDataPointer();
+                    for (indexType k = 0; k < (indexType)arg.getLength(); k++) {
                         double _dIndex = dindex[k];
-                        if (!std::isfinite(_dIndex))
-                        {
-                            Error(eval, ERROR_WRONG_ARGUMENT_1_FINITE_VECTOR_INTEGER_VALUE_EXPECTED);
+                        if (!std::isfinite(_dIndex)) {
+                            Error(ERROR_WRONG_ARGUMENT_1_FINITE_VECTOR_INTEGER_VALUE_EXPECTED);
                         }
-                        if (_dIndex < 0)
-                        {
+                        if (_dIndex < 0) {
                             _dIndex = 0;
                         }
                         indexType index = (indexType)_dIndex;
-                        if ((double)index != _dIndex)
-                        {
-                            Error(eval, ERROR_WRONG_ARGUMENT_1_FINITE_VECTOR_INTEGER_VALUE_EXPECTED);
+                        if ((double)index != _dIndex) {
+                            Error(ERROR_WRONG_ARGUMENT_1_FINITE_VECTOR_INTEGER_VALUE_EXPECTED);
                         }
                         dims.setDimensionLength(k, index);
                     }
                     dims.simplify();
-                    ArrayOf *elements = new ArrayOf[dims.getElementCount()];
-                    for (indexType k = 0; k < (indexType)dims.getElementCount(); k++)
-                    {
+                    ArrayOf* elements = new ArrayOf[dims.getElementCount()];
+                    for (indexType k = 0; k < (indexType)dims.getElementCount(); k++) {
                         elements[k] = ArrayOf::emptyConstructor();
                     }
                     ArrayOf c = ArrayOf(NLS_CELL_ARRAY, dims, elements);
                     retval.push_back(c);
                 }
+            } else {
+                Error(ERROR_WRONG_ARGUMENT_1_SIZE_SCALAR_OR_ROW_VECTOR_EXPECTED);
             }
-            else
-            {
-                Error(eval, ERROR_WRONG_ARGUMENT_1_SIZE_SCALAR_OR_ROW_VECTOR_EXPECTED);
-            }
+        } else {
+            Error(ERROR_WRONG_ARGUMENT_1_TYPE_DOUBLE_EXPECTED);
         }
-        else
-        {
-            Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_DOUBLE_EXPECTED);
-        }
-    }
-    else
-    {
+    } else {
         Dimensions dims(argIn.size());
-        for (sizeType k = 0; k < (sizeType)argIn.size(); k++)
-        {
-            if (argIn[k].getDataClass() == NLS_DOUBLE)
-            {
-                if (argIn[k].isScalar())
-                {
+        for (sizeType k = 0; k < (sizeType)argIn.size(); k++) {
+            if (argIn[k].getDataClass() == NLS_DOUBLE) {
+                if (argIn[k].isScalar()) {
                     ArrayOf arg = argIn[k];
                     double dindex = arg.getContentAsDoubleScalar();
-                    if (!std::isfinite(dindex))
-                    {
-                        Error(eval, StringFormat(ERROR_WRONG_ARGUMENT_X_FINITE_SCALAR_INTEGER_VALUE_EXPECTED.c_str(), k + 1));
+                    if (!std::isfinite(dindex)) {
+                        Error(StringFormat(
+                            ERROR_WRONG_ARGUMENT_X_FINITE_SCALAR_INTEGER_VALUE_EXPECTED.c_str(),
+                            k + 1));
                     }
-                    if (dindex < 0)
-                    {
+                    if (dindex < 0) {
                         dindex = 0;
                     }
                     indexType index = (indexType)dindex;
-                    if ((double)index != dindex)
-                    {
-                        Error(eval, StringFormat(ERROR_WRONG_ARGUMENT_X_FINITE_SCALAR_INTEGER_VALUE_EXPECTED.c_str(), k + 1));
+                    if ((double)index != dindex) {
+                        Error(StringFormat(
+                            ERROR_WRONG_ARGUMENT_X_FINITE_SCALAR_INTEGER_VALUE_EXPECTED.c_str(),
+                            k + 1));
                     }
                     dims.setDimensionLength(k, index);
+                } else {
+                    Error(StringFormat(ERROR_WRONG_ARGUMENT_X_SIZE_SCALAR_EXPECTED.c_str(), k + 1));
                 }
-                else
-                {
-                    Error(eval, StringFormat(ERROR_WRONG_ARGUMENT_X_SIZE_SCALAR_EXPECTED.c_str(), k + 1));
-                }
-            }
-            else
-            {
-                Error(eval, StringFormat(ERROR_WRONG_ARGUMENT_X_TYPE_DOUBLE_EXPECTED.c_str(), k + 1));
+            } else {
+                Error(StringFormat(ERROR_WRONG_ARGUMENT_X_TYPE_DOUBLE_EXPECTED.c_str(), k + 1));
             }
         }
         dims.simplify();
-        ArrayOf *elements = new ArrayOf[dims.getElementCount()];
-        for (indexType k = 0; k < (indexType)dims.getElementCount(); k++)
-        {
+        ArrayOf* elements = new ArrayOf[dims.getElementCount()];
+        for (indexType k = 0; k < (indexType)dims.getElementCount(); k++) {
             elements[k] = ArrayOf::emptyConstructor();
         }
         ArrayOf c = ArrayOf(NLS_CELL_ARRAY, dims, elements);

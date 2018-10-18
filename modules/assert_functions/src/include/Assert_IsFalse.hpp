@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -18,11 +18,12 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
-#include "nlsAssert_functions_exports.h"
 #include "Types.hpp"
+#include "nlsAssert_functions_exports.h"
+#include <string>
 //=============================================================================
 namespace Nelson {
-    NLSASSERT_FUNCTIONS_IMPEXP logical Assert_IsFalse(logical value, std::wstring modifiedmsg, std::wstring &msg);
+NLSASSERT_FUNCTIONS_IMPEXP logical
+Assert_IsFalse(logical value, std::wstring modifiedmsg, std::wstring& msg);
 }
 //=============================================================================

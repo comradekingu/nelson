@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -21,51 +21,39 @@
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::InterpreterGateway::max_recursion_depthBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::InterpreterGateway::max_recursion_depthBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (nLhs > 1)
-    {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+    if (nLhs > 1) {
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    if (argIn.size() == 0)
-    {
+    if (argIn.size() == 0) {
         size_t recursiondepth = eval->getContext()->getRecursionDepth();
         retval.push_back(ArrayOf::doubleConstructor((double)recursiondepth));
-    }
-    else if (argIn.size() == 1)
-    {
+    } else if (argIn.size() == 1) {
         size_t previousrecursiondepth = eval->getContext()->getRecursionDepth();
         ArrayOf param1 = argIn[0];
-        if (param1.isSingleString())
-        {
+        if (param1.isRowVectorCharacterArray()) {
             std::wstring param = param1.getContentAsWideString();
-            if (param == L"max")
-            {
-                eval->getContext()->setRecursionDepth(eval->getContext()->getMaximumRecursionDepth());
+            if (param == L"max") {
+                eval->getContext()->setRecursionDepth(
+                    eval->getContext()->getMaximumRecursionDepth());
+            } else {
+                Error(_W("Argument #1: 'max' expected."));
             }
-            else
-            {
-                Error(eval, _W("Argument #1: 'max' expected."));
-            }
-        }
-        else
-        {
+        } else {
             indexType value = param1.getContentAsScalarIndex();
-            if (value <= (indexType)eval->getContext()->getMaximumRecursionDepth())
-            {
-                eval->getContext()->setRecursionDepth((size_t) value);
-            }
-            else
-            {
-                Error(eval, _W("Argument #1: valid value expected."));
+            if (value <= (indexType)eval->getContext()->getMaximumRecursionDepth()) {
+                eval->getContext()->setRecursionDepth((size_t)value);
+            } else {
+                Error(_W("Argument #1: valid value expected."));
             }
         }
         retval.push_back(ArrayOf::doubleConstructor((double)previousrecursiondepth));
-    }
-    else
-    {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    } else {
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     return retval;
 }

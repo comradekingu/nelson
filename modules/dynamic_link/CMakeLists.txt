@@ -1,5 +1,5 @@
 #==============================================================================
-# Copyright (c) 2016-2017 Allan CORNET (Nelson)
+# Copyright (c) 2016-2018 Allan CORNET (Nelson)
 #==============================================================================
 # LICENCE_BLOCK_BEGIN
 # This program is free software: you can redistribute it and/or modify
@@ -29,7 +29,12 @@ ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../error_manager/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
-${LIBFFI_INCLUDE_DIR}
+${CMAKE_CURRENT_SOURCE_DIR}/../string/src/include
+${CMAKE_CURRENT_SOURCE_DIR}/../handle/src/include
+${CMAKE_CURRENT_SOURCE_DIR}/../api_nelson/src/include
+${CMAKE_CURRENT_SOURCE_DIR}/../files_folders_functions/src/include
+${CMAKE_CURRENT_SOURCE_DIR}/../os_functions/src/include
+${LIBFFI_INCLUDE_DIRS}
 )
 #==============================================================================	
 FILE(
@@ -42,7 +47,6 @@ ADD_LIBRARY(
 	${module_library_name}
 	SHARED 
 	${DYNAMIC_LINK_SRC}
-	${LIBFFI_LIBRARIES}
 )
 #==============================================================================	
 target_link_libraries(${module_library_name}
@@ -50,7 +54,13 @@ nlsInterpreter
 nlsTypes
 nlsError_manager
 nlsCharacters_encoding
+nlsApi_nelson
 nlsI18n
+nlsHandle
+nlsString
+nlsFiles_folders_functions
+nlsOs_functions
+${LIBFFI_LIBRARIES}
 )
 #==============================================================================	
 set_target_properties(${module_library_name}
@@ -68,7 +78,10 @@ ${CMAKE_CURRENT_SOURCE_DIR}/builtin/include
 ${CMAKE_CURRENT_SOURCE_DIR}/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../api_nelson/src/include
+${CMAKE_CURRENT_SOURCE_DIR}/../overload/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
+${CMAKE_CURRENT_SOURCE_DIR}/../handle/src/include
+${LIBFFI_INCLUDE_DIRS}
 )
 #==============================================================================	
 ADD_LIBRARY(
@@ -85,6 +98,8 @@ nlsInterpreter
 nlsTypes
 nlsApi_nelson
 nlsI18n
+nlsOverload
+nlsHandle
 )
 #==============================================================================
 set_target_properties(${module_library_builtin_name}
@@ -96,6 +111,7 @@ install(TARGETS ${module_library_builtin_name} LIBRARY DESTINATION ${LIBRARY_OUT
 install(FILES ${CMAKE_SOURCE_DIR}/modules/${module_name}/etc/startup.nls DESTINATION ${ROOT_OUTPUT}/modules/${module_name}/etc) 
 install(FILES ${CMAKE_SOURCE_DIR}/modules/${module_name}/etc/finish.nls DESTINATION ${ROOT_OUTPUT}/modules/${module_name}/etc)
 install(FILES ${CMAKE_SOURCE_DIR}/modules/${module_name}/loader.nls DESTINATION ${ROOT_OUTPUT}/modules/${module_name})
+install(DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/examples DESTINATION ${ROOT_OUTPUT}/modules/${module_name} FILES_MATCHING PATTERN "*.nls")
 install(DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/functions DESTINATION ${ROOT_OUTPUT}/modules/${module_name} FILES_MATCHING PATTERN "*.nlf")
 install(DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/help DESTINATION ${ROOT_OUTPUT}/modules/${module_name} FILES_MATCHING PATTERN "*.qch" PATTERN "xml" EXCLUDE PATTERN "md" EXCLUDE)
 #==============================================================================

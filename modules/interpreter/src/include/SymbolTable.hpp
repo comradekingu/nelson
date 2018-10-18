@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -20,75 +20,83 @@
 //=============================================================================
 #include <unordered_map>
 #include <map>
-#include <boost/container/vector.hpp>
+#include <vector>
 #include <string>
+#include <algorithm>
 #include "Types.hpp"
 //=============================================================================
-#define SYMTAB 4096*2
+#define SYMTAB 4096 * 2
 //=============================================================================
 namespace Nelson {
-    template<class T>
-    class SymbolTable {
-        //=============================================================================
-    private:
-        typedef std::string key_type;
-        typedef T value_type;
-        std::vector< std::pair<key_type, value_type>> symbolMap;
-        //=============================================================================
-    public:
-        //=============================================================================
-        std::vector< std::pair<key_type, value_type>> getMap() {
-            return symbolMap;
-        }
-        //=============================================================================
-        SymbolTable() {
-            //symbolMap.reserve(SYMTAB);
-        }
-        //=============================================================================
-        ~SymbolTable() {
-            symbolMap.clear();
-        }
-        //=============================================================================
-        bool findSymbol(const key_type key, value_type& dest) {
-            auto it = std::find_if(symbolMap.begin(), symbolMap.end(),
-            [&key](std::pair<key_type, value_type> const& elem) {
-                return elem.first == key;
-            });
-            if (it != symbolMap.end()) {
-                dest = it->second;
-                return true;
-            }
-            return false;
-        }
-        //=============================================================================
-        void deleteSymbol(const key_type& key) {
-            auto it = std::find_if(symbolMap.begin(), symbolMap.end(),
-            [&key](std::pair<key_type, value_type> const& elem) {
-                return elem.first == key;
-            });
-            if (it != symbolMap.end()) {
-                symbolMap.erase(it);
-            }
-        }
-        //=============================================================================
-        void deleteAllSymbols() {
-            symbolMap.clear();
-            //symbolMap.reserve(SYMTAB);
-        }
-        //=============================================================================
-        void insertSymbol(const key_type& key, const value_type& val) {
-            symbolMap.push_back(std::make_pair(key, val));
-        }
-        //=============================================================================
-        stringVector getMacrosList() {
-            stringVector retlist;
-            for (auto it = symbolMap.begin(); it != symbolMap.end(); ++it) {
-                retlist.push_back(it->first);
-            }
-            return retlist;
-        }
-        //=============================================================================
-    };
+template <class T> class SymbolTable
+{
     //=============================================================================
+private:
+    typedef std::string key_type;
+    typedef T value_type;
+    std::vector<std::pair<key_type, value_type>> symbolMap;
+    //=============================================================================
+public:
+    //=============================================================================
+    std::vector<std::pair<key_type, value_type>>
+    getMap()
+    {
+        return symbolMap;
+    }
+    //=============================================================================
+    SymbolTable()
+    {
+        // symbolMap.reserve(SYMTAB);
+    }
+    //=============================================================================
+    ~SymbolTable() { symbolMap.clear(); }
+    //=============================================================================
+    bool
+    findSymbol(const key_type key, value_type& dest)
+    {
+        auto it = std::find_if(symbolMap.begin(), symbolMap.end(),
+            [&key](std::pair<key_type, value_type> const& elem) { return elem.first == key; });
+        if (it != symbolMap.end()) {
+            dest = it->second;
+            return true;
+        }
+        return false;
+    }
+    //=============================================================================
+    void
+    deleteSymbol(const key_type& key)
+    {
+        auto it = std::find_if(symbolMap.begin(), symbolMap.end(),
+            [&key](std::pair<key_type, value_type> const& elem) { return elem.first == key; });
+        if (it != symbolMap.end()) {
+            symbolMap.erase(it);
+        }
+    }
+    //=============================================================================
+    void
+    deleteAllSymbols()
+    {
+        symbolMap.clear();
+        // symbolMap.reserve(SYMTAB);
+    }
+    //=============================================================================
+    void
+    insertSymbol(const key_type& key, const value_type& val)
+    {
+        symbolMap.push_back(std::make_pair(key, val));
+    }
+    //=============================================================================
+    stringVector
+    getMacrosList()
+    {
+        stringVector retlist;
+        for (auto it = symbolMap.begin(); it != symbolMap.end(); ++it) {
+            retlist.push_back(it->first);
+        }
+        return retlist;
+    }
+    //=============================================================================
+};
+//=============================================================================
 }
 //=============================================================================

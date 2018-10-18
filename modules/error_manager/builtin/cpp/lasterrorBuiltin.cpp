@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -18,53 +18,40 @@
 //=============================================================================
 #include "lasterrorBuiltin.hpp"
 #include "Error.hpp"
-#include "IsErrorStruct.hpp"
 #include "ErrorToStruct.hpp"
+#include "IsErrorStruct.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::ErrorManagerGateway::lasterrorBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::ErrorManagerGateway::lasterrorBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() > 1)
-    {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
-    else
-    {
-        if (argIn.size() == 1)
-        {
+    if (argIn.size() > 1) {
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    } else {
+        if (argIn.size() == 1) {
             ArrayOf arg1 = argIn[0];
-            if (arg1.isSingleString())
-            {
+            if (arg1.isRowVectorCharacterArray()) {
                 std::wstring str = arg1.getContentAsWideString();
-                if (str == L"reset")
-                {
-                    eval->setLastException(Exception(L""));
+                if (str == L"reset") {
+                    eval->setLastErrorException(Exception());
+                } else {
+                    Error(_W("Wrong value for #2 input argument.") + _W("'reset' expected."));
                 }
-                else
-                {
-                    Error(eval, _W("Wrong value for #2 input argument.") + _W("'reset' expected."));
+            } else if (arg1.isStruct()) {
+                Exception e;
+                if (IsErrorStruct(arg1, e)) {
+                    eval->setLastErrorException(e);
+                } else {
+                    Error(ERROR_WRONG_ARGUMENT_2_VALUE);
                 }
-            }
-            else if (arg1.isStruct())
-            {
-                Exception e(L"");
-                if (IsErrorStruct(arg1, e))
-                {
-                    eval->setLastException(e);
-                }
-                else
-                {
-                    Error(eval, ERROR_WRONG_ARGUMENT_2_VALUE);
-                }
-            }
-            else
-            {
-                Error(eval, ERROR_WRONG_ARGUMENT_2_TYPE + _W("a structure or the string 'reset' expected."));
+            } else {
+                Error(ERROR_WRONG_ARGUMENT_2_TYPE
+                    + _W("a structure or the string 'reset' expected."));
             }
         }
-        Exception lasterror = eval->getLastException();
+        Exception lasterror = eval->getLastErrorException();
         retval.push_back(ErrorToStruct(lasterror));
     }
     return retval;

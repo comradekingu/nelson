@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -20,26 +20,21 @@
 #include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    logical Assert_IsTrue(logical value, std::wstring modifiedmsg, std::wstring &msg)
-    {
-        if (value == 0)
-        {
-            if (!modifiedmsg.empty())
-            {
-                msg = modifiedmsg;
-            }
-            else
-            {
-                msg = _W("Assertion failed: found false entry in condition = false.");
-            }
+//=============================================================================
+logical
+Assert_IsTrue(logical value, std::wstring modifiedmsg, std::wstring& msg)
+{
+    if (value == 0) {
+        if (!modifiedmsg.empty()) {
+            msg = modifiedmsg;
+        } else {
+            msg = _W("Assertion failed: found false entry in condition = false.");
         }
-        else
-        {
-            msg = L"";
-        }
-        return value;
+    } else {
+        msg = L"";
     }
-    //=============================================================================
+    return value;
+}
+//=============================================================================
 }
 //=============================================================================

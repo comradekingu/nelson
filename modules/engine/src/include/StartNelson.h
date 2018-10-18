@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -18,9 +18,11 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsEngine_exports.h"
 #include "NelSon_engine_mode.h"
+#include "nlsEngine_exports.h"
 //=============================================================================
-NLSENGINE_IMPEXP int StartNelson(int argc, char *argv[], NELSON_ENGINE_MODE _mode);
-NLSENGINE_IMPEXP int StartNelson(int argc, wchar_t *argv[], NELSON_ENGINE_MODE _mode);
+NLSENGINE_IMPEXP int
+StartNelson(int argc, char* argv[], NELSON_ENGINE_MODE _mode);
+NLSENGINE_IMPEXP int
+StartNelson(int argc, wchar_t* argv[], NELSON_ENGINE_MODE _mode);
 //=============================================================================

@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -18,9 +18,13 @@
 //=============================================================================
 #pragma once
 //=============================================================================
+#include "XmlTarget.hpp"
 #include <string>
 //=============================================================================
 namespace Nelson {
-    bool XmlDocResolveLink(const std::wstring &directorysource, const std::wstring &linkname, bool isQtHelp, const std::wstring &language, std::wstring &resolvedlink);
+bool
+XmlDocResolveLink(const std::wstring& directorysource, const std::wstring& linkname,
+    const std::wstring& currentModuleName, DOCUMENT_OUTPUT outputTarget,
+    const std::wstring& destinationDir, const std::wstring& language, std::wstring& resolvedlink);
 }
 //=============================================================================

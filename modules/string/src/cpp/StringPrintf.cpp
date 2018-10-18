@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -17,16 +17,17 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "StringPrintf.hpp"
+#include "PrintfFunction.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    bool StringPrintf(std::wstring &result, std::wstring &errormsg, Evaluator *eval, const ArrayOfVector& arg)
-    {
-        bool bRes = false;
-        result = L"";
-        errormsg = L"";
-        return bRes;
-    }
-    //=============================================================================
+//=============================================================================
+bool
+StringPrintf(
+    std::wstring& result, std::wstring& errormsg, Evaluator* eval, const ArrayOfVector& arg)
+{
+    return printfFunction(arg, errormsg, result);
+}
+//=============================================================================
 }
 //=============================================================================

@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -19,82 +19,82 @@
 #ifdef _MSC_VER
 #define _SCL_SECURE_NO_WARNINGS
 #endif
-#include <iostream>
-#include <unsupported/Eigen/MatrixFunctions>
 #include "LogMatrix.hpp"
 #include "ClassName.hpp"
-#include "ComplexConstructor.hpp"
+#include "lapack_eigen.hpp"
+#include <unsupported/Eigen/MatrixFunctions>
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    ArrayOf LogMatrix(ArrayOf A)
-    {
-        if (!A.isSquare())
-        {
-            throw Exception(_("Square matrix expected."));
+//=============================================================================
+template <class T>
+ArrayOf
+logmComplex(ArrayOf& A)
+{
+    ArrayOf R(A);
+    R.ensureSingleOwner();
+    std::complex<T>* Az = reinterpret_cast<std::complex<T>*>((T*)A.getDataPointer());
+    std::complex<T>* Rz = reinterpret_cast<std::complex<T>*>((T*)R.getDataPointer());
+    Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matA(Az,
+        (Eigen::Index)A.getDimensions().getRows(), (Eigen::Index)A.getDimensions().getColumns());
+    Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matR(Rz,
+        (Eigen::Index)R.getDimensions().getRows(), (Eigen::Index)R.getDimensions().getColumns());
+    if (!matA.allFinite()) {
+        Error(_("Input must be finite."));
+    } else {
+        // [V, D] = eig(A);
+        // sqrtm = V * diag(log(diag(D))) * inv(V);
+        Eigen::ComplexEigenSolver<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>>
+            solver(matA.template cast<std::complex<T>>());
+        auto evects = solver.eigenvectors();
+        auto evals = solver.eigenvalues();
+        for (indexType i = 0; i < static_cast<indexType>(evals.rows()); ++i) {
+            evals(i) = std::log(evals(i));
         }
-        if (A.isEmpty())
-        {
-            ArrayOf R(A);
-            R.ensureSingleOwner();
-            return R;
-        }
-        if (A.isSparse())
-        {
-            throw Exception(_("Undefined function 'cosm' for input arguments of type") + " '" + ClassName(A) + "'.");
-        }
-        switch (A.getDataClass())
-        {
-            case NLS_CELL_ARRAY:
-            case NLS_STRUCT_ARRAY:
-            case NLS_LOGICAL:
-            case NLS_UINT8:
-            case NLS_INT8:
-            case NLS_UINT16:
-            case NLS_INT16:
-            case NLS_UINT32:
-            case NLS_INT32:
-            case NLS_UINT64:
-            case NLS_INT64:
-            case NLS_CHAR:
-            {
-                throw Exception(_("Undefined function 'logm' for input arguments of type") + " '" + ClassName(A) + "'.");
-            }
-            break;
-            case NLS_SCOMPLEX:
-            case NLS_DCOMPLEX:
-            {
-                throw Exception(_("Not implemented."));
-            }
-            break;
-            case NLS_DOUBLE:
-            {
-                ArrayOf R(A);
-                R.ensureSingleOwner();
-                Eigen::Map<Eigen::MatrixXd> matA((double*)A.getDataPointer(), (Eigen::Index)A.getDimensions().getRows(), (Eigen::Index)A.getDimensions().getColumns());
-                Eigen::Map<Eigen::MatrixXd> matR((double*)R.getDataPointer(), (Eigen::Index)R.getDimensions().getRows(), (Eigen::Index)R.getDimensions().getColumns());
-                matR = matA.log().array();
-                return R;
-            }
-            break;
-            case NLS_SINGLE:
-            {
-                ArrayOf R(A);
-                R.ensureSingleOwner();
-                Eigen::Map<Eigen::MatrixXf> matA((single*)A.getDataPointer(), (Eigen::Index)A.getDimensions().getRows(), (Eigen::Index)A.getDimensions().getColumns());
-                Eigen::Map<Eigen::MatrixXf> matR((single*)R.getDataPointer(), (Eigen::Index)R.getDimensions().getRows(), (Eigen::Index)R.getDimensions().getColumns());
-                matR = matA.log().array();
-                return R;
-            }
-            break;
-            default:
-            {
-                throw Exception(_W("Invalid type."));
-            }
-            break;
-        }
-        return ArrayOf();
+        auto evalsdiag = evals.asDiagonal();
+        matR = evects * evalsdiag * evects.inverse();
     }
-    //=============================================================================
+    return R;
+}
+//=============================================================================
+ArrayOf
+LogMatrix(ArrayOf A)
+{
+    bool isSupportedTypes
+        = (A.getDataClass() == NLS_DOUBLE || A.getDataClass() == NLS_SINGLE
+              || A.getDataClass() == NLS_DCOMPLEX || A.getDataClass() == NLS_SCOMPLEX)
+        && !A.isSparse();
+    if (!isSupportedTypes) {
+        Error(_("Undefined function 'sqrtm' for input arguments of type") + " '" + ClassName(A)
+            + "'.");
+    }
+    if (!A.isSquare()) {
+        Error(_("Square matrix expected."));
+    }
+    if (A.isEmpty()) {
+        ArrayOf res(A);
+        res.ensureSingleOwner();
+        return res;
+    }
+    ArrayOf res;
+    if (A.getDataClass() == NLS_DOUBLE || A.getDataClass() == NLS_DCOMPLEX) {
+        if (A.getDataClass() == NLS_DOUBLE) {
+            A.promoteType(NLS_DCOMPLEX);
+        }
+        res = logmComplex<double>(A);
+        if (res.allReal()) {
+            res.promoteType(NLS_DOUBLE);
+        }
+    } else {
+        if (A.getDataClass() == NLS_SINGLE) {
+            A.promoteType(NLS_SCOMPLEX);
+        }
+        res = logmComplex<single>(A);
+        if (res.allReal()) {
+            res.promoteType(NLS_SINGLE);
+        }
+    }
+    return res;
+}
+//=============================================================================
 }
 //=============================================================================

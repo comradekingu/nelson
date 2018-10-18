@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -16,56 +16,66 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <cctype>
-#include <string>
-#include <algorithm>
 #include "ToLower.hpp"
 #include "Error.hpp"
+#include <algorithm>
+#include <boost/algorithm/string.hpp>
+#include <cctype>
+#include <string>
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    ArrayOf ToLower(Evaluator* eval, ArrayOf A)
-    {
-        ArrayOf res;
-        if (A.isSingleString())
-        {
-            return ArrayOf::stringConstructor(ToLower(A.getContentAsWideString()));
-        }
-        else if (A.getDataClass() == NLS_CELL_ARRAY)
-        {
-            if (A.isEmpty())
-            {
-                return ArrayOf(A);
-            }
-            else
-            {
-                res = ArrayOf(A);
-                res.ensureSingleOwner();
-                ArrayOf *element = (ArrayOf*)(res.getDataPointer());
-                for (indexType k = 0; k < A.getDimensions().getElementCount(); k++)
-                {
-                    if (!element[k].isSingleString())
-                    {
-                        Error(eval, ERROR_TYPE_CELL_OF_STRINGS_EXPECTED);
-                    }
-                    element[k] = ArrayOf::stringConstructor(ToLower(element[k].getContentAsWideString()));
+//=============================================================================
+ArrayOf
+ToLower(const ArrayOf& A, bool& needToOverload)
+{
+    needToOverload = false;
+    ArrayOf res;
+    if (A.isRowVectorCharacterArray()) {
+        return ArrayOf::characterArrayConstructor(ToLower(A.getContentAsWideString()));
+    } else if (A.getDataClass() == NLS_CELL_ARRAY) {
+        if (A.isEmpty()) {
+            return ArrayOf(A);
+        } else {
+            res = ArrayOf(A);
+            res.ensureSingleOwner();
+            ArrayOf* element = (ArrayOf*)(res.getDataPointer());
+            for (indexType k = 0; k < A.getDimensions().getElementCount(); k++) {
+                if (!element[k].isRowVectorCharacterArray()) {
+                    Error(ERROR_TYPE_CELL_OF_STRINGS_EXPECTED);
                 }
-                return res;
+                element[k] = ArrayOf::characterArrayConstructor(
+                    ToLower(element[k].getContentAsWideString()));
             }
+            return res;
         }
-        else
-        {
-            Error(eval, ERROR_TYPE_CELL_OF_STRINGS_EXPECTED);
+    } else if (A.getDataClass() == NLS_STRING_ARRAY) {
+        if (A.isEmpty()) {
+            return ArrayOf(A);
+        } else {
+            res = ArrayOf(A);
+            res.ensureSingleOwner();
+            ArrayOf* element = (ArrayOf*)(res.getDataPointer());
+            for (indexType k = 0; k < A.getDimensions().getElementCount(); k++) {
+                if (element[k].isRowVectorCharacterArray()) {
+                    element[k] = ArrayOf::characterArrayConstructor(
+                        ToLower(element[k].getContentAsWideString()));
+                } else {
+                    element[k] = ArrayOf::emptyConstructor();
+                }
+            }
+            return res;
         }
-        return res;
+    } else {
+        needToOverload = true;
     }
-    //=============================================================================
-    std::wstring ToLower(const std::wstring &A)
-    {
-        std::wstring res = A;
-        transform(res.begin(), res.end(), res.begin(), towlower);
-        return res;
-    }
-    //=============================================================================
+    return res;
+}
+//=============================================================================
+std::wstring
+ToLower(const std::wstring& A)
+{
+    return boost::to_lower_copy(A);
+}
+//=============================================================================
 }
 //=============================================================================

@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -16,13 +16,21 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-function [r, msg, timing] = test_runfile(filename)
+function struct_res = test_runfile(varargin)
 // internal function
 // not documented
+  with_mpi = false;
+  filename = varargin{1};
+  if length(varargin) == 2
+    with_mpi = logical(varargin{2});
+  end
   if ~isfile(filename)
     error(_('An existing filename expected.'));
   end
 
+  r = false;
+  msg = '';
+  timing = 0;
   options = test_parsetags(filename);
 
   if (options.check_ref)
@@ -76,4 +84,7 @@ function [r, msg, timing] = test_runfile(filename)
       msg = {_('output res and ref are not equal.'), dia_res, dia_ref, res}; 
     end
   end
+  struct_res.r = r;
+  struct_res.msg = msg;
+  struct_res.timing = timing;
 endfunction

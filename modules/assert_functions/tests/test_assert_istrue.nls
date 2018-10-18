@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -19,47 +19,47 @@
 assert_istrue(true);
 r = assert_istrue(true);
 if (r ~= true)
-	error(_('assert_istrue fails.'));
+  error(_('assert_istrue fails.'));
 end
 //=============================================================================
 [r, msg] = assert_istrue(true);
 if (r ~= true)
-	error(_('assert_istrue fails.'));
+  error(_('assert_istrue fails.'));
 end
 //=============================================================================
 if strcmp(msg, '') == false
-	error(_('assert_istrue fails.'));
+  error(_('assert_istrue fails.'));
 end
 //=============================================================================
 r = assert_istrue(false);
 if (r ~= false)
-	error(_('assert_istrue fails.'));
+  error(_('assert_istrue fails.'));
 end
 //=============================================================================
 [r, msg] = assert_istrue(false);
 if (r ~= false)
-	error(_('assert_istrue fails.'));
+  error(_('assert_istrue fails.'));
 end
 //=============================================================================
 if strcmp(msg, _('Assertion failed: found false entry in condition = false.')) == false
-	error(_('assert_istrue fails.'));
+  error(_('assert_istrue fails.'));
 end
 //=============================================================================
 [r, msg] = assert_istrue(false, _('your error message'));
 if (r ~= false)
-	error(_('assert_istrue fails.'));
+  error(_('assert_istrue fails.'));
 end
 //=============================================================================
 if strcmp(msg, _('your error message')) == false
-	error(_('assert_istrue fails.'));
+  error(_('assert_istrue fails.'));
 end
 //=============================================================================
 try
   assert_istrue(false);
 catch
-	err = lasterror();
+  err = lasterror();
   if strcmp(err.message, _('Assertion failed: found false entry in condition = false.')) == false
-	  error(_('assert_istrue fails.'));
+    error(_('assert_istrue fails.'));
   end
 end
 //=============================================================================

@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -18,14 +18,18 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
-#include "nlsFiles_folders_functions_exports.h"
 #include "ArrayOf.hpp"
+#include "nlsFiles_folders_functions_exports.h"
+#include <string>
 //=============================================================================
 namespace Nelson {
-    NLSFILES_FOLDERS_FUNCTIONS_IMPEXP ArrayOf Cd(std::wstring newpath);
-    NLSFILES_FOLDERS_FUNCTIONS_IMPEXP ArrayOf Cd(std::string newpath);
-    NLSFILES_FOLDERS_FUNCTIONS_IMPEXP bool ChangeDirectory(std::wstring newpath);
-    NLSFILES_FOLDERS_FUNCTIONS_IMPEXP bool ChangeDirectory(std::string newpath);
-}
+NLSFILES_FOLDERS_FUNCTIONS_IMPEXP ArrayOf
+Cd(std::wstring newpath);
+NLSFILES_FOLDERS_FUNCTIONS_IMPEXP ArrayOf
+Cd(std::string newpath);
+NLSFILES_FOLDERS_FUNCTIONS_IMPEXP bool
+ChangeDirectory(std::wstring newpath);
+NLSFILES_FOLDERS_FUNCTIONS_IMPEXP bool
+ChangeDirectory(std::string newpath);
+} // namespace Nelson
 //=============================================================================

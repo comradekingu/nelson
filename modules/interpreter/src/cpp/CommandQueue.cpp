@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -17,52 +17,54 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "CommandQueue.hpp"
-#include <boost/thread/locks.hpp>
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    CommandQueue::CommandQueue()
-    {
-        boost::lock_guard<boost::mutex> lock(m_mutex);
-        //        commands.reserve(4096);
+//=============================================================================
+CommandQueue::CommandQueue()
+{
+    std::lock_guard<std::mutex> lock(m_mutex);
+    //        commands.reserve(4096);
+}
+//=============================================================================
+CommandQueue::~CommandQueue()
+{
+    std::lock_guard<std::mutex> lock(m_mutex);
+    commands.clear();
+}
+//=============================================================================
+bool
+CommandQueue::isEmpty()
+{
+    std::lock_guard<std::mutex> lock(m_mutex);
+    return commands.empty();
+}
+//=============================================================================
+void
+CommandQueue::add(const std::wstring& cmdline, bool bIsPriority)
+{
+    std::lock_guard<std::mutex> lock(m_mutex);
+    commands.push_back(cmdline);
+}
+//=============================================================================
+void
+CommandQueue::clear()
+{
+    std::lock_guard<std::mutex> lock(m_mutex);
+    commands.clear();
+}
+//=============================================================================
+bool
+CommandQueue::get(std::wstring& cmd)
+{
+    std::lock_guard<std::mutex> lock(m_mutex);
+    if (commands.size() > 0) {
+        cmd = (commands.end() - 1)->c_str();
+        commands.pop_back();
+        return true;
     }
-    //=============================================================================
-    CommandQueue::~CommandQueue()
-    {
-        boost::lock_guard<boost::mutex> lock(m_mutex);
-        commands.clear();
-    }
-    //=============================================================================
-    bool CommandQueue::isEmpty()
-    {
-        boost::lock_guard<boost::mutex> lock(m_mutex);
-        return commands.empty();
-    }
-    //=============================================================================
-    void CommandQueue::add(std::string cmdline, bool bIsPriority)
-    {
-        boost::lock_guard<boost::mutex> lock(m_mutex);
-        commands.push_back(cmdline);
-    }
-    //=============================================================================
-    void CommandQueue::clear()
-    {
-        boost::lock_guard<boost::mutex> lock(m_mutex);
-        commands.clear();
-    }
-    //=============================================================================
-    bool CommandQueue::get(std::string &cmd)
-    {
-        boost::lock_guard<boost::mutex> lock(m_mutex);
-        if (commands.size() > 0)
-        {
-            cmd = (commands.end()-1)->c_str();
-            commands.pop_back();
-            return true;
-        }
-        cmd = "";
-        return false;
-    }
-    //=============================================================================
+    cmd = L"";
+    return false;
+}
+//=============================================================================
 }
 //=============================================================================

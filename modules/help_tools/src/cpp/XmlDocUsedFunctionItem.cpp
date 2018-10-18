@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -17,40 +17,50 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "XmlDocUsedFunctionItem.hpp"
-#include "characters_encoding.hpp"
-#include "XmlDocumentTags.hpp"
-#include "i18n.hpp"
 #include "HtmlTags.hpp"
+#include "XmlDocumentTags.hpp"
+#include "characters_encoding.hpp"
+#include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    XmlDocUsedFunctionItem::XmlDocUsedFunctionItem(std::wstring usedfunction)
-    {
-        this->_usedfunction = usedfunction;
+//=============================================================================
+XmlDocUsedFunctionItem::XmlDocUsedFunctionItem(std::wstring usedfunction)
+{
+    this->_usedfunction = usedfunction;
+}
+//=============================================================================
+XmlDocUsedFunctionItem::~XmlDocUsedFunctionItem() { this->_usedfunction = L""; }
+//=============================================================================
+std::wstring
+XmlDocUsedFunctionItem::getItemType()
+{
+    return utf8_to_wstring(USED_FUNCTION_TAG);
+}
+//=============================================================================
+bool
+XmlDocUsedFunctionItem::writeAsHtml(std::string& utf8stream)
+{
+    if (!this->_usedfunction.empty()) {
+        utf8stream = utf8stream + HTML_H3_IN_TAG + _("Used function(s)") + HTML_H3_OUT_TAG + "\n";
+        utf8stream = utf8stream + HTML_HR_OUT_TAG + "\n";
+        utf8stream = utf8stream + "\n";
+        utf8stream = utf8stream + wstring_to_utf8(this->_usedfunction) + "\n";
+        utf8stream = utf8stream + "\n";
     }
-    //=============================================================================
-    XmlDocUsedFunctionItem::~XmlDocUsedFunctionItem()
-    {
-        this->_usedfunction = L"";
+    return true;
+}
+//=============================================================================
+bool
+XmlDocUsedFunctionItem::writeAsMarkdown(std::string& utf8stream)
+{
+    if (!this->_usedfunction.empty()) {
+        utf8stream = utf8stream + _("Used function(s)") + "\n";
+        utf8stream = utf8stream + "\n";
+        utf8stream = utf8stream + wstring_to_utf8(this->_usedfunction) + "\n";
+        utf8stream = utf8stream + "\n";
     }
-    //=============================================================================
-    std::wstring XmlDocUsedFunctionItem::getItemType()
-    {
-        return utf8_to_wstring(USED_FUNCTION_TAG);
-    }
-    //=============================================================================
-    bool XmlDocUsedFunctionItem::writeAsHtml(std::string &utf8stream)
-    {
-        if (!this->_usedfunction.empty())
-        {
-            utf8stream = utf8stream + HTML_H3_IN_TAG + _("Used function(s)") + HTML_H3_OUT_TAG + "\n";
-            utf8stream = utf8stream + HTML_HR_OUT_TAG + "\n";
-            utf8stream = utf8stream + "\n";
-            utf8stream = utf8stream + wstring_to_utf8(this->_usedfunction) + "\n";
-            utf8stream = utf8stream + "\n";
-        }
-        return true;
-    }
-    //=============================================================================
+    return true;
+}
+//=============================================================================
 }
 //=============================================================================

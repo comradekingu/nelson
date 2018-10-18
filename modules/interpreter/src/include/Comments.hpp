@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -18,14 +18,18 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
 #include "Types.hpp"
 #include "nlsInterpreter_exports.h"
+#include <string>
 //=============================================================================
 namespace Nelson {
-    NLSINTERPRETER_IMPEXP void getSupportedCommentSymbols(stringVector &comments);
-    NLSINTERPRETER_IMPEXP void getSupportedCommentSymbols(wstringVector &comments);
-    NLSINTERPRETER_IMPEXP bool isCommentedLine(std::string line);
-    NLSINTERPRETER_IMPEXP bool isCommentedLine(std::wstring line);
-}
+NLSINTERPRETER_IMPEXP void
+getSupportedCommentSymbols(stringVector& comments);
+NLSINTERPRETER_IMPEXP void
+getSupportedCommentSymbols(wstringVector& comments);
+NLSINTERPRETER_IMPEXP bool
+isCommentedLine(std::string line);
+NLSINTERPRETER_IMPEXP bool
+isCommentedLine(std::wstring line);
+} // namespace Nelson
 //=============================================================================

@@ -1,0 +1,60 @@
+//=============================================================================
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
+//=============================================================================
+// LICENCE_BLOCK_BEGIN
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
+// (at your option) any later version.
+// 
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// LICENCE_BLOCK_END
+//=============================================================================
+
+// Nelson Interface Generator (NIG) 
+
+
+FILES = {
+'nig_sb10jd.json';
+'nig_mb02md.json';
+'nig_sg02ad.json';
+'nig_sb04qd.json';
+'nig_sb04md.json';
+'nig_mb03od.json';
+'nig_mb03rd.json';
+'nig_mb03pd.json';
+'nig_ab01od.json';
+'nig_ab04md.json';
+'nig_ab08nd.json';
+'nig_sb01bd.json';
+'nig_sb03od.json';
+'nig_sb03md.json';
+'nig_sb02od.json';
+'nig_mb04md.json';
+'nig_ab07nd.json';
+'nig_ab07nd.json';
+'nig_ag08bd.json';
+'nig_tg01ad.json';
+'nig_mc01td.json';
+'nig_mb04gd.json';
+'nig_mb05od.json';
+'nig_tb01id.json';
+};
+
+NIG_FUNCTIONS = struct([]);
+for f = FILES(:)'
+  NIG_FUNCTION = jsondecode(fileread(f{1}));
+  if isempty(NIG_FUNCTIONS)
+    NIG_FUNCTIONS = NIG_FUNCTION;
+  else
+    NIG_FUNCTIONS = [NIG_FUNCTIONS; NIG_FUNCTION];
+  end
+end
+
+nig(NIG_FUNCTIONS, modulepath('slicot'))

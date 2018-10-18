@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -22,55 +22,41 @@
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::OsFunctionsGateway::computerBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::OsFunctionsGateway::computerBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() == 0)
-    {
-        if (nLhs > 3)
-        {
-            Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+    if (argIn.size() == 0) {
+        if (nLhs > 3) {
+            Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
         }
-        if (nLhs >= 0)
-        {
-            retval.push_back(ArrayOf::stringConstructor(GetArchitectureType()));
+        if (nLhs >= 0) {
+            retval.push_back(ArrayOf::characterArrayConstructor(GetArchitectureType()));
         }
-        if (nLhs > 1)
-        {
+        if (nLhs > 1) {
             retval.push_back(ArrayOf::doubleConstructor(GetMaxArrayOfSizeSupported()));
         }
-        if (nLhs > 2)
-        {
-            if (IsBigEndian())
-            {
-                retval.push_back(ArrayOf::stringConstructor(L"B"));
-            }
-            else
-            {
-                retval.push_back(ArrayOf::stringConstructor(L"L"));
+        if (nLhs > 2) {
+            if (IsBigEndian()) {
+                retval.push_back(ArrayOf::characterArrayConstructor(L"B"));
+            } else {
+                retval.push_back(ArrayOf::characterArrayConstructor(L"L"));
             }
         }
-    }
-    else if (argIn.size() == 1)
-    {
-        if (nLhs > 1)
-        {
-            Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+    } else if (argIn.size() == 1) {
+        if (nLhs > 1) {
+            Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
         }
-        if (!argIn[0].isSingleString())
-        {
-            Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
+        if (!argIn[0].isRowVectorCharacterArray()) {
+            Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
         }
         std::wstring warg = argIn[0].getContentAsWideString();
-        if (warg.compare(L"arch") != 0)
-        {
-            Error(eval, _W("Unknown command option."));
+        if (warg.compare(L"arch") != 0) {
+            Error(_W("Unknown command option."));
         }
-        retval.push_back(ArrayOf::stringConstructor(GetArchitecture()));
-    }
-    else
-    {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        retval.push_back(ArrayOf::characterArrayConstructor(GetArchitecture()));
+    } else {
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     return retval;
 }

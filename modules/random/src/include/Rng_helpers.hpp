@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -18,24 +18,28 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
-#include "nlsRandom_exports.h"
 #include "ArrayOf.hpp"
+#include "nlsRandom_exports.h"
+#include <string>
 //=============================================================================
 namespace Nelson {
-    typedef enum
-    {
-        RNG_ERROR = -1,
-        RNG_TWISTER = 0,
-        RNG_TWISTER64,
-        RNG_LAGGED_FIBONACCI_607,
-    } RNG_TYPE;
+typedef enum
+{
+    RNG_ERROR = -1,
+    RNG_TWISTER = 0,
+    RNG_TWISTER64,
+    RNG_LAGGED_FIBONACCI_607,
+} RNG_TYPE;
 
-    NLSRANDOM_IMPEXP wstringVector getSupportedRngEngineName();
+NLSRANDOM_IMPEXP wstringVector
+getSupportedRngEngineName();
 
-    NLSRANDOM_IMPEXP std::wstring getRngTypeAsString(RNG_TYPE rngType);
-    NLSRANDOM_IMPEXP RNG_TYPE getRngType(const std::wstring &enginename);
-    NLSRANDOM_IMPEXP bool isRngType(const std::wstring &enginename);
+NLSRANDOM_IMPEXP std::wstring
+getRngTypeAsString(RNG_TYPE rngType);
+NLSRANDOM_IMPEXP RNG_TYPE
+getRngType(const std::wstring& enginename);
+NLSRANDOM_IMPEXP bool
+isRngType(const std::wstring& enginename);
 
-}
+} // namespace Nelson
 //=============================================================================

@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -18,20 +18,21 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsStream_manager_exports.h"
-#include "FilesManager.hpp"
 #include "ArrayOf.hpp"
+#include "FilesManager.hpp"
+#include "nlsStream_manager_exports.h"
 //=============================================================================
 namespace Nelson {
-    typedef enum
-    {
-        FOPEN_NO_ERROR,
-        FOPEN_INVALID_NAME,
-        FOPEN_INVALID_MODE,
-        FOPEN_IMPOSSIBLE_TO_ADD_FILE,
-        FOPEN_CANNOT_OPEN
-    } FOPEN_ERROR_TYPE;
+typedef enum
+{
+    FOPEN_NO_ERROR,
+    FOPEN_INVALID_NAME,
+    FOPEN_INVALID_MODE,
+    FOPEN_IMPOSSIBLE_TO_ADD_FILE,
+    FOPEN_CANNOT_OPEN
+} FOPEN_ERROR_TYPE;
 
-    NLSSTREAM_MANAGER_IMPEXP FOPEN_ERROR_TYPE FileOpen(FilesManager *fm, std::wstring filename, std::wstring filemode, int &fileposition);
-};
+NLSSTREAM_MANAGER_IMPEXP FOPEN_ERROR_TYPE
+FileOpen(FilesManager* fm, std::wstring filename, std::wstring filemode, int& fileposition);
+}; // namespace Nelson
 //=============================================================================

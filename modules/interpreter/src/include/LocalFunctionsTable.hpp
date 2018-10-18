@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -18,22 +18,26 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <boost/unordered_map.hpp>
+#include <unordered_map>
 #include <utility>
 #include <string>
 #include "Types.hpp"
 #include "FunctionDef.hpp"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    class LocalFunctionsTable {
-    private:
-        boost::unordered_map<std::string, FuncPtr> cachedLocalMacro;
-    public:
-        LocalFunctionsTable();
-        ~LocalFunctionsTable();
-        bool find(const std::string key, FuncPtr& dest);
-        bool add(const std::string key, const FuncPtr val);
-    };
+//=============================================================================
+class LocalFunctionsTable
+{
+private:
+    std::unordered_map<std::string, FuncPtr> cachedLocalMacro;
+
+public:
+    LocalFunctionsTable();
+    ~LocalFunctionsTable();
+    bool
+    find(const std::string& key, FuncPtr& dest);
+    bool
+    add(const std::string& key, const FuncPtr val);
+};
 };
 //=============================================================================

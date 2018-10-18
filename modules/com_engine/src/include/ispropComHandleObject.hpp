@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -18,12 +18,13 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsCom_engine_exports.h"
 #include "ArrayOf.hpp"
+#include "nlsCom_engine_exports.h"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    NLSCOM_ENGINE_IMPEXP ArrayOf ispropComHandleObject(ArrayOf A, const std::wstring &propertyName);
-    //=============================================================================
-}
+//=============================================================================
+NLSCOM_ENGINE_IMPEXP ArrayOf
+ispropComHandleObject(ArrayOf A, const std::wstring& propertyName);
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -18,38 +18,53 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
-#include "nlsHelp_tools_exports.h"
 #include "XmlDocGenericItem.hpp"
+#include "XmlTarget.hpp"
+#include "nlsHelp_tools_exports.h"
+#include <string>
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    class NLSHELP_TOOLS_IMPEXP XmlDocExampleItem : public XmlDocGenericItem {
-    private:
-        std::wstring _type;
-        std::wstring _description;
-        std::wstring _data;
-        std::wstring _imageTag;
-        bool _isQtHelp;
-        std::wstring _srcDirectory;
-        std::wstring _dstDirectory;
-        std::wstring _imageSource;
-        std::wstring _imageDestination;
+//=============================================================================
+class NLSHELP_TOOLS_IMPEXP XmlDocExampleItem : public XmlDocGenericItem
+{
+private:
+    std::wstring _type;
+    std::wstring _description;
+    std::wstring _data;
+    std::wstring _imageTag;
+    DOCUMENT_OUTPUT _outputTarget;
+    std::wstring _srcDirectory;
+    std::wstring _dstDirectory;
+    std::wstring _imageSource;
+    std::wstring _imageDestination;
 
-    public:
-        XmlDocExampleItem(const std::wstring &type, const std::wstring &description, const std::wstring &data, const std::wstring &imageTag, bool isQtHelp);
-        ~XmlDocExampleItem();
-        std::wstring getType();
-        std::wstring getDescription();
-        std::wstring getData();
-        std::wstring getImageTag();
-        std::wstring getItemType();
-        bool isNelsonExample();
-        bool writeAsHtml(std::string &utf8stream);
-        bool writeHeaderAsHtml(std::string &utf8stream);
-        void setDirectories(const std::wstring &srcDirectory, const std::wstring &dstDirectory);
-
-    };
-    //=============================================================================
-}
+public:
+    XmlDocExampleItem(const std::wstring& type, const std::wstring& description,
+        const std::wstring& data, const std::wstring& imageTag, DOCUMENT_OUTPUT outputTarget);
+    ~XmlDocExampleItem();
+    std::wstring
+    getType();
+    std::wstring
+    getDescription();
+    std::wstring
+    getData();
+    std::wstring
+    getImageTag();
+    std::wstring
+    getItemType();
+    bool
+    isNelsonExample();
+    bool
+    writeAsHtml(std::string& utf8stream);
+    bool
+    writeHeaderAsHtml(std::string& utf8stream);
+    bool
+    writeAsMarkdown(std::string& utf8stream);
+    bool
+    writeHeaderAsMarkdown(std::string& utf8stream);
+    void
+    setDirectories(const std::wstring& srcDirectory, const std::wstring& dstDirectory);
+};
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

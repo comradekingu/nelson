@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -18,49 +18,65 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <boost/container/vector.hpp>
-#include <boost/unordered_map.hpp>
+#include <vector>
+#include <unordered_map>
 #include <string>
 #include "BuiltInFunctionDef.hpp"
 #include "nlsInterpreter_exports.h"
 //=============================================================================
 namespace Nelson {
-    class NLSINTERPRETER_IMPEXP BuiltInFunctionDefManager {
-    public:
-        static BuiltInFunctionDefManager *getInstance();
-        bool add(std::string name, BuiltInFuncPtr fptr, int argc_in, int argc_out, std::wstring dynlibname, std::wstring modulename);
+class NLSINTERPRETER_IMPEXP BuiltInFunctionDefManager
+{
+public:
+    static BuiltInFunctionDefManager*
+    getInstance();
+    bool
+    add(std::string name, BuiltInFuncPtr fptr, int argc_in, int argc_out, std::wstring dynlibname,
+        std::wstring modulename);
 
-        bool remove(std::string name);
-        bool remove(FuncPtr ptr);
-        bool remove(BuiltInFunctionDef *ptr);
-        bool remove(BuiltInFuncPtr fptr);
-        bool removeAll();
+    bool
+    remove(std::string name);
+    bool
+    remove(FuncPtr ptr);
+    bool
+    remove(BuiltInFunctionDef* ptr);
+    bool
+    remove(BuiltInFuncPtr fptr);
+    bool
+    removeAll();
 
-        void destroy();
+    void
+    destroy();
 
-        boost::container::vector<FuncPtr> getTable();
-        stringVector getNameList();
-        bool find(const std::string name, FuncPtr &ptr);
-        bool find(const std::string name, wstringVector &paths);
-        bool find(const std::string name, std::wstring &path);
-        bool find(size_t hashid, std::wstring &functionname);
+    std::vector<FuncPtr>
+    getTable();
+    stringVector
+    getNameList();
+    bool
+    find(const std::string name, FuncPtr& ptr);
+    bool
+    find(const std::string name, wstringVector& paths);
+    bool
+    find(const std::string name, std::wstring& path);
+    bool
+    find(size_t hashid, std::wstring& functionname);
 
+    bool
+    isPointerOnBuiltInFunctionDef(FuncPtr ptr);
 
-        bool isPointerOnBuiltInFunctionDef(FuncPtr ptr);
+    void
+    clearCache();
 
-        void clearCache();
+private:
+    bool
+    add(FuncPtr ptr);
 
+    BuiltInFunctionDefManager();
+    static BuiltInFunctionDefManager* m_pInstance;
+    std::vector<FuncPtr> builtinVector;
 
-    private:
-        bool add(FuncPtr ptr);
-
-        BuiltInFunctionDefManager();
-        static BuiltInFunctionDefManager *m_pInstance;
-        boost::container::vector<FuncPtr> builtinVector;
-
-        // cache to speed up search
-        boost::unordered_map<std::string, FuncPtr> cachedBuiltin;
-
-    };
+    // cache to speed up search
+    std::unordered_map<std::string, FuncPtr> cachedBuiltin;
+};
 }
 //=============================================================================

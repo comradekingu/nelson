@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -17,31 +17,28 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "isglobalBuiltin.hpp"
-#include "IsValidVariableName.hpp"
 #include "Error.hpp"
+#include "IsValidVariableName.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::MemoryGateway::isglobalBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::MemoryGateway::isglobalBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    Context *ctxt = eval->getContext();
-    Scope *globalScope = ctxt->getGlobalScope();
-    if (nLhs > 1)
-    {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+    Context* ctxt = eval->getContext();
+    Scope* globalScope = ctxt->getGlobalScope();
+    if (nLhs > 1) {
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    if (argIn.size() != 1)
-    {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    if (argIn.size() != 1) {
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    if (!argIn[0].isSingleString())
-    {
-        Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
+    if (!argIn[0].isRowVectorCharacterArray()) {
+        Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
     }
     std::string arg = argIn[0].getContentAsCString();
-    if (!IsValidVariableName(arg))
-    {
-        Error(eval, _W("Argument must contain a valid variable name."));
+    if (!IsValidVariableName(arg)) {
+        Error(_W("Argument must contain a valid variable name."));
     }
     bool bIsGlobal = globalScope->isVariable(arg);
     ArrayOfVector retval;

@@ -1,5 +1,5 @@
 #==============================================================================
-# Copyright (c) 2016-2017 Allan CORNET (Nelson)
+# Copyright (c) 2016-2018 Allan CORNET (Nelson)
 #==============================================================================
 # LICENCE_BLOCK_BEGIN
 # This program is free software: you can redistribute it and/or modify
@@ -63,6 +63,7 @@ nlsGui
 nlsCore
 nlsFiles_folders_functions
 ${Qt5Widgets_LIBRARIES}
+${Qt5Sql_LIBRARIES}
 )
 #==============================================================================	
 set_target_properties(${module_library_name}

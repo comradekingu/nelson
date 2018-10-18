@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -17,53 +17,46 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "HandleGenericObject.hpp"
-#include "Exception.hpp"
+#include "Error.hpp"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    HandleGenericObject::HandleGenericObject(std::wstring _category, void *_ptr)
-    {
-        if (_category.empty())
-        {
-            throw Exception(_W("handle must have a type."));
-        }
-        if (_ptr == nullptr)
-        {
-            throw Exception(_W("handle must have a pointer."));
-        }
-        this->category = _category;
-        this->ptr = _ptr;
+//=============================================================================
+HandleGenericObject::HandleGenericObject(std::wstring _category, void* _ptr, bool isScoped)
+{
+    if (_category.empty()) {
+        Error(_W("handle must have a type."));
     }
-    //=============================================================================
-    HandleGenericObject::~HandleGenericObject()
-    {
-        this->category.clear();
-        this->ptr = nullptr;
+    if (_ptr == nullptr) {
+        Error(_W("handle must have a pointer."));
     }
-    //=============================================================================
-    void HandleGenericObject::setCategory(std::wstring _category)
-    {
-        if (_category.empty())
-        {
-            throw Exception(_W("handle must have a type."));
-        }
-        this->category = _category;
-    }
-    //=============================================================================
-    std::wstring HandleGenericObject::getCategory()
-    {
-        return this->category;
-    }
-    //=============================================================================
-    void HandleGenericObject::setPointer(void *_ptr)
-    {
-        this->ptr = _ptr;
-    }
-    //=============================================================================
-    void *HandleGenericObject::getPointer()
-    {
-        return this->ptr;
-    }
-    //=============================================================================
+    this->category = _category;
+    this->ptr = _ptr;
+    this->_isScoped = isScoped;
+}
+//=============================================================================
+std::wstring
+HandleGenericObject::getCategory()
+{
+    return this->category;
+}
+//=============================================================================
+void
+HandleGenericObject::setPointer(void* _ptr)
+{
+    this->ptr = _ptr;
+}
+//=============================================================================
+void*
+HandleGenericObject::getPointer()
+{
+    return this->ptr;
+}
+//=============================================================================
+bool
+HandleGenericObject::isScoped()
+{
+    return this->_isScoped;
+}
+//=============================================================================
 }
 //=============================================================================

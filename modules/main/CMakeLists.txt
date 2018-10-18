@@ -1,5 +1,5 @@
 #==============================================================================
-# Copyright (c) 2016-2017 Allan CORNET (Nelson)
+# Copyright (c) 2016-2018 Allan CORNET (Nelson)
 #==============================================================================
 # LICENCE_BLOCK_BEGIN
 # This program is free software: you can redistribute it and/or modify
@@ -77,6 +77,11 @@ add_custom_target(updatelocalization
 #==============================================================================
 add_custom_target(buildhelp
     COMMAND ${CMAKE_COMMAND} -E env 'QTDIR_BINARIES=${QTDIR_BINARIES}' ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/nelson-cli  --quiet --file "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/../../tools/buildhelp/buildhelp.nls"
+    DEPENDS nelson-cli
+)
+#==============================================================================
+add_custom_target(missing_help
+    COMMAND ${CMAKE_COMMAND} -E env 'QTDIR_BINARIES=${QTDIR_BINARIES}' ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/nelson-adv-cli  --quiet --file "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/../../tools/missing_help/missing_help.nls"
     DEPENDS nelson-cli
 )
 #==============================================================================

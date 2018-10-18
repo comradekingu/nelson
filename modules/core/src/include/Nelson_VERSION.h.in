@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -25,7 +25,7 @@
 #define NELSON_VERSION_MINOR @Nelson_VERSION_MINOR@
 #define NELSON_VERSION_MAINTENANCE @Nelson_VERSION_MAINTENANCE@
 #define NELSON_VERSION_BUILD @Nelson_VERSION_BUILD@
-#define NELSON_VERSION_COMMIT_HASH "edd5607e90c1b6ca0e3e048c454144e041a1caa8"
+#define NELSON_VERSION_COMMIT_HASH "d217327b80d68f4542785120e1a1ae1db2930fad"
 
 /*VERSION string */
 #define __quote(x) #x

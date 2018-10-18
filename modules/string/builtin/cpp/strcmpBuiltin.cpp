@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -18,27 +18,31 @@
 //=============================================================================
 #include "strcmpBuiltin.hpp"
 #include "Error.hpp"
-#include "StringCompare.hpp"
 #include "OverloadFunction.hpp"
+#include "StringCompare.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-static ArrayOfVector strcmpBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn, bool bCaseSensitive)
+static ArrayOfVector
+strcmpBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn, bool bCaseSensitive)
 {
     ArrayOfVector retval;
-    if (nLhs > 1)
-    {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+    if (nLhs > 1) {
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    if (argIn.size() != 2)
-    {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    if (argIn.size() != 2) {
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     // Call overload if it exists
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
-    if (!bSuccess)
-    {
+    if (eval->mustOverloadBasicTypes()) {
+        if (bCaseSensitive) {
+            retval = OverloadFunction(eval, nLhs, argIn, "strcmp", bSuccess);
+        } else {
+            retval = OverloadFunction(eval, nLhs, argIn, "strcmpi", bSuccess);
+        }
+    }
+    if (!bSuccess) {
         ArrayOf A = argIn[0];
         ArrayOf B = argIn[1];
         retval.push_back(StringCompare(A, B, bCaseSensitive));
@@ -46,12 +50,14 @@ static ArrayOfVector strcmpBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
     return retval;
 }
 //=============================================================================
-ArrayOfVector Nelson::StringGateway::strcmpBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::StringGateway::strcmpBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     return ::strcmpBuiltin(eval, nLhs, argIn, true);
 }
 //=============================================================================
-ArrayOfVector Nelson::StringGateway::strcmpiBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::StringGateway::strcmpiBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     return ::strcmpBuiltin(eval, nLhs, argIn, false);
 }

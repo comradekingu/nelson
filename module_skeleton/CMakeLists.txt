@@ -1,5 +1,5 @@
 #==============================================================================
-# Copyright (c) 2016-2017 Allan CORNET (Nelson)
+# Copyright (c) 2016-2018 Allan CORNET (Nelson)
 #==============================================================================
 # LICENCE_BLOCK_BEGIN
 # This program is free software: you can redistribute it and/or modify
@@ -21,4 +21,6 @@ install(FILES ${CMAKE_SOURCE_DIR}/module_skeleton/etc/finish.nls DESTINATION ${R
 install(FILES ${CMAKE_SOURCE_DIR}/module_skeleton/loader.nls DESTINATION ${ROOT_OUTPUT}/module_skeleton)
 install(DIRECTORY ${CMAKE_SOURCE_DIR}/module_skeleton/functions DESTINATION ${ROOT_OUTPUT}/module_skeleton FILES_MATCHING PATTERN "*.nlf")
 install(DIRECTORY ${CMAKE_SOURCE_DIR}/module_skeleton/help DESTINATION ${ROOT_OUTPUT}/module_skeleton FILES_MATCHING PATTERN "*.*")
+install(DIRECTORY ${CMAKE_SOURCE_DIR}/module_skeleton/builtin DESTINATION ${ROOT_OUTPUT}/module_skeleton FILES_MATCHING PATTERN "*.*")
+install(DIRECTORY ${CMAKE_SOURCE_DIR}/module_skeleton/src DESTINATION ${ROOT_OUTPUT}/module_skeleton FILES_MATCHING PATTERN "*.*")
 #==============================================================================

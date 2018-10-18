@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -17,112 +17,87 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "MatrixCosinus.hpp"
-#include <unsupported/Eigen/MatrixFunctions>
 #include "ClassName.hpp"
+#include "lapack_eigen.hpp"
+#include <Eigen/Dense>
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    ArrayOf MatrixCos(ArrayOf A)
-    {
-        if (!A.isSquare())
-        {
-            throw Exception(_("Square matrix expected."));
-        }
-        if (A.isEmpty())
-        {
-            ArrayOf R(A);
-            R.ensureSingleOwner();
-            return R;
-        }
-        if (A.isSparse())
-        {
-            throw Exception(_("Undefined function 'cosm' for input arguments of type") + " '" + ClassName(A) + "'.");
-        }
-        switch (A.getDataClass())
-        {
-            case NLS_CELL_ARRAY:
-            case NLS_STRUCT_ARRAY:
-            case NLS_LOGICAL:
-            case NLS_UINT8:
-            case NLS_INT8:
-            case NLS_UINT16:
-            case NLS_INT16:
-            case NLS_UINT32:
-            case NLS_INT32:
-            case NLS_UINT64:
-            case NLS_INT64:
-            case NLS_CHAR:
-            {
-                throw Exception(_("Undefined function 'cosm' for input arguments of type") + " '" + ClassName(A) + "'.");
-            }
-            break;
-            case NLS_SCOMPLEX:
-            {
-                // 0.5*(expm(i*A) + expm(-i*A))
-                // 0.5*(expm(B) + expm(C)) with B = i*A and C = -i*A
-                ArrayOf R(A);
-                R.ensureSingleOwner();
-                singlecomplex* Az = reinterpret_cast<singlecomplex*>((single*)A.getDataPointer());
-                singlecomplex* Rz = reinterpret_cast<singlecomplex*>((single*)R.getDataPointer());
-                Eigen::Map<Eigen::MatrixXcf> matA(Az, (Eigen::Index)A.getDimensions().getRows(), (Eigen::Index)A.getDimensions().getColumns());
-                Eigen::Map<Eigen::MatrixXcf> matR(Rz, (Eigen::Index)R.getDimensions().getRows(), (Eigen::Index)R.getDimensions().getColumns());
-                singlecomplex I(0, 1);
-                singlecomplex minusI(0, -1);
-                matR = 0.5 * (((I*matA).exp()) + ((minusI* matA).exp()));
-                if (R.allReal())
-                {
-                    R.promoteType(NLS_SINGLE);
-                }
-                return R;
-            }
-            case NLS_SINGLE:
-            {
-                ArrayOf R(A);
-                R.ensureSingleOwner();
-                Eigen::Map<Eigen::MatrixXf> matA((single*)A.getDataPointer(), (Eigen::Index)A.getDimensions().getRows(), (Eigen::Index)A.getDimensions().getColumns());
-                Eigen::Map<Eigen::MatrixXf> matR((single*)R.getDataPointer(), (Eigen::Index)R.getDimensions().getRows(), (Eigen::Index)R.getDimensions().getColumns());
-                matR = matA.cos();
-                return R;
-            }
-            break;
-            case NLS_DCOMPLEX:
-            {
-                // 0.5*(expm(i*A) + expm(-i*A))
-                // 0.5*(expm(B) + expm(C)) with B = i*A and C = -i*A
-                ArrayOf R(A);
-                R.ensureSingleOwner();
-                doublecomplex* Az = reinterpret_cast<doublecomplex*>((double*)A.getDataPointer());
-                doublecomplex* Rz = reinterpret_cast<doublecomplex*>((double*)R.getDataPointer());
-                Eigen::Map<Eigen::MatrixXcd> matA(Az, (Eigen::Index)A.getDimensions().getRows(), (Eigen::Index)A.getDimensions().getColumns());
-                Eigen::Map<Eigen::MatrixXcd> matR(Rz, (Eigen::Index)R.getDimensions().getRows(), (Eigen::Index)R.getDimensions().getColumns());
-                doublecomplex I(0, 1);
-                doublecomplex minusI(0, -1);
-                matR = 0.5 * (((I*matA).exp()) + ((minusI* matA).exp()));
-                if (R.allReal())
-                {
-                    R.promoteType(NLS_DOUBLE);
-                }
-                return R;
-            }
-            break;
-            case NLS_DOUBLE:
-            {
-                ArrayOf R(A);
-                R.ensureSingleOwner();
-                Eigen::Map<Eigen::MatrixXd> matA((double*)A.getDataPointer(), (Eigen::Index)A.getDimensions().getRows(), (Eigen::Index)A.getDimensions().getColumns());
-                Eigen::Map<Eigen::MatrixXd> matR((double*)R.getDataPointer(), (Eigen::Index)R.getDimensions().getRows(), (Eigen::Index)R.getDimensions().getColumns());
-                matR = matA.cos();
-                return R;
-            }
-            break;
-            default:
-            {
-                throw Exception(_W("Invalid conversion."));
-            }
-            break;
-        }
+template <class T>
+ArrayOf
+cosmComplex(const ArrayOf& A)
+{
+    T* ptrR = (T*)ArrayOf::allocateArrayOf(A.getDataClass(), A.getLength(), stringVector(), false);
+    std::complex<T>* Az = reinterpret_cast<std::complex<T>*>((T*)A.getDataPointer());
+    std::complex<T>* Rz = reinterpret_cast<std::complex<T>*>((T*)ptrR);
+    Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matA(Az,
+        (Eigen::Index)A.getDimensions().getRows(), (Eigen::Index)A.getDimensions().getColumns());
+    Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matR(Rz,
+        (Eigen::Index)A.getDimensions().getRows(), (Eigen::Index)A.getDimensions().getColumns());
+    // [V, D] = eig(A);
+    // cosm = V * diag(cos(diag(D))) * inv(V);
+    Eigen::ComplexEigenSolver<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>>
+        solver(matA.template cast<std::complex<T>>());
+    auto evects = solver.eigenvectors();
+    auto evals = solver.eigenvalues();
+    for (indexType i = 0; i < static_cast<indexType>(evals.rows()); ++i) {
+        evals(i) = cos(evals(i));
+    }
+    auto evalsdiag = evals.asDiagonal();
+    matR = evects * evalsdiag * evects.inverse();
+    return ArrayOf(A.getDataClass(), A.getDimensions(), ptrR);
+}
+//=============================================================================
+ArrayOf
+MatrixCos(const ArrayOf& A, bool& needToOverload)
+{
+    needToOverload = false;
+    if (!A.isSquare()) {
+        Error(_("Square matrix expected."));
+    }
+    if (A.isEmpty()) {
+        ArrayOf R(A);
+        R.ensureSingleOwner();
+        return R;
+    }
+    if (A.isSparse()) {
+        needToOverload = true;
         return ArrayOf();
     }
-    //=============================================================================
+    switch (A.getDataClass()) {
+    default: {
+        needToOverload = true;
+    } break;
+    case NLS_SCOMPLEX: {
+        ArrayOf R = cosmComplex<single>(A);
+        if (R.allReal()) {
+            R.promoteType(NLS_SINGLE);
+        }
+        return R;
+    }
+    case NLS_SINGLE: {
+        ArrayOf R(A);
+        R.promoteType(NLS_SCOMPLEX);
+        R = cosmComplex<single>(R);
+        R.promoteType(NLS_SINGLE);
+        return R;
+    } break;
+    case NLS_DCOMPLEX: {
+        ArrayOf R = cosmComplex<double>(A);
+        if (R.allReal()) {
+            R.promoteType(NLS_DOUBLE);
+        }
+        return R;
+    } break;
+    case NLS_DOUBLE: {
+        ArrayOf R(A);
+        R.promoteType(NLS_DCOMPLEX);
+        R = cosmComplex<double>(R);
+        R.promoteType(NLS_DOUBLE);
+        return R;
+    } break;
+    }
+    return ArrayOf();
 }
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

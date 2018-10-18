@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -17,54 +17,52 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "FileStream.hpp"
-#include "Exception.hpp"
+#include "Error.hpp"
 #include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    FileStream::FileStream(const std::wstring filename, const std::wstring accessmode)
-    {
+//=============================================================================
+FileStream::FileStream(const std::wstring filename, const std::wstring accessmode)
+{
 #ifdef _MSC_VER
-        fp = _wfopen(filename.c_str(), accessmode.c_str());
+    fp = _wfopen(filename.c_str(), accessmode.c_str());
 #else
-        fp = fopen(wstring_to_utf8(filename).c_str(), wstring_to_utf8(accessmode).c_str());
+    fp = fopen(wstring_to_utf8(filename).c_str(), wstring_to_utf8(accessmode).c_str());
 #endif
-        if (fp == NULL)
-        {
-            throw Exception(_W("Unable to open file ") + filename);
-        }
-        autoclose = true;
+    if (fp == NULL) {
+        Error(_W("Unable to open file ") + filename);
     }
-    //=============================================================================
-    FileStream::FileStream(FILE *afp)
-    {
-        fp = afp;
-        autoclose = false;
+    autoclose = true;
+}
+//=============================================================================
+FileStream::FileStream(FILE* afp)
+{
+    fp = afp;
+    autoclose = false;
+}
+//=============================================================================
+FileStream::~FileStream()
+{
+    if (autoclose) {
+        fclose(fp);
     }
-    //=============================================================================
-    FileStream::~FileStream()
-    {
-        if (autoclose)
-        {
-            fclose(fp);
-        }
+}
+//=============================================================================
+void
+FileStream::writeBytes(const void* data, int len)
+{
+    if (fp) {
+        fwrite(data, sizeof(char), len, fp);
     }
-    //=============================================================================
-    void FileStream::writeBytes(const void* data, int len)
-    {
-        if (fp)
-        {
-            fwrite(data, sizeof(char), len, fp);
-        }
+}
+//=============================================================================
+void
+FileStream::readBytes(void* data, int len)
+{
+    if (fp) {
+        fread(data, sizeof(char), len, fp);
     }
-    //=============================================================================
-    void FileStream::readBytes(void* data, int len)
-    {
-        if (fp)
-        {
-            fread(data, sizeof(char), len, fp);
-        }
-    }
-    //=============================================================================
+}
+//=============================================================================
 }
 //=============================================================================

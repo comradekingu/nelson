@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -18,11 +18,13 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
 #include "nlsOs_functions_exports.h"
+#include <string>
 //=============================================================================
 namespace Nelson {
-    NLSOS_FUNCTIONS_IMPEXP bool SetVariableEnvironmentW(std::wstring envVarName, std::wstring Value = L"");
-    NLSOS_FUNCTIONS_IMPEXP bool SetVariableEnvironmentU(std::string envVarName, std::string Value = "");
-}
+NLSOS_FUNCTIONS_IMPEXP bool
+SetVariableEnvironmentW(std::wstring envVarName, std::wstring Value = L"");
+NLSOS_FUNCTIONS_IMPEXP bool
+SetVariableEnvironmentU(std::string envVarName, std::string Value = "");
+} // namespace Nelson
 //=============================================================================

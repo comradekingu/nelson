@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -18,12 +18,13 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
-#include "nlsFunction_handle_exports.h"
 #include "Evaluator.hpp"
 #include "Types.hpp"
+#include "nlsFunction_handle_exports.h"
+#include <string>
 //=============================================================================
 namespace Nelson {
-    NLSFUNCTION_HANDLE_IMPEXP function_handle StringToFunctionHandle(Evaluator *eval, std::wstring functionName);
+NLSFUNCTION_HANDLE_IMPEXP function_handle
+StringToFunctionHandle(Evaluator* eval, std::wstring functionName);
 }
 //=============================================================================

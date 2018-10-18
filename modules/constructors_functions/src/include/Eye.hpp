@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -18,10 +18,11 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsConstructors_functions_exports.h"
 #include "ArrayOf.hpp"
+#include "nlsConstructors_functions_exports.h"
 //=============================================================================
 namespace Nelson {
-    NLSCONSTRUCTORS_FUNCTIONS_IMPEXP ArrayOf Eye(indexType n = 1, indexType m = 1, Class classDest = NLS_DOUBLE, bool bIsSparse = false);
+NLSCONSTRUCTORS_FUNCTIONS_IMPEXP ArrayOf
+Eye(indexType n = 1, indexType m = 1, Class classDest = NLS_DOUBLE, bool bIsSparse = false);
 }
 //=============================================================================

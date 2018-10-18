@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -18,19 +18,29 @@
 //=============================================================================
 #pragma once
 //=============================================================================
+#include <string>
+//=============================================================================
 namespace Nelson {
-    //=============================================================================
-    class FileWatcherManager {
-    public:
-        static FileWatcherManager *getInstance();
-        void addWacth(std::wstring directory);
-        void removeWatch(std::wstring directory);
-        void update();
-    private:
-        FileWatcherManager();
-        static FileWatcherManager *m_pInstance;
-        void *fileWatcher;
-    };
-    //=============================================================================
-}
+//=============================================================================
+class FileWatcherManager
+{
+public:
+    static FileWatcherManager*
+    getInstance();
+    void
+    addWacth(std::wstring directory);
+    void
+    removeWatch(std::wstring directory);
+    void
+    update();
+    void
+    release();
+
+private:
+    FileWatcherManager();
+    static FileWatcherManager* m_pInstance;
+    void* fileWatcher;
+};
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -18,9 +18,11 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
-#include <Windows.h>
 #include <Ole2.h>
+#include <Windows.h>
+#include <string>
 //=============================================================================
-bool invokeCom(int autoType, VARIANT *pvResult, std::wstring &errorMessage, IDispatch *pDisp, std::wstring propertyName, int cArgs, VARIANT *pArgs);
+bool
+invokeCom(int autoType, VARIANT* pvResult, std::wstring& errorMessage, IDispatch* pDisp,
+    std::wstring propertyName, int cArgs, VARIANT* pArgs);
 //=============================================================================

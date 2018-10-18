@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -17,38 +17,33 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "globalBuiltin.hpp"
-#include "IsValidVariableName.hpp"
 #include "Error.hpp"
+#include "IsValidVariableName.hpp"
 #include "StringFormat.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::MemoryGateway::globalBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::MemoryGateway::globalBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (nLhs != 0)
-    {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+    if (nLhs != 0) {
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    Context *context = eval->getContext();
-    for (size_t k = 0; k < argIn.size(); k++)
-    {
-        if (!argIn[k].isSingleString())
-        {
-            Error(eval, StringFormat(ERROR_WRONG_ARGUMENT_X_TYPE_STRING_EXPECTED.c_str(), k + 1));
+    Context* context = eval->getContext();
+    for (size_t k = 0; k < argIn.size(); k++) {
+        if (!argIn[k].isRowVectorCharacterArray()) {
+            Error(StringFormat(ERROR_WRONG_ARGUMENT_X_TYPE_STRING_EXPECTED.c_str(), k + 1));
         }
         std::string arg = argIn[k].getContentAsCString();
-        if (!IsValidVariableName(arg))
-        {
-            Error(eval, _W("Argument must contain a valid variable name."));
+        if (!IsValidVariableName(arg)) {
+            Error(_W("Argument must contain a valid variable name."));
         }
-        if (context->isLockedVariable(arg))
-        {
-            Error(eval, _W("variable is locked."));
+        if (context->isLockedVariable(arg)) {
+            Error(_W("variable is locked."));
         }
     }
-    for (size_t k = 0; k < argIn.size(); k++)
-    {
+    for (size_t k = 0; k < argIn.size(); k++) {
         std::string arg = argIn[k].getContentAsCString();
         context->addGlobalVariable(arg);
     }

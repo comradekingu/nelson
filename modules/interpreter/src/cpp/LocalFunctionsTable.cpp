@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -20,38 +20,32 @@
 #include "BuiltInFunctionDef.hpp"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    LocalFunctionsTable::LocalFunctionsTable()
-    {
-        cachedLocalMacro.clear();
-    }
-    //=============================================================================
-    LocalFunctionsTable::~LocalFunctionsTable()
-    {
-        cachedLocalMacro.clear();
-    }
-    //=============================================================================
-    bool LocalFunctionsTable::find(const std::string key, FuncPtr& dest)
-    {
-        boost::unordered_map<std::string, FuncPtr>::const_iterator found = cachedLocalMacro.find(key);
-        if (found != cachedLocalMacro.end())
-        {
-            dest = found->second;
-            return true;
-        }
-        return false;
-    }
-    //=============================================================================
-    bool LocalFunctionsTable::add(const std::string key, const FuncPtr val)
-    {
-        FuncPtr v = nullptr;
-        if (find(key, v))
-        {
-            return false;
-        }
-        cachedLocalMacro.emplace(key, val);
+//=============================================================================
+LocalFunctionsTable::LocalFunctionsTable() { cachedLocalMacro.clear(); }
+//=============================================================================
+LocalFunctionsTable::~LocalFunctionsTable() { cachedLocalMacro.clear(); }
+//=============================================================================
+bool
+LocalFunctionsTable::find(const std::string& key, FuncPtr& dest)
+{
+    std::unordered_map<std::string, FuncPtr>::const_iterator found = cachedLocalMacro.find(key);
+    if (found != cachedLocalMacro.end()) {
+        dest = found->second;
         return true;
     }
-    //=============================================================================
+    return false;
+}
+//=============================================================================
+bool
+LocalFunctionsTable::add(const std::string& key, const FuncPtr val)
+{
+    FuncPtr v = nullptr;
+    if (find(key, v)) {
+        return false;
+    }
+    cachedLocalMacro.emplace(key, val);
+    return true;
+}
+//=============================================================================
 };
 //=============================================================================

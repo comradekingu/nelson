@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -19,13 +19,15 @@
 #include "LeftDivide.hpp"
 //=============================================================================
 namespace Nelson {
-    ArrayOf LeftDivide(ArrayOf A, ArrayOf B) throw(Exception)
-    {
-        if (A.isEmpty() || B.isEmpty())
-        {
-            return ArrayOf::emptyConstructor();
-        }
-        throw Exception(_W("LeftDivide currently not implemented in Nelson."));
+ArrayOf
+LeftDivide(ArrayOf A, ArrayOf B)
+{
+    if (A.isEmpty() || B.isEmpty()) {
+        return ArrayOf::emptyConstructor();
     }
+    Error(_W("LeftDivide currently not implemented in Nelson."));
+    return ArrayOf();
+}
+//=============================================================================
 }
 //=============================================================================

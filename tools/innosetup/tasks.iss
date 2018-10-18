@@ -1,5 +1,5 @@
 ;==============================================================================
-; Copyright (c) 2016-2017 Allan CORNET (Nelson)
+; Copyright (c) 2016-2018 Allan CORNET (Nelson)
 ;==============================================================================
 ; LICENCE_BLOCK_BEGIN
 ; This program is free software: you can redistribute it and/or modify
@@ -16,5 +16,8 @@
 ; along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ; LICENCE_BLOCK_END
 ;==============================================================================
-Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
+Name: "desktopicon"; Description: {cm:CreateDesktopIcon}; GroupDescription: {cm:AdditionalIcons}; Flags: unchecked;
+;==============================================================================
+Name: AssociateNlsFiles; Description:{cm:ASSOCIATE_NLS_FILE}; GroupDescription: {cm:FILE_ASSOCIATION};
+Name: AssociateNlfFiles; Description:{cm:ASSOCIATE_NLF_FILE}; GroupDescription: {cm:FILE_ASSOCIATION};
 ;==============================================================================

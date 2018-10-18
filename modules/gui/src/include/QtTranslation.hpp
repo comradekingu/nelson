@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -18,10 +18,12 @@
 //=============================================================================
 #pragma once
 //=============================================================================
+#include "nlsGui_exports.h"
 #include <QtCore/QString>
 #include <string>
 //=============================================================================
 namespace Nelson {
-    QString TR(std::string str);
+NLSGUI_IMPEXP QString
+TR(std::string str);
 }
 //=============================================================================

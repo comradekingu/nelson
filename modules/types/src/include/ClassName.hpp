@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -18,13 +18,17 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsTypes_exports.h"
 #include "ArrayOf.hpp"
+#include "nlsTypes_exports.h"
 //=============================================================================
 namespace Nelson {
-    NLSTYPES_IMPEXP std::string ClassName(ArrayOf In);
-    NLSTYPES_IMPEXP stringVector ClassName(ArrayOfVector In);
-    NLSTYPES_IMPEXP void ClassName(ArrayOf In, std::wstring &returnedClassName);
-    NLSTYPES_IMPEXP void ClassName(ArrayOf In, std::string &returnedClassName);
-}
+NLSTYPES_IMPEXP std::string
+ClassName(ArrayOf In);
+NLSTYPES_IMPEXP stringVector
+ClassName(ArrayOfVector In);
+NLSTYPES_IMPEXP void
+ClassName(ArrayOf In, std::wstring& returnedClassName);
+NLSTYPES_IMPEXP void
+ClassName(ArrayOf In, std::string& returnedClassName);
+} // namespace Nelson
 //=============================================================================

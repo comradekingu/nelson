@@ -1,5 +1,5 @@
 #==============================================================================
-# Copyright (c) 2016-2017 Allan CORNET (Nelson)
+# Copyright (c) 2016-2018 Allan CORNET (Nelson)
 #==============================================================================
 # LICENCE_BLOCK_BEGIN
 # This program is free software: you can redistribute it and/or modify
@@ -16,8 +16,8 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 # LICENCE_BLOCK_END
 #==============================================================================
-install(FILES ${CMAKE_SOURCE_DIR}/resources/banner_nelson.png DESTINATION ${ROOT_OUTPUT}/resources)
-install(FILES ${CMAKE_SOURCE_DIR}/resources/fibonacci.ico DESTINATION ${ROOT_OUTPUT}/resources)
-install(FILES ${CMAKE_SOURCE_DIR}/resources/fibonacci.png DESTINATION ${ROOT_OUTPUT}/resources)
+install(DIRECTORY ${CMAKE_SOURCE_DIR}/resources DESTINATION ${ROOT_OUTPUT} FILES_MATCHING PATTERN "*.png")
+install(DIRECTORY ${CMAKE_SOURCE_DIR}/resources DESTINATION ${ROOT_OUTPUT} FILES_MATCHING PATTERN "*.ico")
+install(DIRECTORY ${CMAKE_SOURCE_DIR}/resources DESTINATION ${ROOT_OUTPUT} FILES_MATCHING PATTERN "*.svg")
 #==============================================================================
 

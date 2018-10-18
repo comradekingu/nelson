@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -17,62 +17,50 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "function_handle_extractionBuiltin.hpp"
-#include "characters_encoding.hpp"
-#include "Error.hpp"
 #include "ArrayOf.hpp"
 #include "BuiltInFunctionDefManager.hpp"
+#include "Error.hpp"
 #include "PathFuncManager.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::FunctionHandleGateway::function_handle_extractionBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::FunctionHandleGateway::function_handle_extractionBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() > 0)
-    {
+    if (argIn.size() > 0) {
         ArrayOf Arg1 = argIn[0];
-        if (Arg1.isFunctionHandle())
-        {
+        if (Arg1.isFunctionHandle()) {
             function_handle fh = Arg1.getContentAsFunctionHandle();
-            FunctionDef *funcDef = nullptr;
+            FunctionDef* funcDef = nullptr;
             std::wstring functionName;
             bool found = PathFuncManager::getInstance()->find(fh, functionName);
-            if (found)
-            {
+            if (found) {
                 PathFuncManager::getInstance()->find(wstring_to_utf8(functionName), funcDef);
-            }
-            else
-            {
+            } else {
                 found = BuiltInFunctionDefManager::getInstance()->find(fh, functionName);
-                if (found)
-                {
-                    BuiltInFunctionDefManager::getInstance()->find(wstring_to_utf8(functionName), funcDef);
+                if (found) {
+                    BuiltInFunctionDefManager::getInstance()->find(
+                        wstring_to_utf8(functionName), funcDef);
                 }
             }
-            if (funcDef != nullptr)
-            {
+            if (funcDef != nullptr) {
                 ArrayOfVector m;
-                for (size_t k = 1; k < argIn.size(); k++)
-                {
+                for (size_t k = 1; k < argIn.size(); k++) {
                     m.push_back(argIn[k]);
                 }
                 retval = funcDef->evaluateFunction(eval, m, nLhs);
+            } else {
+                Error(_W("Function does not exist."));
             }
-            else
-            {
-                Error(eval, _W("Function does not exist."));
-            }
+        } else {
+            Error(_W("Argument #1 must be a valid function_handle."));
         }
-        else
-        {
-            Error(eval, _W("Argument #1 must be a valid function_handle."));
-        }
-    }
-    else
-    {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    } else {
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     return retval;
 }
 //=============================================================================
-

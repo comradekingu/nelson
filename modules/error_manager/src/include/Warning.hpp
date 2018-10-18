@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -20,24 +20,20 @@
 //=============================================================================
 #include <string>
 #include "nlsError_manager_exports.h"
-#include "Evaluator.hpp"
-#include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
-    void Warning(Evaluator* eval, std::wstring msg)
-    {
-        if (msg.compare(L"") != 0)
-        {
-            Interface *io = eval->getInterface();
-            eval->setLastWarningString(msg);
-            io->warningMessage(msg);
-        }
-    }
-    //=============================================================================
-    void Warning(Evaluator* eval, std::string msg)
-    {
-        Warning(eval, utf8_to_wstring(msg));
-    }
-    //=============================================================================
-}
+//=============================================================================
+NLSERROR_MANAGER_IMPEXP void
+Warning(std::wstring id, std::wstring message);
+//=============================================================================
+NLSERROR_MANAGER_IMPEXP void
+Warning(std::wstring message);
+//=============================================================================
+NLSERROR_MANAGER_IMPEXP void
+Warning(std::string id, std::string message);
+//=============================================================================
+NLSERROR_MANAGER_IMPEXP void
+Warning(std::string message);
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

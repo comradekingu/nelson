@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -23,65 +23,70 @@
 #endif
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    File::File(bool bIsFilePointer)
-    {
-        this->bIsFilePointer = bIsFilePointer;
-        this->stream = nullptr;
-        this->filename = L"";
-        this->mode = L"";
-    }
-    //=============================================================================
-    File::~File()
-    {
-        if (this->bIsFilePointer)
-        {
-            if (this->stream)
-            {
-                FILE *fp = (FILE*)this->stream;
-                fclose(fp);
-            }
+//=============================================================================
+File::File(bool bIsFilePointer)
+{
+    this->bIsFilePointer = bIsFilePointer;
+    this->stream = nullptr;
+    this->filename = L"";
+    this->mode = L"";
+}
+//=============================================================================
+File::~File()
+{
+    if (this->bIsFilePointer) {
+        if (this->stream) {
+            FILE* fp = (FILE*)this->stream;
+            fclose(fp);
         }
-        this->stream = nullptr;
-        this->filename = L"";
-        this->mode = L"";
-        this->bIsFilePointer = false;
     }
-    //=============================================================================
-    std::wstring File::getFileMode()
-    {
-        return this->mode;
-    }
-    //=============================================================================
-    void File::setFileMode(std::wstring _mode)
-    {
-        this->mode = _mode;
-    }
-    //=============================================================================
-    void * File::getFilePointer()
-    {
-        return this->stream;
-    }
-    //=============================================================================
-    void File::setFilePointer(void* fp)
-    {
-        this->stream = fp;
-    }
-    //=============================================================================
-    std::wstring File::getFileName()
-    {
-        return this->filename;
-    }
-    //=============================================================================
-    void File::setFileName(std::wstring _filename)
-    {
-        this->filename = _filename;
-    }
-    //=============================================================================
-    bool File::isInterfaceMethod()
-    {
-        return !this->bIsFilePointer;
-    }
-    //=============================================================================
+    this->stream = nullptr;
+    this->filename = L"";
+    this->mode = L"";
+    this->bIsFilePointer = false;
+}
+//=============================================================================
+std::wstring
+File::getFileMode()
+{
+    return this->mode;
+}
+//=============================================================================
+void
+File::setFileMode(std::wstring _mode)
+{
+    this->mode = _mode;
+}
+//=============================================================================
+void*
+File::getFilePointer()
+{
+    return this->stream;
+}
+//=============================================================================
+void
+File::setFilePointer(void* fp)
+{
+    this->stream = fp;
+}
+//=============================================================================
+std::wstring
+File::getFileName()
+{
+    return this->filename;
+}
+//=============================================================================
+void
+File::setFileName(std::wstring _filename)
+{
+    this->filename = _filename;
+}
+//=============================================================================
+bool
+File::isInterfaceMethod()
+{
+    return !this->bIsFilePointer;
+}
+//=============================================================================
 }
 //=============================================================================

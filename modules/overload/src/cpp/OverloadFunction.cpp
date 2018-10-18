@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -18,32 +18,43 @@
 //=============================================================================
 #include "OverloadFunction.hpp"
 #include "ClassName.hpp"
+#include "OverloadRequired.hpp"
 //=============================================================================
 namespace Nelson {
-    ArrayOfVector OverloadFunction(Evaluator *eval, int nLhs, const ArrayOfVector& argIn, bool &bSuccess)
-    {
-        std::string functionName = eval->getCurrentFunctionName();
-        if (functionName.compare("") != 0)
-        {
-            if (eval->getOverloadState())
-            {
-                Context *context = eval->getContext();
-                FunctionDef *funcDef = nullptr;
-                std::string OverloadName = ClassName(argIn[0]) + "_" + functionName;
-                if (context->lookupFunction(OverloadName, funcDef))
-                {
-                    if ((funcDef->type() == NLS_BUILT_IN_FUNCTION) || (funcDef->type() == NLS_MACRO_FUNCTION))
-                    {
-                        bSuccess = true;
-                        ArrayOfVector argInCopy = (ArrayOfVector&)argIn;
-                        return funcDef->evaluateFunction(eval, argInCopy, nLhs);
-                    }
+ArrayOfVector
+OverloadFunction(Evaluator* eval, int nLhs, const ArrayOfVector& argIn,
+    const std::string& functionName, bool& bSuccess)
+{
+    if (functionName.compare("") != 0) {
+        if (eval->isOverloadAllowed()) {
+            Context* context = eval->getContext();
+            FunctionDef* funcDef = nullptr;
+            std::string OverloadName = ClassName(argIn[0]) + "_" + functionName;
+            if (context->lookupFunction(OverloadName, funcDef)) {
+                if ((funcDef->type() == NLS_BUILT_IN_FUNCTION)
+                    || (funcDef->type() == NLS_MACRO_FUNCTION)) {
+                    bSuccess = true;
+                    ArrayOfVector argInCopy = (ArrayOfVector&)argIn;
+                    return funcDef->evaluateFunction(eval, argInCopy, nLhs);
                 }
             }
         }
-        bSuccess = false;
-        return ArrayOfVector();
     }
-    //=============================================================================
+    bSuccess = false;
+    return ArrayOfVector();
+}
+//=============================================================================
+ArrayOfVector
+OverloadFunction(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn, const std::string& functionName)
+{
+    bool bSuccess;
+    ArrayOfVector res = OverloadFunction(eval, nLhs, argIn, functionName, bSuccess);
+    if (!bSuccess) {
+        OverloadRequired(eval, argIn, Overload::OverloadClass::FUNCTION, functionName);
+    }
+    return res;
+}
+//=============================================================================
 }
 //=============================================================================

@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -16,26 +16,27 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "NelsonGateway.hpp"
 #include "HelpBrowser.hpp"
+#include "NelsonGateway.hpp"
 #include "helpbrowserBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 const std::wstring gatewayName = L"help_browser";
 //=============================================================================
-static const nlsGateway gateway[] =
-{
-    { "helpbrowser", Nelson::HelpBrowserGateway::helpbrowserBuiltin, 0, 2 },
+static const nlsGateway gateway[] = {
+    { "helpbrowser", Nelson::HelpBrowserGateway::helpbrowserBuiltin, 1, 2 },
 };
 //=============================================================================
-static bool initializeHelpBrowserModule(Nelson::Evaluator* eval)
+static bool
+initializeHelpBrowserModule(Nelson::Evaluator* eval)
 {
     HelpBrowser::getInstance();
     return true;
 }
 //=============================================================================
-static bool finishHelpBrowserModule(Nelson::Evaluator* eval)
+static bool
+finishHelpBrowserModule(Nelson::Evaluator* eval)
 {
     HelpBrowser::getInstance()->destroy();
     return true;

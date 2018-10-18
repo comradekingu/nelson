@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -19,16 +19,17 @@
 #include "Banner.hpp"
 //=============================================================================
 namespace Nelson {
-    void Banner(Evaluator* eval)
-    {
-        Interface *io = eval->getInterface();
-        io->outputMessage(L"\n");
-        io->outputMessage(L"     __     _  __\n");
-        io->outputMessage(L"  /\\ \\ \\___| |/ _\\ ___  _ __\n");
-        io->outputMessage(L" /  \\/ / _ | |\\ \\ / _ \\| '_ \\\n");
-        io->outputMessage(L"/ /\\  |  __| |_\\ | (_) | | | |\n");
-        io->outputMessage(L"\\_\\ \\/ \\___|_|\\__/\\___/|_| |_|\n");
-    }
-    //=============================================================================
+void
+Banner(Evaluator* eval)
+{
+    Interface* io = eval->getInterface();
+    io->outputMessage(L"\n");
+    io->outputMessage(L"     __     _  __\n");
+    io->outputMessage(L"  /\\ \\ \\___| |/ _\\ ___  _ __\n");
+    io->outputMessage(L" /  \\/ / _ | |\\ \\ / _ \\| '_ \\\n");
+    io->outputMessage(L"/ /\\  |  __| |_\\ | (_) | | | |\n");
+    io->outputMessage(L"\\_\\ \\/ \\___|_|\\__/\\___/|_| |_|\n");
+}
+//=============================================================================
 }
 //=============================================================================

@@ -5,7 +5,7 @@
 
 #include "nelson_f2c.h"
 
-/* Subroutine */ int dgemm_(transa, transb, m, n, k, alpha, a, lda, b, ldb, beta, c__, ldc, transa_len, transb_len)
+EXPORTSYMBOL /* Subroutine */ int dgemm_(transa, transb, m, n, k, alpha, a, lda, b, ldb, beta, c__, ldc, transa_len, transb_len)
 char *transa, *transb;
 integer *m, *n, *k;
 doublereal *alpha, *a;
